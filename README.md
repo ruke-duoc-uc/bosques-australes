@@ -24,5 +24,5 @@
 - ms-despacho
 - ms-facturacion
 |Microservicio|Contexto|
-|---|---|
+|-----|--------|
 |Predios|Almacena informacion de los predios donde trabaja la empresa, sean propios o externos|
