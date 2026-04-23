@@ -28,4 +28,5 @@
 |Microservicio|Contexto|
 |-----|--------|
 |Predios|Almacena informacion de los predios donde trabaja la empresa, sean propios o externos|
-|b|a|
+|Especies|Almacena informacion sobre las especies de árboles que se trabajan en la empresa, como sus planes de plantacion|
+|Clientes|Se almacena informacion sobre los clientes, como nombres de usuario y contacto|
