@@ -39,4 +39,10 @@
 |Especies|Almacena informacion sobre las especies de árboles que se trabajan en la empresa, como sus planes de plantacion|
 |Clientes|Se almacena informacion sobre los clientes, como nombres de usuario y contacto|
 
-# Librerias de Springboot
+# Contenido y librerias de microservicios Springboot
+
+Cada libreria debe tener una base de datos independiente para almacenar información. Entre las librerias
+
+- Spring Web
+- Spring JPA
+- 
