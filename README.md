@@ -28,7 +28,6 @@
 |Microservicio|Contexto|
 |-----|--------|
 |Predios|Almacena informacion de los predios donde trabaja la empresa, sean propios o externos|
-|b|c|
 
 ## BosquesAustrales -DSY1103 Desarrollo Full Stacl 1
 
