@@ -1,11 +1,7 @@
 package com.example.mspredios.controller;
-
 import com.example.mspredios.model.Predios;
 import com.example.mspredios.service.PrediosService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +22,8 @@ public class PrediosController {
         return prediosService.buscarPorId(id);
     }
 
+    @PostMapping
+    public Predios guardarPredio(Predios predios){
+        return prediosService.guardarPredio(predios);
     }
+}

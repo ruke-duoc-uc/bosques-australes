@@ -1,8 +1,8 @@
 package com.example.mspredios.model;
-
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "PREDIOS")
 public class Predios{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
