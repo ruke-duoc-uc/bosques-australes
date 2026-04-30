@@ -1,39 +1,27 @@
-# Proyecto Bosques Australes
+## BosquesAustrales -DSY1103 Desarrollo Full Stack 1
 
-# Instalaciones
-- La union
+## Descripción
+-Empezamos ordenando los microoservicios, para luego empezar a desarrollar las posibles soluciones al problema.
+-El problema que vamos a resolver es que: La empresa no cuenta con la documentación de origen de la madera cosechada por lo cual fué multada y estan pidiendo un sistema que emita certificados de origen trazados desde el rodal hasta el cliente final.
+# -Instalaciones
+-  Aserradera La union
 - Cancha de acopio Rio Bueno
 - Cancha de acopio Osorno
-# Maquinaria
+# -Maquinaria
 - 3 cuadrillas de cosecha mecanizada
-# Procesos
+# -Procesos
 - Plantacion
 - Talacion
 - Acopio
 - Transporte
 - Comercializacion
-# Problemas
+# -Problemas
 - Trazabilidad de procedimientos
 - Trazabilidad de rendimiento
 - Coordinacion de procedimientos
 - Falta de procedimientos
-# MicroServicios
-- ms-predios
-- ms-especies
-- ms-clientes
-- ms-despacho
-- ms-facturacion
+- Falta de documentación de origen de los árboles
 
-  
-|Microservicio|Contexto|
-|-----|--------|
-|Predios|Almacena informacion de los predios donde trabaja la empresa, sean propios o externos|
-
-## BosquesAustrales -DSY1103 Desarrollo Full Stacl 1
-
-## Descripción
--Empezamos ordenando los microoservicios, para luego empezar a desarrollar las posibles soluciones al problema.
--El problema que vamos a resolver es que: La empresa no cuenta con la documentación de origen de la madera cosechada por lo cual fué multada y estan pidiendo un sistema que emita certificados de origen trazados desde el rodal hasta el cliente final.
 
 ## Equipo
 | Nombre          | GitHub       |
@@ -43,15 +31,15 @@
 |Alvaro Oyarzun   | Alvarooyar   |
 
 ## Microoservicios Implementados
-| # | Microoservicio   | Puerto | Descripción                               |
-|---|------------------|--------|-------------------------------------------|
-| 1 | mas-predios      | 8080   | instalaciones donde opera la empresa      |
-| 2 | mas-cliente      | 8081   | maneja información de contratos, etc      |
-| 3 | mas-especies     | 8082   | identifica al árbol y sus procesos        |
-| 4 | mas-despacho     | 8083   | guias de despachos y transportistas       |
-| 5 | mas-facturación  | 8084   | factura cobros por volumen entregado      |
-| 6 | mas-seguridad    | 8085   | cumplir estandares de mutual de seguridad |
-| 7 | mas-trabajadores | 8086   | realizar labores asignadas en el proceso  |
+| # | Microoservicio   | Puerto | Descripción                               | Desarrollador |
+|---|------------------|--------|-------------------------------------------|---------------|
+| 1 | mas-predios      | 8080   | instalaciones donde opera la empresa      |  Cristóbal    |
+| 2 | mas-cliente      | 8081   | maneja información de contratos, etc      |  Álvaro       |
+| 3 | mas-especies     | 8082   | identifica al árbol y sus procesos        |               |
+| 4 | mas-despacho     | 8083   | guias de despachos y transportistas       |  Isidora      |
+| 5 | mas-facturación  | 8084   | factura cobros por volumen entregado      |  Cristóbal    |
+| 6 | mas-seguridad    | 8085   | cumplir estandares de mutual de seguridad |  Álvaro       |
+| 7 | mas-trabajadores | 8086   | realizar labores asignadas en el proceso  |  Isidora      |
 
 ## Tecnologías Utilizadas
 - Java 17 /Spring Boot 3.x
@@ -59,6 +47,11 @@
 - MySQL / H2
 - Feign Client
 - SLF4J para logs
+- Flayway Migration
+# Como se usa el Flyway
+- El nombre debe tener V con un numero dos barras bajas y un nombre, es un punto sql.
+- Ejemplo: V1__nombrecualquiera.sql
+- Esto es para los versionamientos de flyway.
 
 ## Cómo Ejecutar el proyecto
 1. Clonar el repositorio: `git clone [URL]`
