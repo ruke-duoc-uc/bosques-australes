@@ -1,10 +1,10 @@
-package com.example.facturacion;
+package com.example.msfactura;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FacturacionApplicationTests {
+class MsfacturaApplicationTests {
 
 	@Test
 	void contextLoads() {
