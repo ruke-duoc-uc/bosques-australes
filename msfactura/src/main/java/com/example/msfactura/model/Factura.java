@@ -11,7 +11,10 @@ public class Factura {
 
     @Column(nullable = false)
     private String descripcion;
-
+    /*
+    razonSocial
+    monto
+     */
     public Factura(String descripcion, Long id) {
         this.descripcion = descripcion;
         this.id = id;

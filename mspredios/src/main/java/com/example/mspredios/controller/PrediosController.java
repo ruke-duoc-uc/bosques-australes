@@ -35,10 +35,9 @@ public class PrediosController {
     @PostMapping
     public ResponseEntity<?> guardarPredio(Predios predios){
         try {
-            // Agregar
             return ResponseEntity.ok(prediosService.guardarPredio(predios));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Ocurrio un error al buscar el predio")
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Ocurrio un error al buscar el predio");
         }
         }
 }

@@ -28,6 +28,9 @@ public class FacturaController{
     @GetMapping("{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id){
         try{
+            if (facturaService.buscarPorId(id) == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La factura con id "+ id +" no fue encontrada, intente de nuevo");
+            }
             return ResponseEntity.ok(facturaService.buscarPorId(id));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro obtener la factura, intente denuevo");
