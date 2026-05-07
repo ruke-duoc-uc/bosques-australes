@@ -9,15 +9,22 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name= "descripcion",nullable = false)
     private String descripcion;
+
+    @Column(name = "idPredio", nullable = false)
+    private Long idPredio;
+
+    @Column(name = "nombrePredio", nullable = false)
+    private String nombrePredio;
     /*
     razonSocial
     monto
      */
-    public Factura(String descripcion, Long id) {
-        this.descripcion = descripcion;
+
+    public Factura(Long id, String descripcion) {
         this.id = id;
+        this.descripcion = descripcion;
     }
 
     public Factura() {
@@ -37,5 +44,21 @@ public class Factura {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Long getIdPredio() {
+        return idPredio;
+    }
+
+    public void setIdPredio(Long idPredio) {
+        this.idPredio = idPredio;
+    }
+
+    public String getNombrePredio() {
+        return nombrePredio;
+    }
+
+    public void setNombrePredio(String nombrePredio) {
+        this.nombrePredio = nombrePredio;
     }
 }

@@ -9,10 +9,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/predios")
-public class PrediosController {
+public class PrediosController{
     private final PrediosService prediosService;
-    public PrediosController(PrediosService prediosService) {
-        this.prediosService = prediosService;
+    public PrediosController(PrediosService prediosService) {this.prediosService = prediosService;
     }
     @GetMapping
     public ResponseEntity<?> listarPredios(){

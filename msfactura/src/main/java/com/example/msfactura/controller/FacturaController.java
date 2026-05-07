@@ -36,10 +36,11 @@ public class FacturaController{
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro obtener la factura, intente denuevo");
         }
     }
-    @PostMapping
-    public ResponseEntity<?> agregarFactura(Factura factura){
+    @PostMapping("/agregar/{id}")
+    public ResponseEntity<?> agregarFactura(@PathVariable Long id, @RequestBody Factura factura){
         try{
-            return ResponseEntity.ok(facturaService.guardarFactura(factura));
+            Factura nueva = facturaService.crearFactura(id, factura.getDescripcion());
+            return ResponseEntity.ok(nueva);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro agregar la factura, intente de nuevo");
         }
