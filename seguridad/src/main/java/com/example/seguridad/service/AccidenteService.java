@@ -6,7 +6,7 @@ import com.example.seguridad.dto.HabilitacionFaenaDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Date; // Usamos la clásica de Java que es un Stringer fácil
+import java.util.Date;
 
 @Service
 public class AccidenteService {
@@ -21,11 +21,15 @@ public class AccidenteService {
         return accidenteRepository.findAll();
     }
 
+    // ESTE FALTABA:
+    public Accidente obtenerPorId(Long id) {
+        return accidenteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Accidente no encontrado con id: " + id));
+    }
+
     public Accidente registrar(Accidente accidente) {
-        // Seteamos la fecha de registro como un String simple
         accidente.setFechaHoraRegistro(new Date().toString());
 
-        // R5: Lógica de bloqueo basada en el Enum de gravedad
         if (accidente.getGravedad() == GravedadAccidente.GRAVE ||
                 accidente.getGravedad() == GravedadAccidente.FATAL) {
             accidente.setFaenaBloqueada(true);
@@ -34,22 +38,22 @@ public class AccidenteService {
             accidente.setFaenaBloqueada(false);
             accidente.setEstado(EstadoAccidente.PENDIENTE);
         }
-
         return accidenteRepository.save(accidente);
     }
 
     public Accidente habilitarFaena(Long id, HabilitacionFaenaDto dto) {
-        Accidente accidente = accidenteRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No encontrado"));
-
+        Accidente accidente = obtenerPorId(id);
         accidente.setFaenaBloqueada(false);
         accidente.setEstado(EstadoAccidente.CERRADO);
         accidente.setSupervisorHabilitadorId(dto.getSupervisorHabilitadorId());
         accidente.setObservacionesHabilitacion(dto.getObservacionesHabilitacion());
-
-        // Fecha de habilitación como String
         accidente.setFechaHabilitacion(new Date().toString());
 
         return accidenteRepository.save(accidente);
+    }
+
+    // ESTE DEBE LLAMARSE ASÍ PARA EL CONTROLLER:
+    public boolean consultarSiEstaBloqueada(Long faenaId) {
+        return accidenteRepository.existsByFaenaIdAndFaenaBloqueadaTrue(faenaId);
     }
 }
