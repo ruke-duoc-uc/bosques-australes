@@ -19,7 +19,7 @@ public class EppRequestDto {
     private String fechaEntrega;
 
     @NotNull(message = "La fecha de vencimiento es obligatoria")
-    @Future(message = "La fecha de vencimiento debe ser futura")
+    @NotBlank(message = "La fecha de vencimiento es obligatoria")
     private String fechaVencimiento;
 
     @Size(max = 200)
