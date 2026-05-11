@@ -3,11 +3,11 @@ package com.example.msespecies.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Especies")
 public class Especies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "nombre", nullable = false)
     private String nombre;
     @Column(name = "uso", nullable= false)
@@ -16,6 +16,7 @@ public class Especies {
     private String calidad;
     @Column(name = "color")
     private String color;
+
     public Especies() {
     }
 
