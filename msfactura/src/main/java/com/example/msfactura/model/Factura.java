@@ -9,6 +9,12 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
+    // La razonSocial se puede referir a una persona natural o empresa
+    @Column(name = "razonSocial")
+    private String razonSocial;
+
     @Column(name= "descripcion",nullable = false)
     private String descripcion;
 
@@ -17,15 +23,23 @@ public class Factura {
 
     @Column(name = "nombrePredio", nullable = false)
     private String nombrePredio;
-    /*
-    razonSocial
-    monto
-     */
 
-    public Factura(Long id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
-    }
+    // El giro es la actividad economica de la factura
+    @Column(name = "giro",nullable = false)
+    private String giro;
+    // Estos son los datos de la venta
+    @Column(name = "ciudad",nullable = false)
+    private String ciudad;
+    @Column(name = "comuna", nullable = false)
+    private String comuna;
+
+    @Column(name = "direccion",nullable = false)
+    private String direccion;
+    @Column(name = "monto",nullable = false)
+    private Double monto;
+
+    @Column(name = "telefonoCliente")
+    private String telefonoCliente;
 
     public Factura() {
     }
@@ -61,4 +75,5 @@ public class Factura {
     public void setNombrePredio(String nombrePredio) {
         this.nombrePredio = nombrePredio;
     }
+
 }
