@@ -9,8 +9,6 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-
     // La razonSocial se puede referir a una persona natural o empresa
     @Column(name = "razonSocial")
     private String razonSocial;
@@ -42,6 +40,16 @@ public class Factura {
     private String telefonoCliente;
 
     public Factura() {
+    }
+
+    public Factura(Double monto, String giro, String descripcion, String razonSocial, String ciudad, String direccion, String comuna) {
+        this.monto = monto;
+        this.giro = giro;
+        this.descripcion = descripcion;
+        this.razonSocial = razonSocial;
+        this.ciudad = ciudad;
+        this.direccion = direccion;
+        this.comuna = comuna;
     }
 
     public Long getId() {
@@ -76,4 +84,59 @@ public class Factura {
         this.nombrePredio = nombrePredio;
     }
 
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+
+    public String getGiro() {
+        return giro;
+    }
+
+    public void setGiro(String giro) {
+        this.giro = giro;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getComuna() {
+        return comuna;
+    }
+
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
+    }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
 }
