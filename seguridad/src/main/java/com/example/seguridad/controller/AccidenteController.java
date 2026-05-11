@@ -64,6 +64,23 @@ public class AccidenteController {
         return ResponseEntity.ok(accidenteService.habilitarFaena(id, dto));
     }
 
+    // PUT → Actualizar datos básicos del accidente
+    @PutMapping("/{id}")
+    public ResponseEntity<Accidente> actualizar(@PathVariable Long id, @RequestBody AccidenteRequestDto dto) {
+        log.info("[seguridad] PUT /accidentes/{} - Actualizando datos", id);
+
+        Accidente existente = accidenteService.obtenerPorId(id);
+        if (existente == null) return ResponseEntity.notFound().build();
+
+        // Actualizamos solo lo permitido
+        existente.setDescripcion(dto.getDescripcion());
+        existente.setTipo(dto.getTipo());
+        existente.setGravedad(dto.getGravedad());
+
+        // Guardamos usando el service
+        return ResponseEntity.ok(accidenteService.registrar(existente));
+    }
+
     // GET → Consulta de bloqueo para integración con otros microservicios
     @GetMapping("/faena/{faenaId}/bloqueada")
     public ResponseEntity<Map<String, Object>> isFaenaBloqueada(@PathVariable Long faenaId) {
