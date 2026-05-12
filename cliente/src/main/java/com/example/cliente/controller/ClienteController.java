@@ -94,7 +94,7 @@ public class ClienteController {
             if (clienteExistente == null) return ResponseEntity.notFound().build();
 
             clienteExistente.setNombre(detalles.getNombre());
-            clienteExistente.setGiro(detalles.getGiro());
+            clienteExistente.setCiudad(detalles.getCiudad());
 
             return ResponseEntity.ok(clienteService.guardarCliente(clienteExistente));
         } catch (Exception e) {

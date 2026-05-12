@@ -16,12 +16,12 @@ public class Cliente {
     private String rut;
     @Column(name = "razonSocial", nullable = false)
     private String razonSocial;
-    @Column(name = "giro", nullable = false)
-    private Double giro;
     @Column(name = "direccion", nullable = false)
     private String direccion;
     @Column(name = "comuna", nullable = false)
     private String comuna;
+    @Column(name = "ciudad", nullable = false)
+    private String ciudad;
     @Column(name = "telefono", nullable = false)
     private String telefono;
     @Column(name = "email", nullable = false)
@@ -35,13 +35,13 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nombre, String rut, String razonSocial, Double giro, String direccion, String comuna, String telefono, String email, TipoCliente tipoCliente, boolean estado) {
+    public Cliente(String nombre, String rut, String razonSocial, String direccion, String comuna, String ciudad, String telefono, String email, TipoCliente tipoCliente, Boolean estado) {
         this.nombre = nombre;
         this.rut = rut;
         this.razonSocial = razonSocial;
-        this.giro = giro;
         this.direccion = direccion;
         this.comuna = comuna;
+        this.ciudad = ciudad;
         this.telefono = telefono;
         this.email = email;
         this.tipoCliente = tipoCliente;
@@ -80,14 +80,6 @@ public class Cliente {
         this.razonSocial = razonSocial;
     }
 
-    public Double getGiro() {
-        return giro;
-    }
-
-    public void setGiro(Double giro) {
-        this.giro = giro;
-    }
-
     public String getDireccion() {
         return direccion;
     }
@@ -102,6 +94,14 @@ public class Cliente {
 
     public void setComuna(String comuna) {
         this.comuna = comuna;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     public String getTelefono() {
@@ -128,11 +128,11 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
     }
 
-    public boolean isEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 }
