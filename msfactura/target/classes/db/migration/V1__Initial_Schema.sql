@@ -4,4 +4,5 @@ CREATE TABLE factura(
     id_Predio BIGSERIAL,
     nombre_Predio VARCHAR(100)
     );
+-- Faltan los datos nuevos
 COMMIT;

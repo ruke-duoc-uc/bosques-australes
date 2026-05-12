@@ -5,7 +5,6 @@ import com.example.msfactura.service.FacturaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/factura")
@@ -36,14 +35,17 @@ public class FacturaController{
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro obtener la factura, intente denuevo");
         }
     }
-    @PostMapping("/agregar/{id}")
-    public ResponseEntity<?> agregarFactura(@PathVariable Long id, @RequestBody Factura factura){
-        try{
-            Factura nueva = facturaService.crearFactura(id, factura.getDescripcion());
+    @PostMapping("/agregar/{idPredio}/{idCliente}")
+    public ResponseEntity<?> agregarFactura(@PathVariable Long idPredio,
+                                            @PathVariable Long idCliente,
+                                            @RequestBody Factura factura){
+            Factura nueva = facturaService.crearFactura(
+                    idPredio,
+                    idCliente,
+                    factura.getFactura(),
+                    factura.getGiro(),
+                    factura.getMonto());
             return ResponseEntity.ok(nueva);
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro agregar la factura, intente de nuevo");
-        }
     }
 
 }

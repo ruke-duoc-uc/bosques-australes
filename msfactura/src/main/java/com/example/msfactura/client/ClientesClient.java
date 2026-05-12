@@ -3,21 +3,20 @@ package com.example.msfactura.client;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-
 @Component
-public class PrediosClient {
+public class ClientesClient {
     private final RestClient restClient;
 
-    public PrediosClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8080").build();
+    public ClientesClient(RestClient.Builder builder) {
+        this.restClient = builder.baseUrl("http://localhost:8081/api/cliente").build();
     }
 
-    public PrediosDTO obtenerDatosPredio(Long predioId) {
+    public ClientesDTO obtenerDatosCliente(Long idCliente) {
         return restClient.get()
-                .uri("/api/v1/predios/{id}", predioId)
+                .uri("/{id}", idCliente)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                    throw new RuntimeException("Predio no encontrado");
-                }).body(PrediosDTO.class);
+                    throw new RuntimeException("Cliente no encontrado");
+                }).body(ClientesDTO.class);
     }
 }
