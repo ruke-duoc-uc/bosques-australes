@@ -17,8 +17,9 @@ public class Factura {
 
 
     //Datos factura
+    //
     @Column(name = "Factura")
-    private Long factura;
+    private Long numFactura;
     @Column(name = "giro",nullable = false)
     // El giro es la actividad economica que paga la factura
     private String giro;
@@ -53,8 +54,8 @@ public class Factura {
     public Factura() {
     }
 
-    public Factura(Long factura, String giro, Double monto) {
-        this.factura = factura;
+    public Factura(Long numFactura, String giro, Double monto) {
+        this.numFactura = numFactura;
         this.giro = giro;
         this.monto = monto;
     }
@@ -139,11 +140,11 @@ public class Factura {
         this.telefonoCliente = telefonoCliente;
     }
 
-    public Long getFactura() {
-        return factura;
+    public Long getNumFactura() {
+        return numFactura;
     }
 
-    public void setFactura(Long factura) {
-        this.factura = factura;
+    public void setNumFactura(Long numFactura) {
+        this.numFactura = numFactura;
     }
 }

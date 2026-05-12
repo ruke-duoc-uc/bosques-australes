@@ -42,10 +42,30 @@ public class FacturaController{
             Factura nueva = facturaService.crearFactura(
                     idPredio,
                     idCliente,
-                    factura.getFactura(),
+                    factura.getNumFactura(),
                     factura.getGiro(),
                     factura.getMonto());
             return ResponseEntity.ok(nueva);
     }
-
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<?> actualizarFacturaCompleta(@PathVariable Long id, @RequestBody Factura factura){
+        try{
+            return facturaService.actualizarFactura(id, factura)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar la factura");
+        }
+    }
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarFactura(@PathVariable Long id){
+        try{
+            if(!facturaService.existePorId(id)){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La id "+id+" no existe");
+            }
+            return ResponseEntity.ok("Factura "+ id + " eliminada");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo eliminar la factura");
+        }
+    }
 }

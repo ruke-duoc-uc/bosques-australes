@@ -8,6 +8,7 @@ import com.example.msfactura.repository.FacturaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FacturaService {
@@ -30,44 +31,35 @@ public class FacturaService {
     }
 
     public Factura crearFactura(Long idPredio, Long idCliente, Long numFactura, String giro, Double monto) {
-        // 1. Obtener datos de los Microservicios (Records)
         PrediosDTO p = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO c = clientesClient.obtenerDatosCliente(idCliente);
-
         // 2. Crear y poblar la entidad
         Factura nueva = new Factura();
-
-        // Datos básicos
-        nueva.setFactura(numFactura);
+        // Datos Factura
+        nueva.setNumFactura(numFactura);
         nueva.setGiro(giro);
         nueva.setMonto(monto);
-
-        // Datos del Predio (desde el record PrediosDTO)
+        // Datos del Predio
         nueva.setIdPredio(p.id());
-        nueva.setNombrePredio(p.nombre()); // o p.nombre() según tu record
+        nueva.setNombrePredio(p.nombre());
         nueva.setDireccion(p.ubicacion());
-
-        // Datos del Cliente (desde el record ClientesDTO)
+        // Datos del Cliente
         nueva.setRazonSocial(c.razonSocial());
         nueva.setComuna(c.comuna());
         nueva.setTelefonoCliente(c.telefono());
-
-        // Nota: Si el MS Cliente devuelve 'comuna' pero no 'ciudad',
-        // podrías usar la comuna como ciudad o asegurar que el DTO traiga ambos.
-        nueva.setCiudad(c.comuna());
-
+        nueva.setCiudad(c.ciudad());
         return facturaRepository.save(nueva);
     }
-            /*
-        // DTO Predios
-        nuevaFactura.setIdPredio(datosPredio.id());
-        nuevaFactura.setNombrePredio(datosPredio.nombre());
-        nuevaFactura.setDireccion(datosPredio.direccion());
-        // DTO Clientes
-        nuevaFactura.setRazonSocial(datosCliente.razonSocial());
-        nuevaFactura.setCiudad(datosCliente.comuna()+" Dato: Ciudad");
-        nuevaFactura.setComuna(datosCliente.comuna());
-        nuevaFactura.setTelefonoCliente(datosCliente.telefono());
-
-        */
+    public Optional<Factura> actualizarFactura(Long id, Factura facturaActualizada){
+        return facturaRepository.findById(id).map(factura -> {
+            factura.setNumFactura(factura.getNumFactura());
+            factura.setGiro(factura.getGiro());
+            factura.setMonto(factura.getMonto());
+            return facturaRepository.save(factura);
+        });
+    }
+    public void eliminarFactura(Long id){
+        facturaRepository.deleteById(id);
+    }
+    public Boolean existePorId(Long id){return facturaRepository.existsById(id);}
 }
