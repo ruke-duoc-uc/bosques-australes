@@ -98,3 +98,4 @@ cd [nombre-repo]
 |refactor:  | mejora código sin cambiar funcionalidad | refactor: describir la parte del código              |
 |test:      | agregar o modificar tests               | tests: describir la modificación                     |
 |config:    |configuración de proyecto                | config: describir el cambio en la configuración      |
+
