@@ -1,5 +1,4 @@
 package com.example.msfactura.client;
-
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
