@@ -1,5 +1,10 @@
-# Proyecto Bosques Australes
+## BosquesAustrales -DSY1103 Desarrollo Full Stack 1
 
+## Descripción
+-Empezamos ordenando los microoservicios, para luego empezar a desarrollar las posibles soluciones al problema.
+-El problema que vamos a resolver es que: La empresa no cuenta con la documentación de origen de la madera cosechada por lo cual fué multada y estan pidiendo un sistema que emita certificados de origen trazados desde el rodal hasta el cliente final.
+# -Instalaciones
+-  Aserradera La union
 
 # Indice
 - [Instalaciones](#instalaciones)
@@ -12,36 +17,21 @@
 - La union
 - Cancha de acopio Rio Bueno
 - Cancha de acopio Osorno
-# Maquinaria
+# -Maquinaria
 - 3 cuadrillas de cosecha mecanizada
-# Procesos
+# -Procesos
 - Plantacion
 - Talacion
 - Acopio
 - Transporte
 - Comercializacion
-# Problemas
+# -Problemas
 - Trazabilidad de procedimientos
 - Trazabilidad de rendimiento
 - Coordinacion de procedimientos
 - Falta de procedimientos
-# MicroServicios
-- ms-predios
-- ms-especies
-- ms-clientes
-- ms-despacho
-- ms-facturacion
+- Falta de documentación de origen de los árboles
 
-  
-|Microservicio|Contexto|
-|-----|--------|
-|Predios|Almacena informacion de los predios donde trabaja la empresa, sean propios o externos|
-
-## BosquesAustrales -DSY1103 Desarrollo Full Stacl 1
-
-## Descripción
--Empezamos ordenando los microoservicios, para luego empezar a desarrollar las posibles soluciones al problema.
--El problema que vamos a resolver es que: La empresa no cuenta con la documentación de origen de la madera cosechada por lo cual fué multada y estan pidiendo un sistema que emita certificados de origen trazados desde el rodal hasta el cliente final.
 
 ## Equipo
 | Nombre          | GitHub       |
@@ -70,6 +60,11 @@
 - MySQL / H2
 - Feign Client
 - SLF4J para logs
+- Flayway Migration
+# Como se usa el Flyway
+- El nombre debe tener V con un numero dos barras bajas y un nombre, es un punto sql.
+- Ejemplo: V1__nombrecualquiera.sql
+- Esto es para los versionamientos de flyway.
 
 ## Cómo Ejecutar el proyecto
 1. Clonar el repositorio: `git clone [URL]`
