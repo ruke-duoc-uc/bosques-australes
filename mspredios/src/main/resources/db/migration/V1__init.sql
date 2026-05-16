@@ -7,3 +7,7 @@ CREATE TABLE predios (
 
 INSERT INTO predios (nombre, ubicacion, dueno)
 VALUES ('Predio Las Quemas', 'Osorno', 'Ernesto Mitt');
+INSERT INTO predios (nombre, ubicacion, dueno)
+VALUES ('Cancha de acopio Rio Bueno', 'Rio');
+INSERT INTO predios (nombre, ubicacion, dueno)
+VALUES ('Predio Las Quemas', 'Osorno', 'Ernesto Mitt');

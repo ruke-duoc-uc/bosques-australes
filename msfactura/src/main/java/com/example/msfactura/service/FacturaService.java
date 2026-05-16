@@ -1,4 +1,5 @@
 package com.example.msfactura.service;
+
 import com.example.msfactura.client.ClientesClient;
 import com.example.msfactura.client.ClientesDTO;
 import com.example.msfactura.client.PrediosClient;
@@ -31,8 +32,8 @@ public class FacturaService {
     }
 
     public Factura crearFactura(Long idPredio, Long idCliente, Long numFactura, String giro, Double monto) {
-        PrediosDTO p = prediosClient.obtenerDatosPredio(idPredio);
-        ClientesDTO c = clientesClient.obtenerDatosCliente(idCliente);
+        PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
+        ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         // 2. Crear y poblar la entidad
         Factura nueva = new Factura();
         // Datos Factura
@@ -40,14 +41,14 @@ public class FacturaService {
         nueva.setGiro(giro);
         nueva.setMonto(monto);
         // Datos del Predio
-        nueva.setIdPredio(p.id());
-        nueva.setNombrePredio(p.nombre());
-        nueva.setDireccion(p.ubicacion());
+        nueva.setIdPredio(prediosDTO.id());
+        nueva.setNombrePredio(prediosDTO.nombre());
+        nueva.setDireccion(prediosDTO.ubicacion());
         // Datos del Cliente
-        nueva.setRazonSocial(c.razonSocial());
-        nueva.setComuna(c.comuna());
-        nueva.setTelefonoCliente(c.telefono());
-        nueva.setCiudad(c.ciudad());
+        nueva.setRazonSocial(clientesDTO.razonSocial());
+        nueva.setComuna(clientesDTO.comuna());
+        nueva.setTelefonoCliente(clientesDTO.telefono());
+        nueva.setCiudad(clientesDTO.ciudad());
         return facturaRepository.save(nueva);
     }
     public Optional<Factura> actualizarFactura(Long id, Factura facturaActualizada){

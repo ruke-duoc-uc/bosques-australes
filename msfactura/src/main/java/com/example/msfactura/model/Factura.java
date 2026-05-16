@@ -8,16 +8,11 @@ public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    //Datos factura
     /* No podemos forzarlo a ser unico
     por la naturaleza de las emisiones en el SII
     una factura podria compartir numero con otra */
-    // Opcion 1, agregar detalles de la factura por separado
-    // Opcion 2, dejarlo todo en el mismo atributo
-
-
-
-    //Datos factura
-    //
     @Column(name = "Factura")
     private Long numFactura;
     @Column(name = "giro",nullable = false)
@@ -27,7 +22,6 @@ public class Factura {
     private Double monto;
 
     //Datos de Predio
-    //idPredio | nombrePredio | direccion
     @Column(name = "direccion",nullable = false)
     private String direccion;
     @Column(name = "idPredio", nullable = false)
@@ -37,7 +31,6 @@ public class Factura {
 
 
     //Datos de cliente
-
     // La razonSocial se puede referir a una persona natural o empresa
     @Column(name = "razonSocial")
     private String razonSocial;

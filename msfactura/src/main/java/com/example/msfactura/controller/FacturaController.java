@@ -1,5 +1,6 @@
 package com.example.msfactura.controller;
 
+
 import com.example.msfactura.model.Factura;
 import com.example.msfactura.service.FacturaService;
 import org.springframework.http.HttpStatus;
@@ -39,13 +40,13 @@ public class FacturaController{
     public ResponseEntity<?> agregarFactura(@PathVariable Long idPredio,
                                             @PathVariable Long idCliente,
                                             @RequestBody Factura factura){
-            Factura nueva = facturaService.crearFactura(
-                    idPredio,
-                    idCliente,
-                    factura.getNumFactura(),
-                    factura.getGiro(),
-                    factura.getMonto());
-            return ResponseEntity.ok(nueva);
+        Factura nueva = facturaService.crearFactura(
+                idPredio,
+                idCliente,
+                factura.getNumFactura(),
+                factura.getGiro(),
+                factura.getMonto());
+        return ResponseEntity.ok(nueva);
     }
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> actualizarFacturaCompleta(@PathVariable Long id, @RequestBody Factura factura){
