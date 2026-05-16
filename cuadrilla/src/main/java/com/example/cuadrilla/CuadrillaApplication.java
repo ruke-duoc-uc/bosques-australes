@@ -1,12 +1,13 @@
-package com.example.mspredios;
+package com.example.cuadrilla;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsprediosApplication {
+public class CuadrillaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsprediosApplication.class, args);
+		SpringApplication.run(CuadrillaApplication.class, args);
 	}
+
 }

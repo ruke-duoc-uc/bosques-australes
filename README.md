@@ -41,15 +41,18 @@
 |Alvaro Oyarzun   | Alvarooyar   |
 
 ## Microoservicios Implementados
-| # | Microoservicio   | Puerto | Descripción                               | Desarrollador |
-|---|------------------|--------|-------------------------------------------|---------------|
-| 1 | mas-predios      | 8080   | instalaciones donde opera la empresa      |  Cristóbal    |
-| 2 | mas-cliente      | 8081   | maneja información de contratos, etc      |  Álvaro       |
-| 3 | mas-especies     | 8082   | identifica al árbol y sus procesos        |               |
-| 4 | mas-despacho     | 8083   | guias de despachos y transportistas       |  Isidora      |
-| 5 | mas-facturación  | 8084   | factura cobros por volumen entregado      |  Cristóbal    |
-| 6 | mas-seguridad    | 8085   | cumplir estandares de mutual de seguridad |  Álvaro       |
-| 7 | mas-trabajadores | 8086   | realizar labores asignadas en el proceso  |  Isidora      |
+| # | Microoservicio   | Puerto | Descripción                               | Responsable |
+|---|------------------|--------|-------------------------------------------| --- |
+| 1 | ms-predios      | 8080   | instalaciones donde opera la empresa      | Cristobal |
+| 2 | ms-cliente      | 8081   | maneja información de contratos, etc      | Alvaro |
+| 3 | ms-especies     | 8082   | identifica al árbol y sus procesos        | Cristobal |
+| 4 | ms-despacho     | 8083   | guias de despachos y transportistas       | Isidora |
+| 5 | ms-facturación  | 8084   | factura cobros por volumen entregado      | Cristobal |
+| 6 | ms-seguridad    | 8085   | cumplir estandares de mutual de seguridad | Alvaro |
+| 7 | ms-trabajadores | 8086   | realizar labores asignadas en el proceso  | Isidora |
+| 8 | ms-acopio       | 8087   | Maneja informacion sobre el stock         | Isidora |
+| 9 | ms-cuadrillas   | 8088   | Division de equipos y responsabilidades   | Alvaro |
+| 10 | ms-planCosecha | 8089   | Planificación de cosecha por rodal y temporada | Cristobal |
 
 ## Tecnologías Utilizadas
 - Java 17 /Spring Boot 3.x
@@ -72,13 +75,14 @@
 - En desarrollo 
 
 ## Clonar el repositorio 
-git clone https://github.com/ruke-duoc-uc/bosques-australes.git
+
+`git clone https://github.com/ruke-duoc-uc/bosques-australes.git`
 
 # Entrar al directorio 
 cd [nombre-repo]
 
 # Verificar la conexión
-git status
+`git status`
 
 # Que commits usar en cada situación 
 | Tipo      | Cuando usarlo                           | Ejemplo                                              |
@@ -89,3 +93,4 @@ git status
 |refactor:  | mejora código sin cambiar funcionalidad | refactor: describir la parte del código              |
 |test:      | agregar o modificar tests               | tests: describir la modificación                     |
 |config:    |configuración de proyecto                | config: describir el cambio en la configuración      |
+

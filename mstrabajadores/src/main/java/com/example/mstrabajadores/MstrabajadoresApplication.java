@@ -1,12 +1,13 @@
-package com.example.mspredios;
+package com.example.mstrabajadores;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsprediosApplication {
+public class MstrabajadoresApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsprediosApplication.class, args);
+		SpringApplication.run(MstrabajadoresApplication.class, args);
 	}
+
 }
