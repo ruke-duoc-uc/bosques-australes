@@ -17,11 +17,15 @@ public class PlanCosecha {
 
     //Datos especie
     @Column(name = "especie")
-    private String nombre;
+    private String especie;
 
     public PlanCosecha(Long edadRodal, Double alturaPromedio) {
         this.edadRodal = edadRodal;
         this.alturaPromedio = alturaPromedio;
+    }
+
+    public PlanCosecha() {
+
     }
 
     public Long getId() {
@@ -48,11 +52,11 @@ public class PlanCosecha {
         this.alturaPromedio = alturaPromedio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getEspecie() {
+        return especie;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setEspecie(String especie) {
+        this.especie = especie;
     }
 }
