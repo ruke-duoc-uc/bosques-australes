@@ -12,7 +12,7 @@
 - [Procesos](#procesos)
 - [Problemas](#problemas)
 - [MicroServicios](#microservicios)
-
+-[Comunicaciones]
 # Instalaciones
 - La union
 - Cancha de acopio Rio Bueno
@@ -89,14 +89,17 @@
 
 ## Clonar el repositorio 
 
-`git clone https://github.com/ruke-duoc-uc/bosques-australes.git`
+```
+git clone https://github.com/ruke-duoc-uc/bosques-australes.git
+```
 
 # Entrar al directorio 
 cd [nombre-repo]
 
 # Verificar la conexión
-`git status`
-
+```text
+git status
+```
 # Que commits usar en cada situación 
 | Tipo      | Cuando usarlo                           | Ejemplo                                              |
 |-----------|-----------------------------------------|------------------------------------------------------|
@@ -107,3 +110,10 @@ cd [nombre-repo]
 |test:      | agregar o modificar tests               | tests: describir la modificación                     |
 |config:    |configuración de proyecto                | config: describir el cambio en la configuración      |
 
+# Comunicaciones
+|Receptor de informacion|Emisor/es|
+|:---|:---:|
+|msfactura|msclientes / mspredios|
+|mscuadrilla|mstrabajadores|
+|msplanCosecha|msespecies|
+|msseguridad|mstrabajadores|
