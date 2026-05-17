@@ -9,23 +9,36 @@ import java.util.Optional;
 
 @Service
 public class TrabajadoresService {
-
+    //Esto reemplaza la declaracion "final" de java
     @Autowired
     private TrabajadoresRepository repository;
 
-    public List <TrabajadoresModel> getAll(){
+    public List <TrabajadoresModel> listarTrabajadores(){
      return repository.findAll();
     }
 
-    public Optional<TrabajadoresModel> getById(Long id){
+    public Optional<TrabajadoresModel> buscarPorId(Long id){
         return repository.findById(id);
     }
-
-    public TrabajadoresModel save(TrabajadoresModel trabajador){
+    public Boolean existePorId(Long id){
+        return repository.existsById(id);
+    }
+    public TrabajadoresModel guardarTrabajador(TrabajadoresModel trabajador){
         return repository.save(trabajador);
     }
-
-    public void delete(Long id){
+    public void eliminarTrabajador(Long id){
         repository.deleteById(id);
+    }
+    public Optional<TrabajadoresModel> actualizarTrabajador(Long id, TrabajadoresModel nuevoTrabajador){
+        return repository.findById(id).map(trabajadoresModel ->{
+            trabajadoresModel.setNombre(nuevoTrabajador.getNombre());
+            trabajadoresModel.setRut(nuevoTrabajador.getRut());
+            trabajadoresModel.setEstado(nuevoTrabajador.getEstado());
+            trabajadoresModel.setEdad(nuevoTrabajador.getEdad());
+            trabajadoresModel.setTelefono(nuevoTrabajador.getTelefono());
+            trabajadoresModel.setCorreo(nuevoTrabajador.getCorreo());
+            trabajadoresModel.setFechaContrato(nuevoTrabajador.getFechaContrato());
+            return repository.save(trabajadoresModel);
+        });
     }
 }
