@@ -30,7 +30,6 @@ public class ClienteService {
         return clienteRepository.findByNombre(nombre);
     }
 
-
     public Cliente obtenerPorId(Long id) {
         return clienteRepository.findById(id).orElse(null);
     }

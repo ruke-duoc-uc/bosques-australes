@@ -22,11 +22,6 @@ public class TrabajadoresModel {
     private String telefono;
     @Column(name = "correo", nullable = false)
     private String correo;
-
-    @Enumerated(EnumType.STRING)
-    private Cargo cargo;
-
-
     @Column(name = "fechaContrato", nullable = false)
     private Date fechaContrato;
 
@@ -34,14 +29,13 @@ public class TrabajadoresModel {
     }
 
     public TrabajadoresModel(String nombre, String rut, Estado estado, Integer edad,
-                             String telefono, String correo, Cargo cargo, Date fechaContrato) {
+                             String telefono, String correo, Date fechaContrato) {
         this.nombre = nombre;
         this.rut = rut;
         this.estado = estado;
         this.edad = edad;
         this.telefono = telefono;
         this.correo = correo;
-        this.cargo = cargo;
         this.fechaContrato = fechaContrato;
     }
 
@@ -67,14 +61,6 @@ public class TrabajadoresModel {
 
     public void setFechaContrato(Date fechaContrato) {
         this.fechaContrato = fechaContrato;
-    }
-
-    public Cargo getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
     }
 
     public String getCorreo() {

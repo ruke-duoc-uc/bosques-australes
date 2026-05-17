@@ -33,11 +33,9 @@ public class Cuadrilla {
     @Column(name = "trabajador_id")
     private List<Long> trabajadoresIds;
 
-    // Constructor vacío (Obligatorio para JPA)
     public Cuadrilla() {
     }
 
-    // Constructor completo (Ideal para tus pruebas y lógica)
     public Cuadrilla(String nombre, String zona, String especialidad, Boolean estado, List<Long> trabajadoresIds) {
         this.nombre = nombre;
         this.zona = zona;
