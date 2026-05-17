@@ -2,11 +2,11 @@ package com.example.msacopio.controller;
 
 import com.example.msacopio.model.AcopioModel;
 import com.example.msacopio.service.AcopioService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/acopios")
@@ -27,15 +27,16 @@ public class AcopioController {
         return ResponseEntity.ok(acopioService.buscarPorId(id));
     }
 
-    @PostMapping
-    public ResponseEntity<AcopioModel> crear(@RequestBody AcopioModel acopio) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(acopioService.crear(acopio));
+    @PostMapping("/guardar/{id}")
+    public ResponseEntity<AcopioModel> crear(@PathVariable Long id, @RequestBody AcopioModel acopio) {
+        return ResponseEntity.ok(acopioService.crear(acopio, id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AcopioModel> actualizar(@PathVariable Long id,
-                                                  @RequestBody AcopioModel datosNuevos) {
-        return ResponseEntity.ok(acopioService.actualizar(id, datosNuevos));
+    @PutMapping("/actualizar/{id}/{idEspecies}")
+    public ResponseEntity<Optional<AcopioModel>> actualizar(@PathVariable Long id,
+                                                            @RequestBody AcopioModel datosNuevos,
+                                                            @PathVariable Long idEspecies) {
+        return ResponseEntity.ok(acopioService.actualizar(id, idEspecies, datosNuevos));
     }
 
     @DeleteMapping("/{id}")
