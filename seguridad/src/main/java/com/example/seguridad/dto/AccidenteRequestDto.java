@@ -13,9 +13,6 @@ public class AccidenteRequestDto {
     @NotNull(message = "El ID de la cuadrilla es obligatorio")
     private Long cuadrillaId;
 
-    @NotNull(message = "El ID de la faena es obligatorio")
-    private Long faenaId;
-
     @NotNull(message = "La fecha y hora de ocurrencia es obligatoria")
     private String fechaHoraOcurrencia;
 
@@ -43,14 +40,6 @@ public class AccidenteRequestDto {
 
     public void setCuadrillaId(Long cuadrillaId) {
         this.cuadrillaId = cuadrillaId;
-    }
-
-    public Long getFaenaId() {
-        return faenaId;
-    }
-
-    public void setFaenaId(Long faenaId) {
-        this.faenaId = faenaId;
     }
 
     public String getFechaHoraOcurrencia() {

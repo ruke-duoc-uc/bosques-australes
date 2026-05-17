@@ -1,7 +1,6 @@
 package com.example.seguridad.controller;
 
 import com.example.seguridad.dto.AccidenteRequestDto;
-import com.example.seguridad.dto.HabilitacionFaenaDto;
 import com.example.seguridad.model.Accidente;
 import com.example.seguridad.service.AccidenteService;
 import jakarta.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/accidentes")
@@ -46,7 +44,6 @@ public class AccidenteController {
         Accidente accidente = new Accidente();
         accidente.setTrabajadorId(dto.getTrabajadorId());
         accidente.setCuadrillaId(dto.getCuadrillaId());
-        accidente.setFaenaId(dto.getFaenaId());
         accidente.setFechaHoraOcurrencia(dto.getFechaHoraOcurrencia()); // Tu String
         accidente.setDescripcion(dto.getDescripcion());
         accidente.setTipo(dto.getTipo());
@@ -54,16 +51,6 @@ public class AccidenteController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(accidenteService.registrar(accidente));
     }
-
-    // PUT → Habilitar faena bloqueada (Regla R5)
-    @PutMapping("/{id}/habilitar-faena")
-    public ResponseEntity<Accidente> habilitarFaena(
-            @PathVariable Long id,
-            @Valid @RequestBody HabilitacionFaenaDto dto) {
-        log.info("[seguridad] PUT /accidentes/{}/habilitar-faena", id);
-        return ResponseEntity.ok(accidenteService.habilitarFaena(id, dto));
-    }
-
     // PUT → Actualizar datos básicos del accidente
     @PutMapping("/{id}")
     public ResponseEntity<Accidente> actualizar(@PathVariable Long id, @RequestBody AccidenteRequestDto dto) {
@@ -79,18 +66,5 @@ public class AccidenteController {
 
         // Guardamos usando el service
         return ResponseEntity.ok(accidenteService.registrar(existente));
-    }
-
-    // GET → Consulta de bloqueo para integración con otros microservicios
-    @GetMapping("/faena/{faenaId}/bloqueada")
-    public ResponseEntity<Map<String, Object>> isFaenaBloqueada(@PathVariable Long faenaId) {
-        boolean bloqueada = accidenteService.consultarSiEstaBloqueada(faenaId);
-        return ResponseEntity.ok(Map.of(
-                "faenaId", faenaId,
-                "bloqueada", bloqueada,
-                "mensaje", bloqueada
-                        ? "Faena BLOQUEADA por accidente grave."
-                        : "Faena liberada."
-        ));
     }
 }

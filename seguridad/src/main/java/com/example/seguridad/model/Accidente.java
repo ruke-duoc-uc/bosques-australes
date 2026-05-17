@@ -12,8 +12,6 @@ public class Accidente {
     private Long trabajadorId;
     @Column(name = "cuadrilla_id", nullable = false)
     private Long cuadrillaId;
-    @Column(name = "faena_id", nullable = false)
-    private Long faenaId;
     @Column(name = "fecha_hora_ocurrencia", nullable = false)
     private String fechaHoraOcurrencia;
     @Column(name = "fecha_hora_registro", nullable = false)
@@ -29,8 +27,6 @@ public class Accidente {
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
     private EstadoAccidente estado;
-    @Column(name = "faena_bloqueada", nullable = false)
-    private boolean faenaBloqueada = false;
     @Column(name = "supervisor_habilitador_id")
     private Long supervisorHabilitadorId;
     @Column(name = "fecha_habilitacion")
@@ -41,17 +37,15 @@ public class Accidente {
     public Accidente() {
     }
 
-    public Accidente(Long trabajadorId, Long cuadrillaId, Long faenaId, String fechaHoraOcurrencia, String fechaHoraRegistro, String descripcion, TipoAccidente tipo, GravedadAccidente gravedad, EstadoAccidente estado, boolean faenaBloqueada, Long supervisorHabilitadorId, String fechaHabilitacion, String observacionesHabilitacion) {
+    public Accidente(Long trabajadorId, Long cuadrillaId, String fechaHoraOcurrencia, String fechaHoraRegistro, String descripcion, TipoAccidente tipo, GravedadAccidente gravedad, EstadoAccidente estado,Long supervisorHabilitadorId, String fechaHabilitacion, String observacionesHabilitacion) {
         this.trabajadorId = trabajadorId;
         this.cuadrillaId = cuadrillaId;
-        this.faenaId = faenaId;
         this.fechaHoraOcurrencia = fechaHoraOcurrencia;
         this.fechaHoraRegistro = fechaHoraRegistro;
         this.descripcion = descripcion;
         this.tipo = tipo;
         this.gravedad = gravedad;
         this.estado = estado;
-        this.faenaBloqueada = faenaBloqueada;
         this.supervisorHabilitadorId = supervisorHabilitadorId;
         this.fechaHabilitacion = fechaHabilitacion;
         this.observacionesHabilitacion = observacionesHabilitacion;
@@ -79,14 +73,6 @@ public class Accidente {
 
     public void setCuadrillaId(Long cuadrillaId) {
         this.cuadrillaId = cuadrillaId;
-    }
-
-    public Long getFaenaId() {
-        return faenaId;
-    }
-
-    public void setFaenaId(Long faenaId) {
-        this.faenaId = faenaId;
     }
 
     public String getFechaHoraOcurrencia() {
@@ -135,14 +121,6 @@ public class Accidente {
 
     public void setEstado(EstadoAccidente estado) {
         this.estado = estado;
-    }
-
-    public boolean isFaenaBloqueada() {
-        return faenaBloqueada;
-    }
-
-    public void setFaenaBloqueada(boolean faenaBloqueada) {
-        this.faenaBloqueada = faenaBloqueada;
     }
 
     public Long getSupervisorHabilitadorId() {
