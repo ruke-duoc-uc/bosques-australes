@@ -12,14 +12,18 @@ public class Predios{
     private String nombre;
 
     @Column(nullable = false)
-    private String ubicacion;
+    private String ciudad;
+
+    @Column(name = "comuna",nullable = false)
+    private String comuna;
 
     @Column(nullable = false)
     private String dueno;
 
-    public Predios(String nombre, String ubicacion, String dueno) {
+    public Predios(String nombre, String ciudad, String comuna, String dueno) {
         this.nombre = nombre;
-        this.ubicacion = ubicacion;
+        this.ciudad = ciudad;
+        this.comuna = comuna;
         this.dueno = dueno;
     }
 
@@ -42,12 +46,12 @@ public class Predios{
         this.nombre = nombre;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     public String getDueno() {
@@ -56,5 +60,13 @@ public class Predios{
 
     public void setDueno(String dueno) {
         this.dueno = dueno;
+    }
+
+    public String getComuna() {
+        return comuna;
+    }
+
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
     }
 }

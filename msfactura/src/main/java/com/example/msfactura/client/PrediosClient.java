@@ -8,7 +8,7 @@ public class PrediosClient {
     private final RestClient restClient;
 
     public PrediosClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8080/api/v1/predios").build();
+        this.restClient = builder.baseUrl("http://localhost:8080/api/predios").build();
     }
 
     public PrediosDTO obtenerDatosPredio(Long predioId) {

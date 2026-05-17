@@ -12,7 +12,9 @@
 - [Procesos](#procesos)
 - [Problemas](#problemas)
 - [MicroServicios](#microservicios)
--[Comunicaciones]
+- [Comunicaciones](#comunicaciones)
+- [Metodos](#sintaxtis-de-metodos)
+
 # Instalaciones
 - La union
 - Cancha de acopio Rio Bueno
@@ -117,3 +119,14 @@ git status
 |mscuadrilla|mstrabajadores|
 |msplanCosecha|msespecies|
 |msseguridad|mstrabajadores|
+
+# Sintaxtis de metodos
+|Metodo|Funcion|Tipo en Service|
+|---|---|---|
+|listarNombreClase|Mostrar todos los objetos del microservicio|List<NombreClase>|
+|buscarPorId|Mostrar un objeto en especifico|NombreClase|
+|guardarNombreClase|Agregar un objeto al microservicio|NombreClase|
+|actualizarNombreClase|Cambiar los atributos de un objeto|Optional<NombreClase>|
+|actualizarNombreClaseCompleto|Cambiar los atributos de un objeto, incluyendo los establecidos por otro microservicio|Optional<NombreClase>
+|eliminarNombreClase|Eliminar un objeto|void|
+|existePorId|Metodo Boolean usado para manejar errores 404 Not Found|Boolean| 
