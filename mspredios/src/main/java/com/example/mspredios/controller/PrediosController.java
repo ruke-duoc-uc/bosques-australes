@@ -18,7 +18,7 @@ public class PrediosController{
         try {
             return ResponseEntity.ok(prediosService.listarPredios());
         }catch (Exception e){
-           return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se pudo encontrar los predios");
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo encontrar los predios");
         }
     }
 
@@ -30,16 +30,16 @@ public class PrediosController{
          }
         return ResponseEntity.ok(prediosService.buscarPorId(id));
     }catch (Exception e){
-         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Ocurrio un error al buscar el predio");
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error al buscar el predio");
      }
     }
 
-    @PostMapping("/agregar")
+    @PostMapping("/guardar")
     public ResponseEntity<?> guardarPredio(@RequestBody Predios predios){
         try {
             return ResponseEntity.ok(prediosService.guardarPredio(predios));
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Ocurrio un error al buscar el predio");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error al buscar el predio");
         }
         }
     @PutMapping("/actualizar/{id}")

@@ -13,23 +13,22 @@ public class EspeciesService {
     public EspeciesService(EspeciesRepository especiesRepository){
         this.especiesRepository = especiesRepository;
     }
+
     public List<Especies> listarEspecies(){
         return especiesRepository.findAll();
     }
-
-    public Especies obtenerPorId(Long id){
+    public Especies buscarPorId(Long id){
         return especiesRepository.findById(id).orElse(null);
     }
-    public Especies agregarEspecie(Especies especies){
-        return especiesRepository.save(especies);
-    }
 
-    public void eliminarEspecie(Long id){
-        especiesRepository.deleteById(id);
-    }
     public Boolean existePorId(Long id) {
         return especiesRepository.existsById(id);
     }
+
+    public Especies guardarEspecie(Especies especies){
+        return especiesRepository.save(especies);
+    }
+
     public Optional<Especies> actualizarEspecie(Long id, Especies especieActualizada){
         return especiesRepository.findById(id).map(especies -> {
             especies.setNombre(especieActualizada.getNombre());
@@ -38,5 +37,9 @@ public class EspeciesService {
             especies.setColor(especieActualizada.getColor());
             return especiesRepository.save(especies);
         });
+    }
+
+    public void eliminarEspecie(Long id){
+        especiesRepository.deleteById(id);
     }
 }

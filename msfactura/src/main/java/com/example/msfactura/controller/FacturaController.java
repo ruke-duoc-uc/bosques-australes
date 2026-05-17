@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/factura")
+@RequestMapping("/api/factura")
 public class FacturaController{
 
     private final FacturaService facturaService;
@@ -36,17 +36,11 @@ public class FacturaController{
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("No se logro obtener la factura, intente denuevo");
         }
     }
-    @PostMapping("/agregar/{idPredio}/{idCliente}")
-    public ResponseEntity<?> agregarFactura(@PathVariable Long idPredio,
+    @PostMapping("/guardar/{idPredio}/{idCliente}")
+    public ResponseEntity<?> guardarFactura(@PathVariable Long idPredio,
                                             @PathVariable Long idCliente,
                                             @RequestBody Factura factura){
-        Factura nueva = facturaService.crearFactura(
-                idPredio,
-                idCliente,
-                factura.getNumFactura(),
-                factura.getGiro(),
-                factura.getMonto());
-        return ResponseEntity.ok(nueva);
+        return ResponseEntity.ok(guardarFactura(idPredio,idCliente, factura));
     }
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> actualizarFacturaCompleta(@PathVariable Long id, @RequestBody Factura factura){

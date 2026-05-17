@@ -20,26 +20,30 @@ public class EspeciesController {
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerPorId(@PathVariable Long id){
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(especiesService.obtenerPorId(id));
+            if(!especiesService.existePorId(id)){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe una especie con el ID "+id);
+            }
+            return ResponseEntity.ok(especiesService.buscarPorId(id));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar la especie");
         }
     }
     @PostMapping("/agregar")
-    public ResponseEntity<?> agregarEspecie(@RequestBody Especies especies) {
+    public ResponseEntity<?> guardarEspecie(@RequestBody Especies especies) {
         try {
-            return ResponseEntity.ok(especiesService.agregarEspecie(especies));
+            return ResponseEntity.ok(especiesService.guardarEspecie(especies));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al agregar especie");
         }
     }
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actualizarEspecieCompleta(@PathVariable Long id,@RequestBody Especies especies){
-        return especiesService.actualizarEspecie(id,especies)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> actualizarEspecie(@PathVariable Long id,@RequestBody Especies especies){
+        if(!especiesService.existePorId(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe una especie con el ID "+id);
+        }
+        return ResponseEntity.ok(especiesService.actualizarEspecie(id, especies));
     }
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarEspecie(@PathVariable Long id){

@@ -31,7 +31,7 @@ public class FacturaService {
         return facturaRepository.findById(id).orElse(null);
     }
 
-    public Factura crearFactura(Long idPredio, Long idCliente, Long numFactura, String giro, Double monto) {
+    public Factura guardarFactura(Long idPredio, Long idCliente, Long numFactura, String giro, Double monto) {
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         // 2. Crear y poblar la entidad
@@ -42,7 +42,7 @@ public class FacturaService {
         nueva.setMonto(monto);
         // Datos del Predio
         nueva.setNombrePredio(prediosDTO.nombre());
-        nueva.setDireccion(prediosDTO.ubicacion());
+        nueva.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
         // Datos del Cliente
         nueva.setRazonSocial(clientesDTO.razonSocial());
         nueva.setComuna(clientesDTO.comuna());
@@ -67,7 +67,7 @@ public class FacturaService {
             factura.setMonto(factura.getMonto());
             //Datos del Predio
             factura.setNombrePredio(prediosDTO.nombre());
-            factura.setDireccion(prediosDTO.ubicacion());
+            factura.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
             //Datos del Cliente
             factura.setRazonSocial(clientesDTO.razonSocial());
             factura.setComuna(clientesDTO.comuna());

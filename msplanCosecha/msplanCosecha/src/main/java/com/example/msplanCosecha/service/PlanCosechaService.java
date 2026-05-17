@@ -18,7 +18,7 @@ public class PlanCosechaService {
         this.especiesClient = especiesClient;
     }
     //Get
-    public List<PlanCosecha> obtenerTodos(){
+    public List<PlanCosecha> listarPlanCosecha(){
         return planCosechaRepository.findAll();
     }
     public PlanCosecha obtenerPorId(Long id){
@@ -31,7 +31,7 @@ public class PlanCosechaService {
     }
 
     //Post
-    public PlanCosecha crearPlanCosecha(Long idEspecie, Long edad, Double alturaP){
+    public PlanCosecha guardarPlanCosecha(Long idEspecie, Long edad, Double alturaP){
         EspeciesDTO especiesDTO = especiesClient.obtenerDatosCliente(idEspecie);
         PlanCosecha planCosechaN = new PlanCosecha();
         //Atributos factura
@@ -51,6 +51,13 @@ public class PlanCosechaService {
             planCosecha.setAlturaPromedio(planActualizado.getAlturaPromedio());
             planCosecha.setEdadRodal(planActualizado.getEdadRodal());
             planCosecha.setEspecie(especiesDTO.nombre());
+            return planCosechaRepository.save(planCosecha);
+        });
+    }
+    public Optional<PlanCosecha> actualizarPlanCosecha(Long id,Long idEspecie, PlanCosecha planActualizado){
+        return planCosechaRepository.findById(id).map(planCosecha -> {
+            planCosecha.setAlturaPromedio(planActualizado.getAlturaPromedio());
+            planCosecha.setEdadRodal(planActualizado.getEdadRodal());
             return planCosechaRepository.save(planCosecha);
         });
     }
