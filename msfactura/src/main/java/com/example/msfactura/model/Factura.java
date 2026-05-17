@@ -24,8 +24,6 @@ public class Factura {
     //Datos de Predio
     @Column(name = "direccion",nullable = false)
     private String direccion;
-    @Column(name = "idPredio", nullable = false)
-    private Long idPredio;
     @Column(name = "nombrePredio", nullable = false)
     private String nombrePredio;
 
@@ -59,14 +57,6 @@ public class Factura {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdPredio() {
-        return idPredio;
-    }
-
-    public void setIdPredio(Long idPredio) {
-        this.idPredio = idPredio;
     }
 
     public String getNombrePredio() {

@@ -41,7 +41,6 @@ public class FacturaService {
         nueva.setGiro(giro);
         nueva.setMonto(monto);
         // Datos del Predio
-        nueva.setIdPredio(prediosDTO.id());
         nueva.setNombrePredio(prediosDTO.nombre());
         nueva.setDireccion(prediosDTO.ubicacion());
         // Datos del Cliente
@@ -56,6 +55,24 @@ public class FacturaService {
             factura.setNumFactura(factura.getNumFactura());
             factura.setGiro(factura.getGiro());
             factura.setMonto(factura.getMonto());
+            return facturaRepository.save(factura);
+        });
+    }
+    public Optional<Factura> actualizarFacturaCompleta(Long id,Long idPredio,Long idCliente, Factura facturaActualizada){
+        PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
+        ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
+        return facturaRepository.findById(id).map(factura -> {
+            factura.setNumFactura(factura.getNumFactura());
+            factura.setGiro(factura.getGiro());
+            factura.setMonto(factura.getMonto());
+            //Datos del Predio
+            factura.setNombrePredio(prediosDTO.nombre());
+            factura.setDireccion(prediosDTO.ubicacion());
+            //Datos del Cliente
+            factura.setRazonSocial(clientesDTO.razonSocial());
+            factura.setComuna(clientesDTO.comuna());
+            factura.setTelefonoCliente(clientesDTO.telefono());
+            factura.setCiudad(clientesDTO.ciudad());
             return facturaRepository.save(factura);
         });
     }

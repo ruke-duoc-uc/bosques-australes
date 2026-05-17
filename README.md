@@ -12,6 +12,8 @@
 - [Procesos](#procesos)
 - [Problemas](#problemas)
 - [MicroServicios](#microservicios)
+- [Comunicaciones](#comunicaciones)
+- [Metodos](#sintaxtis-de-metodos)
 
 # Instalaciones
 - La union
@@ -89,14 +91,17 @@
 
 ## Clonar el repositorio 
 
-`git clone https://github.com/ruke-duoc-uc/bosques-australes.git`
+```
+git clone https://github.com/ruke-duoc-uc/bosques-australes.git
+```
 
 # Entrar al directorio 
 cd [nombre-repo]
 
 # Verificar la conexión
-`git status`
-
+```text
+git status
+```
 # Que commits usar en cada situación 
 | Tipo      | Cuando usarlo                           | Ejemplo                                              |
 |-----------|-----------------------------------------|------------------------------------------------------|
@@ -107,3 +112,21 @@ cd [nombre-repo]
 |test:      | agregar o modificar tests               | tests: describir la modificación                     |
 |config:    |configuración de proyecto                | config: describir el cambio en la configuración      |
 
+# Comunicaciones
+|Receptor de informacion|Emisor/es|
+|:---|:---:|
+|msfactura|msclientes / mspredios|
+|mscuadrilla|mstrabajadores|
+|msplanCosecha|msespecies|
+|msseguridad|mstrabajadores|
+
+# Sintaxtis de metodos
+|Metodo|Funcion|Tipo en Service|
+|---|---|---|
+|listarNombreClase|Mostrar todos los objetos del microservicio|List<NombreClase>|
+|buscarPorId|Mostrar un objeto en especifico|NombreClase|
+|guardarNombreClase|Agregar un objeto al microservicio|NombreClase|
+|actualizarNombreClase|Cambiar los atributos de un objeto|Optional<NombreClase>|
+|actualizarNombreClaseCompleto|Cambiar los atributos de un objeto, incluyendo los establecidos por otro microservicio|Optional<NombreClase>
+|eliminarNombreClase|Eliminar un objeto|void|
+|existePorId|Metodo Boolean usado para manejar errores 404 Not Found|Boolean| 

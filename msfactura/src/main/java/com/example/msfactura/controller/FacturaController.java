@@ -64,6 +64,7 @@ public class FacturaController{
             if(!facturaService.existePorId(id)){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La id "+id+" no existe");
             }
+            facturaService.eliminarFactura(id);
             return ResponseEntity.ok("Factura "+ id + " eliminada");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo eliminar la factura");
