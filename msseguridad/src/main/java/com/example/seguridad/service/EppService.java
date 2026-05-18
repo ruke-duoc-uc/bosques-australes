@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Date;
@@ -17,9 +18,12 @@ public class EppService {
     private static final Logger log = LoggerFactory.getLogger(EppService.class);
 
     private final EppRepository eppRepository;
+    private final RestTemplate restTemplate;
 
-    public EppService(EppRepository eppRepository) {
+
+    public EppService(EppRepository eppRepository, RestTemplate restTemplate) {
         this.eppRepository = eppRepository;
+        this.restTemplate = restTemplate;
     }
 
     public List<Epp> listarTodos() {
@@ -38,7 +42,17 @@ public class EppService {
 
     @Transactional
     public Epp registrar(Epp epp) {
-        log.info("[ms-seguridad] Registrando EPP para trabajador id={}", epp.getTrabajadorId());
+        log.info("[seguridad] Registrando EPP para trabajador id={}", epp.getTrabajadorId());
+
+        try {
+            String url = "http://localhost:8086/api/trabajadores/" + epp.getTrabajadorId();
+            // Si el trabajador no existe, esto lanzará una excepción
+            restTemplate.getForObject(url, Object.class);
+        } catch (Exception e) {
+            log.error("Error de validación: El trabajador {} no existe", epp.getTrabajadorId());
+            throw new RuntimeException("No se puede registrar el EPP: El trabajador con ID "
+                    + epp.getTrabajadorId() + " no existe en el sistema de RRHH.");
+        }
 
         // Al usar Strings, eliminamos la validación isBefore para evitar errores de compilación.
         // El sistema confía en el String enviado.
@@ -64,7 +78,7 @@ public class EppService {
     // Eliminación lógica: marcamos como no activo en lugar de borrar
     @Transactional
     public void desactivar(Long id) {
-        log.info("[ms-seguridad] Desactivando EPP id={}", id);
+        log.info("[seguridad] Desactivando EPP id={}", id);
         Epp epp = obtenerPorId(id);
         epp.setActivo(false);
         eppRepository.save(epp);
