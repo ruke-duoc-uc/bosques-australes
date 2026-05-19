@@ -5,51 +5,38 @@ import jakarta.persistence.*;
 @Entity
 @Table(name ="Despacho" )
 
-public class despachoModel {
+public class DespachoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "nombreDespachador", nullable = false, length = 100)
     private String nombreDespachador;
     @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)
-    private String estado;
+    private estado estado;
     @Column(name = "lugarRecepcion", nullable = false)
     @Enumerated(EnumType.STRING)
-    private String lugarRecepcion;
+    private lugarRecepcion lugarRecepcion;
     @Column(name = "tipoPedido", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
-    private String tipoPedido;
-    @Column(name = "localidad", nullable = false)
+    private tipoPedido tipoPedido;
+    @Column(name = "Localidad", nullable = false)
     private String localidad;
     @Column(name = "factura", nullable = false, length = 25)
-    private String factura;
+    private Long factura;
     @Column(name = "trazabilidadCompleta", nullable = false)
     private String trazabilidadCompleta;
     @Column(name = "especie", nullable = false)
-    @Enumerated(EnumType.STRING)
     private String especie;
 
-    public despachoModel() {
+    public DespachoModel() {
     }
 
-    public despachoModel(String nombreDespachador, String estado, String lugarRecepcion,
-                         String tipoPedido, String localidad, String factura, String trazabilidadCompleta, String especie) {
-        this.nombreDespachador = nombreDespachador;
-        this.estado = estado;
-        this.lugarRecepcion = lugarRecepcion;
-        this.tipoPedido = tipoPedido;
-        this.localidad = localidad;
-        this.factura = factura;
-        this.trazabilidadCompleta = trazabilidadCompleta;
-        this.especie = especie;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,27 +48,27 @@ public class despachoModel {
         this.nombreDespachador = nombreDespachador;
     }
 
-    public String getEstado() {
+    public estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(estado estado) {
         this.estado = estado;
     }
 
-    public String getLugarRecepcion() {
+    public lugarRecepcion getLugarRecepcion() {
         return lugarRecepcion;
     }
 
-    public void setLugarRecepcion(String lugarRecepcion) {
+    public void setLugarRecepcion(lugarRecepcion lugarRecepcion) {
         this.lugarRecepcion = lugarRecepcion;
     }
 
-    public String getTipoPedido() {
+    public tipoPedido getTipoPedido() {
         return tipoPedido;
     }
 
-    public void setTipoPedido(String tipoPedido) {
+    public void setTipoPedido(tipoPedido tipoPedido) {
         this.tipoPedido = tipoPedido;
     }
 
@@ -93,11 +80,11 @@ public class despachoModel {
         this.localidad = localidad;
     }
 
-    public String getFactura() {
+    public Long getFactura() {
         return factura;
     }
 
-    public void setFactura(String factura) {
+    public void setFactura(Long factura) {
         this.factura = factura;
     }
 
@@ -116,4 +103,20 @@ public class despachoModel {
     public void setEspecie(String especie) {
         this.especie = especie;
     }
+
+    public DespachoModel(String nombreDespachador, estado estado, lugarRecepcion lugarRecepcion,
+                         tipoPedido tipoPedido, String localidad, Long factura,
+                         String trazabilidadCompleta, String especie) {
+        this.nombreDespachador = nombreDespachador;
+        this.estado = estado;
+        this.lugarRecepcion = lugarRecepcion;
+        this.tipoPedido = tipoPedido;
+        this.localidad = localidad;
+        this.factura = factura;
+        this.trazabilidadCompleta = trazabilidadCompleta;
+        this.especie = especie;
+
+
+    }
+
 }
