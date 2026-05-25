@@ -31,15 +31,15 @@ public class FacturaService {
         return facturaRepository.findById(id).orElse(null);
     }
 
-    public Factura guardarFactura(Long idPredio, Long idCliente, Long numFactura, String giro, Double monto) {
+    public Factura guardarFactura(Long idPredio, Long idCliente, Factura factura) {
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         // 2. Crear y poblar la entidad
         Factura nueva = new Factura();
         // Datos Factura
-        nueva.setNumFactura(numFactura);
-        nueva.setGiro(giro);
-        nueva.setMonto(monto);
+        nueva.setNumFactura(factura.getNumFactura());
+        nueva.setGiro(factura.getGiro());
+        nueva.setMonto(factura.getMonto());
         // Datos del Predio
         nueva.setNombrePredio(prediosDTO.nombre());
         nueva.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
@@ -50,21 +50,13 @@ public class FacturaService {
         nueva.setCiudad(clientesDTO.ciudad());
         return facturaRepository.save(nueva);
     }
-    public Optional<Factura> actualizarFactura(Long id, Factura facturaActualizada){
-        return facturaRepository.findById(id).map(factura -> {
-            factura.setNumFactura(factura.getNumFactura());
-            factura.setGiro(factura.getGiro());
-            factura.setMonto(factura.getMonto());
-            return facturaRepository.save(factura);
-        });
-    }
     public Optional<Factura> actualizarFacturaCompleta(Long id,Long idPredio,Long idCliente, Factura facturaActualizada){
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         return facturaRepository.findById(id).map(factura -> {
-            factura.setNumFactura(factura.getNumFactura());
-            factura.setGiro(factura.getGiro());
-            factura.setMonto(factura.getMonto());
+            factura.setNumFactura(facturaActualizada.getNumFactura());
+            factura.setGiro(facturaActualizada.getGiro());
+            factura.setMonto(facturaActualizada.getMonto());
             //Datos del Predio
             factura.setNombrePredio(prediosDTO.nombre());
             factura.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
