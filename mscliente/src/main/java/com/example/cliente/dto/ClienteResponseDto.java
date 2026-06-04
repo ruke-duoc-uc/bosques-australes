@@ -1,10 +1,10 @@
-package com.example.cliente.Dto;
+package com.example.cliente.dto;
 
 import com.example.cliente.model.TipoCliente;
 import java.util.List;
 import java.util.Map;
 
-public class ClienetResponseDto {
+public class ClienteResponseDto {
     private long id;
     private String nombre;
     private String rut;
@@ -20,7 +20,6 @@ public class ClienetResponseDto {
     private List<Map<String, Object>> contratosAsociados;
 
     //getters and setters
-
 
     public long getId() {
         return id;

@@ -2,7 +2,7 @@ package com.example.cliente.service;
 
 import com.example.cliente.model.*;
 import com.example.cliente.repository.*;
-import com.example.seguridad.exception.NegocioException;
+import com.example.cliente.exception.NegocioException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;

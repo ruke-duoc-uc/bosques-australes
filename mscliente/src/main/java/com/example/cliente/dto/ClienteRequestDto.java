@@ -1,4 +1,4 @@
-package com.example.cliente.Dto;
+package com.example.cliente.dto;
 import com.example.cliente.model.TipoCliente;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

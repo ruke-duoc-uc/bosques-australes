@@ -1,16 +1,18 @@
 package com.example.cliente.controller;
-import com.example.cliente.model.*;
-import com.example.cliente.repository.*;
-import com.example.cliente.service.*;
+import com.example.cliente.dto.ClienteRequestDto;
+import com.example.cliente.dto.ClienteResponseDto;
+import com.example.cliente.model.Cliente;
+import com.example.cliente.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
+
     private final ClienteService clienteService;
 
     public ClienteController(ClienteService clienteService) {
@@ -18,87 +20,82 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listaClientes() {
-        try {
-            List<Cliente> clientes = clienteService.listarClientes();
-            if (clientes.isEmpty()) {
-                // Si no hay errores pero la lista está vacía, devolvemos 204 No Content
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(clientes);
-        } catch (Exception e) {
-            // Si algo sale mal (ej. la base de datos está caída), devolvemos 500
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al obtener la lista de clientes: " + e.getMessage());
-        }
-    }
+    public ResponseEntity<List<ClienteResponseDto>> listaClientes() {
+        List<ClienteResponseDto> respuesta = clienteService.listarClientes().stream()
+                .map(this::convertirAResponseDto)
+                .toList();
 
-    @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<?> buscarPorNombre(@PathVariable String nombre) {
-        try {
-            List<Cliente> clientes = clienteService.buscarPorNombre(nombre);
-            if (clientes.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No se encontraron clientes con el nombre: " + nombre);
-            }
-            return ResponseEntity.ok(clientes);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error en la búsqueda: " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/estado/{estado}")
-    public ResponseEntity<?> buscarPorEstado(@PathVariable boolean estado) {
-        try {
-            return ResponseEntity.ok(clienteService.buscarPorActividad(estado));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        if (respuesta.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(respuesta);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
-        try {
-            // Buscamos al cliente por su ID
-            Cliente cliente = clienteService.obtenerPorId(id);
+    public ResponseEntity<ClienteResponseDto> buscarPorId(@PathVariable Long id) {
+        Cliente cliente = clienteService.obtenerPorId(id);
+        return ResponseEntity.ok(convertirAResponseDto(cliente));
+    }
 
-            if (cliente != null) {
-                return ResponseEntity.ok(cliente);
-            } else {
-                // Si el servicio devuelve null, respondemos con 404 Not Found
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Error: El cliente con ID " + id + " no existe en la base de datos.");
-            }
-        } catch (Exception e) {
-            // Si hay un error de conexión o de base de datos
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al procesar la búsqueda: " + e.getMessage());
-        }
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<ClienteResponseDto>> buscarPorNombre(@PathVariable String nombre) {
+        List<ClienteResponseDto> clientes = clienteService.buscarPorNombre(nombre).stream()
+                .map(this::convertirAResponseDto)
+                .toList();
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<ClienteResponseDto>> buscarPorEstado(@PathVariable boolean estado) {
+        List<ClienteResponseDto> clientes = clienteService.buscarPorEstado(estado).stream()
+                .map(this::convertirAResponseDto)
+                .toList();
+        return ResponseEntity.ok(clientes);
     }
 
     @PostMapping
-    public ResponseEntity<?> crearCliente(@RequestBody Cliente cliente) {
-        try {
-            Cliente guardado = clienteService.guardarCliente(cliente);
-            return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<ClienteResponseDto> crearCliente(@Valid @RequestBody ClienteRequestDto dto) {
+        Cliente cliente = new Cliente();
+        mapearDtoAEntidad(dto, cliente);
+
+        Cliente guardado = clienteService.guardarCliente(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertirAResponseDto(guardado));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Cliente detalles) {
-        try {
-            Cliente clienteExistente = clienteService.obtenerPorId(id);
-            if (clienteExistente == null) return ResponseEntity.notFound().build();
+    public ResponseEntity<ClienteResponseDto> actualizar(@PathVariable Long id, @Valid @RequestBody ClienteRequestDto dto) {
+        Cliente clienteExistente = clienteService.obtenerPorId(id);
+        mapearDtoAEntidad(dto, clienteExistente);
 
-            clienteExistente.setNombre(detalles.getNombre());
-            clienteExistente.setCiudad(detalles.getCiudad());
+        Cliente actualizado = clienteService.actualizarCliente(clienteExistente);
+        return ResponseEntity.ok(convertirAResponseDto(actualizado));
+    }
 
-            return ResponseEntity.ok(clienteService.guardarCliente(clienteExistente));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al actualizar: " + e.getMessage());
-        }
+    // --- MÉTODOS AUXILIARES DE MAPEO (MANUAL) ---
+    private ClienteResponseDto convertirAResponseDto(Cliente cliente) {
+        ClienteResponseDto dto = new ClienteResponseDto();
+        dto.setId(cliente.getId());
+        dto.setNombre(cliente.getNombre());
+        dto.setRut(cliente.getRut());
+        dto.setRazonSocial(cliente.getRazonSocial());
+        dto.setDireccion(cliente.getDireccion());
+        dto.setComuna(cliente.getComuna());
+        dto.setCiudad(cliente.getCiudad());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setEmail(cliente.getEmail());
+        dto.setTipoCliente(cliente.getTipoCliente());
+        dto.setEstado(cliente.getEstado());
+        return dto;
+    }
+
+    private void mapearDtoAEntidad(ClienteRequestDto dto, Cliente cliente) {
+        cliente.setNombre(dto.getNombre());
+        cliente.setRut(dto.getRut());
+        cliente.setRazonSocial(dto.getRazonSocial());
+        cliente.setDireccion(dto.getDireccion());
+        cliente.setComuna(dto.getComuna());
+        cliente.setCiudad(dto.getCiudad());
+        cliente.setTelefono(dto.getTelefono());
+        cliente.setEmail(dto.getEmail());
+        cliente.setTipoCliente(dto.getTipoCliente());
+        cliente.setEstado(dto.getEstado());
     }
 }
