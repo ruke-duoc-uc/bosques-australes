@@ -2,6 +2,9 @@ package com.example.cuadrilla.service;
 
 import com.example.cuadrilla.model.Cuadrilla;
 import com.example.cuadrilla.repository.CuadrillaRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -12,6 +15,7 @@ import java.util.Map;
 
 @Service
 public class CuadrillaService {
+    private static final Logger log = LoggerFactory.getLogger(CuadrillaService.class);
     private final CuadrillaRepository repository;
     private final RestClient restClient;
 
@@ -22,48 +26,49 @@ public class CuadrillaService {
     }
 
     public List<Cuadrilla> listarTodas() {
+        log.info("[cuadrillas] Listando todas las cuadrillas de operarios forestales");
         return repository.findAll();
     }
 
     public Cuadrilla guardar(Cuadrilla cuadrilla) {
+        log.info("[cuadrillas] Creando nueva cuadrilla: {} en zona: {}", cuadrilla.getNombre(), cuadrilla.getZona());
         return repository.save(cuadrilla);
     }
 
+    public Cuadrilla obtenerPorId(Long id) {
+        log.info("[cuadrillas] Buscando cuadrilla ID: {}", id);
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La cuadrilla con ID " + id + " no existe."));
+    }
+
     public Cuadrilla actualizar(Long id, Cuadrilla datosNuevos) {
-        return repository.findById(id).map(cuadrilla -> {
-            cuadrilla.setNombre(datosNuevos.getNombre());
-            cuadrilla.setZona(datosNuevos.getZona());
-            cuadrilla.setEspecialidad(datosNuevos.getEspecialidad());
-            cuadrilla.setEstado(datosNuevos.getEstado());
-            // Sincronizamos la lista de IDs de trabajadores
-            cuadrilla.setTrabajadoresIds(datosNuevos.getTrabajadoresIds());
-            return repository.save(cuadrilla);
-        }).orElseThrow(() -> new RuntimeException("Cuadrilla no encontrada con ID: " + id));
+        log.info("[cuadrillas] Actualizando cuadrilla ID: {}", id);
+        Cuadrilla existente = obtenerPorId(id);
+
+        existente.setNombre(datosNuevos.getNombre());
+        existente.setZona(datosNuevos.getZona());
+        existente.setEspecialidad(datosNuevos.getEspecialidad());
+        existente.setEstado(datosNuevos.getEstado());
+        existente.setTrabajadoresIds(datosNuevos.getTrabajadoresIds());
+
+        return repository.save(existente);
     }
 
     public void eliminar(Long id) {
-        repository.deleteById(id);
+        log.warn("[cuadrillas] Solicitud de eliminación para cuadrilla ID: {}", id);
+        Cuadrilla existente = obtenerPorId(id); // Lanza 404 de inmediato si no existe
+        repository.delete(existente);
     }
 
     public Map<String, Object> obtenerDetalleCuadrilla(Long id) {
-        // 1. Buscamos la cuadrilla en nuestra base de datos local
-        Cuadrilla cuadrilla = repository.findById(id).orElse(null);
+        log.info("[cuadrillas-feign] Compilando detalle distribuido para cuadrilla ID: {}", id);
+        Cuadrilla cuadrilla = obtenerPorId(id);
 
-        // Si la cuadrilla no existe, devolvemos null (el Controller enviará un 404)
-        if (cuadrilla == null) {
-            return null;
-        }
-
-        // 2. Preparamos la lista donde guardaremos los datos que traeremos del otro microservicio
         List<Object> trabajadoresDetalle = new ArrayList<>();
 
-        // Verificamos si la cuadrilla tiene IDs de trabajadores asociados
         if (cuadrilla.getTrabajadoresIds() != null && !cuadrilla.getTrabajadoresIds().isEmpty()) {
-
-            // Por cada ID guardado, consultamos al microservicio de Trabajadores (Puerto 8086)
             for (Long tId : cuadrilla.getTrabajadoresIds()) {
                 try {
-                    // Hacemos la petición GET http://localhost:8086/api/trabajadores/{id}
                     Map<String, Object> trabajador = restClient.get()
                             .uri("/{id}", tId)
                             .retrieve()
@@ -73,20 +78,15 @@ public class CuadrillaService {
                         trabajadoresDetalle.add(trabajador);
                     }
                 } catch (Exception e) {
-                    // Si el micro del compañero falla o el ID no existe, capturamos el error
-                    // Imprimimos en consola para debuguear si es culpa de la URL o conexión
-                    System.err.println("Error al obtener trabajador " + tId + ": " + e.getMessage());
-
-                    // Agregamos un mapa informativo para que el JSON final no salga vacío
+                    log.error("[cuadrillas-rest] Error al conectar con MS Trabajadores para ID {}: {}", tId, e.getMessage());
                     Map<String, Object> errorMap = new HashMap<>();
                     errorMap.put("id", tId);
-                    errorMap.put("status", "Error de conexión o ID no encontrado en micro trabajadores");
+                    errorMap.put("status", "No disponible (ID inválido o micro caído)");
                     trabajadoresDetalle.add(errorMap);
                 }
             }
         }
 
-        // 3. Construimos la respuesta final combinando nuestros datos con los externos
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("id", cuadrilla.getId());
         respuesta.put("nombre", cuadrilla.getNombre());
