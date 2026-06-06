@@ -25,8 +25,7 @@ public class EspeciesService {
         return especiesRepository.existsById(id);
     }
 
-    public Especies guardarEspecie(Especies especies){
-        return especiesRepository.save(especies);
+    public Especies guardarEspecie(Especies especies){return especiesRepository.save(especies);
     }
 
     public Optional<Especies> actualizarEspecie(Long id, Especies especieActualizada){
