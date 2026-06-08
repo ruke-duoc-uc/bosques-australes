@@ -1,5 +1,4 @@
-package com.example.msespecies.config;
-
+package com.example.msfactura.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,8 +11,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                .title("API 2026 Especies")
-                .version("1.0")
-                .description("Documentacion de API para las especies de árboles"));
+                        .title("API Plan Cosecha")
+                        .version("1.0")
+                        .description("Documentacion de API para los planes de cosecha de árboles"));
     }
 }

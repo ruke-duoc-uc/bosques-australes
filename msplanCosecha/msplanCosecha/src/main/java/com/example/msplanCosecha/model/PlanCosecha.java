@@ -8,7 +8,6 @@ public class PlanCosecha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     //Datos PlanCosecha
     @Column(name = "edadRodal")
     private Long edadRodal;

@@ -19,6 +19,7 @@ public class EspeciesController {
     public EspeciesController(EspeciesService especiesService){
         this.especiesService = especiesService;
     }
+
     @GetMapping
     @Operation(summary="Obtiene todas las especies",
     description = "Este metodo permite ver todos los detalles de las especies que se trabajan")
@@ -30,24 +31,16 @@ public class EspeciesController {
     @Operation(summary = "Obtiene una especie",
     description = "Este metodo se usa para obtener los datos de una sola especie, se utiliza en otros microservicios con el mismo fin")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
-        try {
             if(!especiesService.existePorId(id)){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe una especie con el ID "+id);
             }
             return ResponseEntity.ok(especiesService.buscarPorId(id));
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar la especie");
-        }
     }
     @PostMapping("/agregar")
     @Operation(summary = "Agrega una especie",
     description = "Este metodo permite agregar una especie de árbol que no existiera antes en el microservicio")
     public ResponseEntity<?> guardarEspecie(@RequestBody Especies especies) {
-        try {
-            return ResponseEntity.ok(especiesService.guardarEspecie(especies));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al agregar especie");
-        }
+        return ResponseEntity.ok(especiesService.guardarEspecie(especies));
     }
     @PutMapping("/actualizar/{id}")
     @Operation(summary = "Actualiza una especie",
@@ -64,14 +57,10 @@ public class EspeciesController {
     description = "Este metodo permite eliminar permanentemente una especie, ya no podra ser referenciada en otros microservicios. " +
             "Este metodo se asegura que no intentes actualizar una especie inexistente")
     public ResponseEntity<?> eliminarEspecie(@PathVariable Long id){
-        try{
             if(!especiesService.existePorId(id)){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe una especie con la id "+ id);
             }
             especiesService.eliminarEspecie(id);
             return ResponseEntity.ok("Especie "+id+ " eliminada");
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al elimininar especie");
-        }
     }
 }
