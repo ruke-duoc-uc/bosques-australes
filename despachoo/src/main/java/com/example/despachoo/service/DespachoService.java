@@ -27,36 +27,61 @@ public class DespachoService {
     }
 
     public List<DespachoModel> listarTodos() {
-        return despachoRepository.findAll();
+        try {
+            return despachoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al listar despachos: " + e.getMessage());
+        }
     }
 
     public DespachoModel buscarPorId(Long id) {
-        return despachoRepository.findById(id).orElse(null);
+        try {
+            return despachoRepository.findById(id).orElse(null);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al  buscar despacho con id" + id + ":" + e.getMessage());
+        }
     }
 
     public DespachoModel guardar(DespachoModel despacho) {
-        return despachoRepository.save(despacho);
+        try {
+            return despachoRepository.save(despacho);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al guardar despacho: " + e.getMessage());
+        }
     }
 
     public Optional<DespachoModel> actualizar(Long id, Long idEspecies, Long idFactura,
                                               DespachoModel despachoActualizado) {
-        EspeciesDTO e = especiesClient.obtenerDatosEspecies(idEspecies);
-        FacturaDTO f = facturaClient.obtenerDatosFactura(idFactura);
-        return despachoRepository.findById(id).map(despachoModel -> {
-            despachoModel.setFactura(f.numFactura());
-            despachoModel.setEspecie(e.nombre());
-            despachoModel.setEstado(despachoActualizado.getEstado());
-            despachoModel.setNombreDespachador(despachoActualizado.getNombreDespachador());
-            despachoModel.setLugarRecepcion(despachoActualizado.getLugarRecepcion());
-            despachoModel.setTipoPedido(despachoActualizado.getTipoPedido());
-            despachoModel.setLocalidad(despachoActualizado.getLocalidad());
-            despachoModel.setTrazabilidadCompleta(despachoActualizado.getTrazabilidadCompleta());
-            return despachoRepository.save(despachoModel);
-        });
+        try {
+            EspeciesDTO e = especiesClient.obtenerDatosEspecies(idEspecies);
+            FacturaDTO f = facturaClient.obtenerDatosFactura(idFactura);
+            return despachoRepository.findById(id).map(despachoModel -> {
+                despachoModel.setFactura(f.numFactura());
+                despachoModel.setEspecie(e.nombre());
+                despachoModel.setEstado(despachoActualizado.getEstado());
+                despachoModel.setNombreDespachador(despachoActualizado.getNombreDespachador());
+                despachoModel.setLugarRecepcion(despachoActualizado.getLugarRecepcion());
+                despachoModel.setTipoPedido(despachoActualizado.getTipoPedido());
+                despachoModel.setLocalidad(despachoActualizado.getLocalidad());
+                despachoModel.setTrazabilidadCompleta(despachoActualizado.getTrazabilidadCompleta());
+                return despachoRepository.save(despachoModel);
+            });
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al actualizar despacho: " + ex.getMessage());
+        }
     }
     public void eliminarDespacho(Long id){
-        despachoRepository.deleteById(id);
+        try {
+            despachoRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar despacho con id " + id + ":" + e.getMessage());
+        }
     }
-    public boolean existePorId(Long id){return despachoRepository.existsById(id);
+    public boolean existePorId(Long id){
+        try {
+            return despachoRepository.existsById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al verificar despacho con id" + id + ":" + e.getMessage());
+        }
     }
 }
