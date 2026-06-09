@@ -17,8 +17,6 @@ public class ClienteResponseDto {
     private TipoCliente tipoCliente;
     private Boolean estado;
 
-    private List<Map<String, Object>> contratosAsociados;
-
     //getters and setters
 
     public long getId() {
@@ -109,11 +107,4 @@ public class ClienteResponseDto {
         this.estado = estado;
     }
 
-    public List<Map<String, Object>> getContratosAsociados() {
-        return contratosAsociados;
-    }
-
-    public void setContratosAsociados(List<Map<String, Object>> contratosAsociados) {
-        this.contratosAsociados = contratosAsociados;
-    }
 }
