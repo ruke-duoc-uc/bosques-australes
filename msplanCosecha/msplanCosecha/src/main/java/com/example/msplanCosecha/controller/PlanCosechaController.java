@@ -1,5 +1,6 @@
 package com.example.msplanCosecha.controller;
 
+import com.example.msplanCosecha.client.PlanCosechaPatch;
 import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.service.PlanCosechaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,13 +38,17 @@ public class PlanCosechaController {
     public ResponseEntity<?> guardarPlanCosecha(@PathVariable Long idEspecie, @RequestBody PlanCosecha planCosecha){
             return ResponseEntity.ok(planCosechaService.guardarPlanCosecha(idEspecie, planCosecha));
     }
-
-    @PatchMapping("/actualizarParcial/{id}/{idEspecie}")
+    // Patch
+    @PatchMapping("/actualizarParcial/{id}")
     @Operation(summary = "Actualizar Plan de cosecha",
     description = "Este metodo permite cambiar parcialmente los datos de un plan de cosecha." +
             "Se actualizaran todos los datos  de especie en caso de que se agrege una ID junto al del plan de cosecha")
-    public ResponseEntity<?> actualizarPlanCosecha(@PathVariable Long id,@PathVariable Long idEspecie,@RequestBody PlanCosecha planCosecha){
-            return ResponseEntity.ok(planCosechaService.actualizarPlanCosecha(id,idEspecie,planCosecha));
+    public ResponseEntity<?> actualizarParcial(
+            @PathVariable Long id,
+            @RequestBody PlanCosechaPatch dto) {
+        return planCosechaService.actualizarPlanCosecha(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/actualizarCompleto/{id}/{idEspecie}")

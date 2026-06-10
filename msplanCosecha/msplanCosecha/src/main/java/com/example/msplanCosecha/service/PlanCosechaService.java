@@ -2,6 +2,7 @@ package com.example.msplanCosecha.service;
 
 import com.example.msplanCosecha.client.EspeciesClient;
 import com.example.msplanCosecha.client.EspeciesDTO;
+import com.example.msplanCosecha.client.PlanCosechaPatch;
 import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.repository.PlanCosechaRepository;
 import org.springframework.stereotype.Service;
@@ -56,27 +57,25 @@ public class PlanCosechaService {
         });
     }
     // Patch
-    public Optional<PlanCosecha> actualizarPlanCosecha(Long id,Long idEspecie, PlanCosecha planActualizado){
-        // En el caso de esta version, agregamos if al atributo propio del planCosecha y otro para
-        // todos los datos propios de especie
-        EspeciesDTO especiesDTO = especiesClient.obtenerDatosCliente(idEspecie);
+    public Optional<PlanCosecha> actualizarPlanCosecha(Long id, PlanCosechaPatch dto) {
         return planCosechaRepository.findById(id).map(planCosecha -> {
-            if(planActualizado.getAlturaPromedio() != null){
-            planCosecha.setAlturaPromedio(planActualizado.getAlturaPromedio());
+            if (dto.alturaPromedio() != null) {
+                planCosecha.setAlturaPromedio(dto.alturaPromedio());
             }
-            if(planActualizado.getEdadRodal() != null){
-                planCosecha.setEdadRodal(planActualizado.getEdadRodal());
+            if (dto.edadRodal() != null) {
+                planCosecha.setEdadRodal(dto.edadRodal());
             }
-            if(planActualizado.getDescripcion() != null){
-                planCosecha.setDescripcion(planActualizado.getDescripcion());
+            if (dto.descripcion() != null) {
+                planCosecha.setDescripcion(dto.descripcion());
             }
-            if(idEspecie!= null) {
-                planCosecha.setEdadRodal(planActualizado.getEdadRodal());
-                planCosecha.setEspecie(especiesDTO.nombre());
+            if (dto.idEspecie() != null) {
+                EspeciesDTO especiesDTO = especiesClient.obtenerDatosCliente(dto.idEspecie());
+                if (especiesDTO != null) {
+                    planCosecha.setEspecie(especiesDTO.nombre());
+                }
             }
             return planCosechaRepository.save(planCosecha);
-        });
-    }
+        });}
     //Delete
     public void eliminarPorId(Long id){
         planCosechaRepository.deleteById(id);
