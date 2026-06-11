@@ -1,6 +1,6 @@
 package com.example.msplanCosecha.controller;
 
-import com.example.msplanCosecha.client.PlanCosechaPatch;
+import com.example.msplanCosecha.model.PlanCosechaDTO;
 import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.service.PlanCosechaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ public class PlanCosechaController {
             return ResponseEntity.ok(planCosechaService.listarPlanCosecha());
     }
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar por ID",
+    @Operation(summary = "Buscar Plan de cosecha por ID",
     description = "Este metodo permite obtener los datos de un plan de cosecha")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
             if(!planCosechaService.existePorid(id)) {
@@ -45,7 +45,7 @@ public class PlanCosechaController {
             "Se actualizaran todos los datos  de especie en caso de que se agrege una ID junto al del plan de cosecha")
     public ResponseEntity<?> actualizarParcial(
             @PathVariable Long id,
-            @RequestBody PlanCosechaPatch dto) {
+            @RequestBody PlanCosechaDTO dto) {
         return planCosechaService.actualizarPlanCosecha(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

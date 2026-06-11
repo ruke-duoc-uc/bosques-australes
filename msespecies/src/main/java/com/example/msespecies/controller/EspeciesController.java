@@ -1,6 +1,7 @@
 package com.example.msespecies.controller;
 
 import com.example.msespecies.model.Especies;
+import com.example.msespecies.model.EspeciesDTO;
 import com.example.msespecies.service.EspeciesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,16 +20,16 @@ public class EspeciesController {
     public EspeciesController(EspeciesService especiesService){
         this.especiesService = especiesService;
     }
-
+    // GET
     @GetMapping
-    @Operation(summary="Obtiene todas las especies",
+    @Operation(summary= "Listar Especies",
     description = "Este metodo permite ver todos los detalles de las especies que se trabajan")
     public ResponseEntity<?> listarEspecies(){
           return ResponseEntity.ok(especiesService.listarEspecies());
 
     }
     @GetMapping("/{id}")
-    @Operation(summary = "Obtiene una especie",
+    @Operation(summary = "Buscar Especie por ID",
     description = "Este metodo se usa para obtener los datos de una sola especie, se utiliza en otros microservicios con el mismo fin")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
             if(!especiesService.existePorId(id)){
@@ -36,14 +37,16 @@ public class EspeciesController {
             }
             return ResponseEntity.ok(especiesService.buscarPorId(id));
     }
+    // POST
     @PostMapping("/agregar")
-    @Operation(summary = "Agrega una especie",
+    @Operation(summary = "Guardar Especie",
     description = "Este metodo permite agregar una especie de árbol que no existiera antes en el microservicio")
     public ResponseEntity<?> guardarEspecie(@RequestBody Especies especies) {
         return ResponseEntity.ok(especiesService.guardarEspecie(especies));
     }
+    // PUT
     @PutMapping("/actualizar/{id}")
-    @Operation(summary = "Actualiza una especie",
+    @Operation(summary = "Actualizar Especie completa",
     description = "Este metodo permite actualizar todos los datos de una especie de árbol. " +
             "Este metodo se asegura que no intentes actualizar una especie inexistente")
     public ResponseEntity<?> actualizarEspecie(@PathVariable Long id,@RequestBody Especies especies){
@@ -52,8 +55,18 @@ public class EspeciesController {
         }
         return ResponseEntity.ok(especiesService.actualizarEspecie(id, especies));
     }
+    //PATCH
+    @PatchMapping("/actualizarParcial/{id}")
+    @Operation(summary = "Actualizar Especie",
+    description = "Este metodo permite actualizar parcialmente los datos de una especie")
+    public ResponseEntity<?> actualizarParcialEspecie(@PathVariable Long id, @RequestBody EspeciesDTO dto){
+        return especiesService.actualizarParcialEspecie(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+    // DELETE
     @DeleteMapping("/eliminar/{id}")
-    @Operation(summary = "Elimina una especie",
+    @Operation(summary = "Eliminar Especie",
     description = "Este metodo permite eliminar permanentemente una especie, ya no podra ser referenciada en otros microservicios. " +
             "Este metodo se asegura que no intentes actualizar una especie inexistente")
     public ResponseEntity<?> eliminarEspecie(@PathVariable Long id){

@@ -17,11 +17,12 @@ public class PlanCosecha {
     @Schema(name = "Altura promedio de rodal", description = "Es la altura promedio del rodal")
     @Column(name = "alturaPromedio")
     private Double alturaPromedio;
-    @Schema(name = "",description = "Aqui se dan todos los detalles, sobre el procedimiento de cosecha, herramientas, tecnicas, medidas de seguridad y otros detalles importantes")
+    @Schema(name = "Descripción",description = "Aqui se dan todos los detalles, sobre el procedimiento de cosecha, herramientas, tecnicas, medidas de seguridad y otros detalles importantes")
     @Column(name = "descripcion")
     private String descripcion;
     //Datos especie
     @Column(name = "especie")
+    @Schema(name = "Descripción",description = "Es la especie de árbol que se cosecha en el plan")
     private String especie;
     public PlanCosecha() {
     }

@@ -2,7 +2,7 @@ package com.example.msplanCosecha.service;
 
 import com.example.msplanCosecha.client.EspeciesClient;
 import com.example.msplanCosecha.client.EspeciesDTO;
-import com.example.msplanCosecha.client.PlanCosechaPatch;
+import com.example.msplanCosecha.model.PlanCosechaDTO;
 import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.repository.PlanCosechaRepository;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class PlanCosechaService {
         });
     }
     // Patch
-    public Optional<PlanCosecha> actualizarPlanCosecha(Long id, PlanCosechaPatch dto) {
+    public Optional<PlanCosecha> actualizarPlanCosecha(Long id, PlanCosechaDTO dto) {
         return planCosechaRepository.findById(id).map(planCosecha -> {
             if (dto.alturaPromedio() != null) {
                 planCosecha.setAlturaPromedio(dto.alturaPromedio());

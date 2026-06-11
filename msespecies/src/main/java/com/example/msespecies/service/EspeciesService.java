@@ -1,6 +1,7 @@
 package com.example.msespecies.service;
 
 import com.example.msespecies.model.Especies;
+import com.example.msespecies.model.EspeciesDTO;
 import com.example.msespecies.repository.EspeciesRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,25 @@ public class EspeciesService {
             return especiesRepository.save(especies);
         });
     }
-
+    // PATCH
+    public Optional<?> actualizarParcialEspecie (Long id, EspeciesDTO especiesActualzada){
+        return especiesRepository.findById(id).map(especies->{
+            if (especiesActualzada.nombre() != null){
+                especies.setNombre(especiesActualzada.nombre());
+            }
+            if (especiesActualzada.uso() != null){
+                especies.setUso(especiesActualzada.uso());
+            }
+            if (especiesActualzada.calidad() != null){
+                especies.setCalidad(especiesActualzada.calidad());
+            }
+            if (especiesActualzada.color() != null){
+                especies.setColor(especiesActualzada.color());
+            }
+            return especiesRepository.save(especies);
+        });
+    }
+    // DELETE
     public void eliminarEspecie(Long id){
         especiesRepository.deleteById(id);
     }
