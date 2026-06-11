@@ -42,7 +42,7 @@ public class DespachoService {
         }
     }
 
-    public DespachoModel guardar(DespachoModel despacho) {
+    public DespachoModel guardar(DespachoModel despacho, Long idEspecies, Long idFactura) {
         try {
             return despachoRepository.save(despacho);
         } catch (Exception e) {

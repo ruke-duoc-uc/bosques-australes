@@ -28,9 +28,14 @@ public class DespachoController {
         return ResponseEntity.ok(despachoService.buscarPorId(id));
     }
 
-    @PostMapping("/{id}/{idEspecies}/{idFactura}")
-    public ResponseEntity<?> guardar(@RequestBody DespachoModel despacho) {
-        return ResponseEntity.ok(despachoService.guardar(despacho));
+    @PostMapping("/{idEspecies}/{idFactura}")
+    public ResponseEntity<?> guardar(
+            @PathVariable Long idEspecies,
+            @PathVariable Long idFactura,
+            @RequestBody DespachoModel despacho) {
+
+        return ResponseEntity.ok(
+                despachoService.guardar(despacho, idEspecies, idFactura));
     }
 
     @PutMapping("/{id}/{idEspecies}/{idFactura}")
