@@ -1,4 +1,4 @@
-package com.example.cuadrilla.exception;
+package com.example.mscuadrilla.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;

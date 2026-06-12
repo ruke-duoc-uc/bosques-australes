@@ -1,7 +1,7 @@
-package com.example.cuadrilla.service;
+package com.example.mscuadrilla.service;
 
-import com.example.cuadrilla.model.Cuadrilla;
-import com.example.cuadrilla.repository.CuadrillaRepository;
+import com.example.mscuadrilla.model.Cuadrilla;
+import com.example.mscuadrilla.repository.CuadrillaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

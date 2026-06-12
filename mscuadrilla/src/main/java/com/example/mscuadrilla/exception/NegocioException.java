@@ -1,6 +1,6 @@
-package com.example.cuadrilla.exception;
+package com.example.mscuadrilla.exception;
 
-public class NegocioException extends RuntimeException {
+public class NegocioException extends RuntimeException{
     private final int httpStatus;
 
     public NegocioException(String message, int httpStatus) {

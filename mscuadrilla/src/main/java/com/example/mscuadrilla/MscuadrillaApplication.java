@@ -1,13 +1,13 @@
-package com.example.cuadrilla;
+package com.example.mscuadrilla;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CuadrillaApplication {
+public class MscuadrillaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CuadrillaApplication.class, args);
+		SpringApplication.run(MscuadrillaApplication.class, args);
 	}
 
 }

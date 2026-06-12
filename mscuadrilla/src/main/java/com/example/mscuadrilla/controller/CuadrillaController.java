@@ -1,9 +1,9 @@
-package com.example.cuadrilla.controller;
+package com.example.mscuadrilla.controller;
 
-import com.example.cuadrilla.dto.CuadrillaRequestDto;
-import com.example.cuadrilla.dto.CuadrillaResponseDto;
-import com.example.cuadrilla.model.Cuadrilla;
-import com.example.cuadrilla.service.CuadrillaService;
+import com.example.mscuadrilla.dto.CuadrillaRequestDto;
+import com.example.mscuadrilla.dto.CuadrillaResponseDto;
+import com.example.mscuadrilla.model.Cuadrilla;
+import com.example.mscuadrilla.service.CuadrillaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping("/api/v1/cuadrillas")

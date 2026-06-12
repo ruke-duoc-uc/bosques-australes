@@ -1,4 +1,4 @@
-package com.example.cuadrilla.dto;
+package com.example.mscuadrilla.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

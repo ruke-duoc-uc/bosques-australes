@@ -1,9 +1,10 @@
-package com.example.cuadrilla.model;
+package com.example.mscuadrilla.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull; // Importante para Boolean
 import java.util.List;
+
 
 @Entity
 @Table(name = "cuadrilla")
@@ -46,24 +47,53 @@ public class Cuadrilla {
         this.trabajadoresIds = trabajadoresIds;
     }
 
-    // --- GETTERS Y SETTERS ---
-    // (Asegúrate de que todos estén presentes, como los tenías)
+    //getters y setters
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getZona() { return zona; }
-    public void setZona(String zona) { this.zona = zona; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getEspecialidad() { return especialidad; }
-    public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public Boolean getEstado() { return estado; }
-    public void setEstado(Boolean estado) { this.estado = estado; }
+    public String getZona() {
+        return zona;
+    }
 
-    public List<Long> getTrabajadoresIds() { return trabajadoresIds; }
-    public void setTrabajadoresIds(List<Long> trabajadoresIds) { this.trabajadoresIds = trabajadoresIds; }
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public List<Long> getTrabajadoresIds() {
+        return trabajadoresIds;
+    }
+
+    public void setTrabajadoresIds(List<Long> trabajadoresIds) {
+        this.trabajadoresIds = trabajadoresIds;
+    }
 }

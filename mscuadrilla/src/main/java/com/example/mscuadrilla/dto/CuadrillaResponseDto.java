@@ -1,4 +1,4 @@
-package com.example.cuadrilla.dto;
+package com.example.mscuadrilla.dto;
 
 import java.util.List;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package com.example.cuadrilla;
+package com.example.mscuadrilla;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CuadrillaApplicationTests {
+class MscuadrillaApplicationTests {
 
 	@Test
 	void contextLoads() {
