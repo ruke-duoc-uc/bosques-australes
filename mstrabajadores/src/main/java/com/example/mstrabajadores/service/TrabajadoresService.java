@@ -14,18 +14,34 @@ public class TrabajadoresService {
     private TrabajadoresRepository repository;
 
     public List <TrabajadoresModel> getAll(){
-     return repository.findAll();
+        try {
+            return repository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al listar trabajadores: " + e.getMessage());
+        }
     }
 
     public Optional<TrabajadoresModel> getById(Long id){
-        return repository.findById(id);
+        try {
+            return repository.findById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar trabajador con id " + id + ":" + e.getMessage());
+        }
     }
 
     public TrabajadoresModel save(TrabajadoresModel trabajador){
-        return repository.save(trabajador);
+        try {
+            return repository.save(trabajador);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al guardar trabajador: " + e.getMessage());
+        }
     }
 
     public void delete(Long id){
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar trabajador con id" + id + ":" + e.getMessage());
+        }
     }
 }
