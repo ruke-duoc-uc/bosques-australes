@@ -1,16 +1,26 @@
 package com.example.mscuadrilla.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.Map;
 
+@Schema(name = "CuadrillaResponse", description = "Estructura de respuesta con los datos de salida de la cuadrilla")
 public class CuadrillaResponseDto {
+    @Schema(description = "ID único autogenerado por la base de datos", example = "1")
     private Long id;
+    @Schema(description = "Nombre operativo de la cuadrilla", example = "Cuadrilla Los Alerces")
     private String nombre;
+    @Schema(description = "Región forestal asignada", example = "Región de Los Ríos")
     private String zona;
+    @Schema(description = "Especialidad técnica del grupo", example = "Poda y Raleo")
     private String especialidad;
+    @Schema(description = "Estado de disponibilidad operativa", example = "true")
     private Boolean estado;
 
-    // Aquí es donde guardaremos la lista que viene del otro MS
+    @Schema(
+            description = "Colección de objetos dinámicos que representan los datos completos de los operarios, inyectados desde el microservicio de Trabajadores",
+            example = "[{\"id\": 101, \"nombre\": \"Juan Pérez\", \"cargo\": \"Motosierrista\"}]"
+    )
     private List<Map<String, Object>> trabajadores;
 
     public Long getId() {
