@@ -25,68 +25,48 @@ public class AcopioService {
     }
 
     public List<AcopioModel> listarTodos() {
-        try {
-            return acopioRepository.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Error al listar acopios: " + e.getMessage());
-        }
+        return acopioRepository.findAll();
     }
 
     public AcopioModel buscarPorId(Long id) {
-        try {
-            return acopioRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Acopio no encontrado con id: " + id));
-        } catch (Exception e) {
-            throw new RuntimeException("Error al buscar acopio por id " + id + ":" + e.getMessage());
-        }
+        return acopioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Acopio no encontrado con id: " + id));
     }
 
     public AcopioModel crear(AcopioModel acopio, Long idEspecies) {
-        AcopioModel acopioModel;
-        try {
-            EspeciesDTO e = especiesClient.obtenerDatosCliente(idEspecies);
-            acopioModel = new AcopioModel();
-            acopioModel.setCodigoProducto(acopio.getCodigoProducto());
-            acopioModel.setCantidadDisponible(acopio.getCantidadDisponible());
-            acopioModel.setUnidadMedida(acopio.getUnidadMedida());
-            acopioModel.setFechaIngreso(acopio.getFechaIngreso());
+        EspeciesDTO e = especiesClient.obtenerDatosCliente(idEspecies);
+        AcopioModel acopioModel = new AcopioModel();
+        acopioModel.setCodigoProducto(acopio.getCodigoProducto());
+        acopioModel.setCantidadDisponible(acopio.getCantidadDisponible());
+        acopioModel.setUnidadMedida(acopio.getUnidadMedida());
+        acopioModel.setFechaIngreso(acopio.getFechaIngreso());
 
-            //llamando a los de especies
-            acopioModel.setIdEspecies(e.id());
-            acopioModel.setNombreEspecies(e.nombre());
-        } catch (Exception e) {
-            throw new RuntimeException("Error al crear acopio con especie id " + idEspecies + ":" + e.getMessage());
-        }
+        // llamando a los de especies
+        acopioModel.setIdEspecies(e.id());
+        acopioModel.setNombreEspecies(e.nombre());
+
         return acopioRepository.save(acopioModel);
     }
 
     public Optional<AcopioModel> actualizar(Long id, Long idEspecies, AcopioModel datosNuevos) {
-        try {
-            EspeciesDTO e = especiesClient.obtenerDatosCliente(idEspecies);
-            return acopioRepository.findById(id).map(acopioModel -> {
-                acopioModel.setCodigoProducto(datosNuevos.getCodigoProducto());
-                acopioModel.setCantidadDisponible(datosNuevos.getCantidadDisponible());
-                acopioModel.setUnidadMedida(datosNuevos.getUnidadMedida());
-                acopioModel.setFechaIngreso(datosNuevos.getFechaIngreso());
+        EspeciesDTO e = especiesClient.obtenerDatosCliente(idEspecies);
+        return acopioRepository.findById(id).map(acopioModel -> {
+            acopioModel.setCodigoProducto(datosNuevos.getCodigoProducto());
+            acopioModel.setCantidadDisponible(datosNuevos.getCantidadDisponible());
+            acopioModel.setUnidadMedida(datosNuevos.getUnidadMedida());
+            acopioModel.setFechaIngreso(datosNuevos.getFechaIngreso());
 
-                acopioModel.setIdEspecies(e.id());
-                acopioModel.setNombreEspecies(e.nombre());
-                return acopioRepository.save(acopioModel);
-            });
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar acopio con id " + id + ": " + e.getMessage());
-        }
+            acopioModel.setIdEspecies(e.id());
+            acopioModel.setNombreEspecies(e.nombre());
+            return acopioRepository.save(acopioModel);
+        });
     }
 
 
-       public void eliminar(Long id) {
-           try {
-               if (!acopioRepository.existsById(id)) {
-                   throw new RuntimeException("Acopio no encontrado con id: " + id);
-               }
-               acopioRepository.deleteById(id);
-           } catch (Exception e) {
-               throw new RuntimeException("Error al eliminar acopio con id " + id + ": " + e.getMessage());
-           }
-       }
+    public void eliminar(Long id) {
+        if (!acopioRepository.existsById(id)) {
+            throw new RuntimeException("Acopio no encontrado con id: " + id);
+        }
+        acopioRepository.deleteById(id);
+    }
 }
