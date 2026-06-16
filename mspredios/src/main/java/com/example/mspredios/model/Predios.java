@@ -2,32 +2,32 @@ package com.example.mspredios.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "PREDIOS")
+@Table(name = "Predios")
 public class Predios{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "nombre",nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "ciudad", nullable = false, length = 100)
     private String ciudad;
 
-    @Column(name = "comuna",nullable = false)
+    @Column(name = "comuna",nullable = false, length = 100)
     private String comuna;
 
-    @Column(nullable = false)
+    @Column(name="dueño",nullable = false, length = 100)
     private String dueno;
+
+    public Predios() {
+    }
 
     public Predios(String nombre, String ciudad, String comuna, String dueno) {
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.comuna = comuna;
         this.dueno = dueno;
-    }
-
-    public Predios() {
     }
 
     public Long getId() {

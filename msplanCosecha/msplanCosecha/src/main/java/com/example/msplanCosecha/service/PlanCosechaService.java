@@ -2,6 +2,7 @@ package com.example.msplanCosecha.service;
 
 import com.example.msplanCosecha.client.EspeciesClient;
 import com.example.msplanCosecha.client.EspeciesDTO;
+import com.example.msplanCosecha.model.PlanCosechaDTO;
 import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.repository.PlanCosechaRepository;
 import org.springframework.stereotype.Service;
@@ -31,17 +32,17 @@ public class PlanCosechaService {
     }
 
     //Post
-    public PlanCosecha guardarPlanCosecha(Long idEspecie, Long edad, Double alturaP){
+    public PlanCosecha guardarPlanCosecha(Long idEspecie,PlanCosecha planCosecha){
         EspeciesDTO especiesDTO = especiesClient.obtenerDatosCliente(idEspecie);
         PlanCosecha planCosechaN = new PlanCosecha();
         //Atributos factura
-        planCosechaN.setAlturaPromedio(alturaP);
-        planCosechaN.setEdadRodal(edad);
+        planCosechaN.setAlturaPromedio(planCosecha.getAlturaPromedio());
+        planCosechaN.setEdadRodal(planCosecha.getEdadRodal());
+        planCosechaN.setDescripcion(planCosecha.getDescripcion());
         //Atributos Especies
         planCosechaN.setEspecie(especiesDTO.nombre());
         return planCosechaRepository.save(planCosechaN);
     }
-
     //Put
     public Optional<PlanCosecha> actualizarPlanCompleto(Long id,Long idEspecie, PlanCosecha planActualizado){
         //Para cambiar la especie debemos consultar con el msespecie, por ello agregamos
@@ -50,18 +51,31 @@ public class PlanCosechaService {
         return planCosechaRepository.findById(id).map(planCosecha -> {
             planCosecha.setAlturaPromedio(planActualizado.getAlturaPromedio());
             planCosecha.setEdadRodal(planActualizado.getEdadRodal());
+            planCosecha.setDescripcion(planActualizado.getDescripcion());
             planCosecha.setEspecie(especiesDTO.nombre());
             return planCosechaRepository.save(planCosecha);
         });
     }
-    public Optional<PlanCosecha> actualizarPlanCosecha(Long id,Long idEspecie, PlanCosecha planActualizado){
+    // Patch
+    public Optional<PlanCosecha> actualizarPlanCosecha(Long id, PlanCosechaDTO dto) {
         return planCosechaRepository.findById(id).map(planCosecha -> {
-            planCosecha.setAlturaPromedio(planActualizado.getAlturaPromedio());
-            planCosecha.setEdadRodal(planActualizado.getEdadRodal());
+            if (dto.alturaPromedio() != null) {
+                planCosecha.setAlturaPromedio(dto.alturaPromedio());
+            }
+            if (dto.edadRodal() != null) {
+                planCosecha.setEdadRodal(dto.edadRodal());
+            }
+            if (dto.descripcion() != null) {
+                planCosecha.setDescripcion(dto.descripcion());
+            }
+            if (dto.idEspecie() != null) {
+                EspeciesDTO especiesDTO = especiesClient.obtenerDatosCliente(dto.idEspecie());
+                if (especiesDTO != null) {
+                    planCosecha.setEspecie(especiesDTO.nombre());
+                }
+            }
             return planCosechaRepository.save(planCosecha);
-        });
-    }
-
+        });}
     //Delete
     public void eliminarPorId(Long id){
         planCosechaRepository.deleteById(id);
