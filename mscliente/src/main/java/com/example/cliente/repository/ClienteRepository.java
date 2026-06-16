@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findByEstado(boolean estado);
-
-    List<Cliente> findByNombre(String nombre);
+    List<Cliente> findByNombreContainingIgnoreCase(String nombre);
+    boolean existsByRut(String rut); // Para evitar duplicados
 }
