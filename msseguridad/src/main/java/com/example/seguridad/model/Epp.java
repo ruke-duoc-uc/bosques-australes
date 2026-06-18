@@ -1,23 +1,36 @@
 package com.example.seguridad.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "epps")
+@Schema(description = "Modelo que representa la entrega de Equipos de Protección Personal")
 public class Epp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "trabajadorId",nullable = false)
+    @Schema(example = "1", description = "Identificador de el trabajador")
     private Long trabajadorId;
+
     @Column(name = "tipo",nullable = false, length = 100)
+    @Schema(example = "CASCO", description = "Tipo de elemento entregado")
     private String tipo; // CASCO, CHALECO, GUANTES, BOTINES, PROTECTOR_AUDITIVO, etc.
+
+    @Schema(example = "2026-06-18")
     @Column(name = "fechaEntrega",nullable = false)
     private String fechaEntrega;
+
+    @Schema(example = "2027-06-18")
     @Column(name = "fechaVencimiento",nullable = false)
     private String fechaVencimiento;
+
     @Column(name = "activo",nullable = false)
     private boolean activo = true;
+
+    @Schema(example = "2027-06-18",description = "una observacion de EPP entregado")
     @Column(name = "observaciones",length = 200)
     private String observaciones;
 
