@@ -1,6 +1,7 @@
 package com.example.seguridad.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "accidentes")
@@ -8,6 +9,7 @@ public class Accidente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     @Column(name = "trabajador_id", nullable = false)
     private Long trabajadorId;
     @Column(name = "cuadrilla_id", nullable = false)
