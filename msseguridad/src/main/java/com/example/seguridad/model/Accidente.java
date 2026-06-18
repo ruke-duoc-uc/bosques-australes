@@ -1,21 +1,28 @@
 package com.example.seguridad.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "accidentes")
+@Schema(description = "Modelo que representa el registro de un accidente laboral")
 public class Accidente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(title = "Identificador del accidente", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
+
     @NotNull
     @Column(name = "trabajador_id", nullable = false)
     private Long trabajadorId;
+
     @Column(name = "cuadrilla_id", nullable = false)
     private Long cuadrillaId;
+
     @Column(name = "fecha_hora_ocurrencia", nullable = false)
     private String fechaHoraOcurrencia;
+
     @Column(name = "fecha_hora_registro", nullable = false)
     private String fechaHoraRegistro;
     @Column(name = "descripcion", nullable = false, length = 500)
