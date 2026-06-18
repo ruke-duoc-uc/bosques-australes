@@ -1,5 +1,6 @@
 package com.example.mspredios.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Predios")
@@ -7,16 +8,16 @@ public class Predios{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     @Column(name = "nombre",nullable = false, length = 100)
     private String nombre;
-
+    @NotNull
     @Column(name = "ciudad", nullable = false, length = 100)
     private String ciudad;
-
+    @NotNull
     @Column(name = "comuna",nullable = false, length = 100)
     private String comuna;
-
+    @NotNull
     @Column(name="dueño",nullable = false, length = 100)
     private String dueno;
 
