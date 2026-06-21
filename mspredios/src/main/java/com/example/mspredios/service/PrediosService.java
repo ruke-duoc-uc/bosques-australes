@@ -1,5 +1,6 @@
 package com.example.mspredios.service;
 import com.example.mspredios.model.Predios;
+import com.example.mspredios.model.PrediosDTO;
 import com.example.mspredios.repository.PrediosRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -40,7 +41,24 @@ public class PrediosService{
             return prediosRepository.save(prediosNuevo);
         });
     }
-
+    // PATCH
+    public Optional<?> actualizarParcialEspecie (Long id, PrediosDTO prediosDTO){
+        return prediosRepository.findById(id).map(predios->{
+            if (prediosDTO.nombre() != null){
+                predios.setNombre(prediosDTO.nombre());
+            }
+            if (prediosDTO.ciudad() != null){
+                predios.setCiudad(prediosDTO.ciudad());
+            }
+            if (prediosDTO.comuna() != null){
+                predios.setComuna(prediosDTO.comuna());
+            }
+            if (prediosDTO.dueno() != null){
+                predios.setDueno(prediosDTO.dueno());
+            }
+            return prediosRepository.save(predios);
+        });
+    }
     //Delete
     public void eliminarPredio(Long id){
         prediosRepository.deleteById(id);
