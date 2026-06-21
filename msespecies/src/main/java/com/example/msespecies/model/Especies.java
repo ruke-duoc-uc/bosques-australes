@@ -1,6 +1,7 @@
 package com.example.msespecies.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Especies")
@@ -9,11 +10,19 @@ public class Especies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "nombre", nullable = false)
+
+    @NotBlank
     private String nombre;
+
+    @NotBlank
     @Column(name = "uso", nullable= false)
     private String uso;
+
+    @NotBlank
     @Column(name = "calidad", nullable = false)
     private String calidad;
+
+    @NotBlank
     @Column(name = "color")
     private String color;
 

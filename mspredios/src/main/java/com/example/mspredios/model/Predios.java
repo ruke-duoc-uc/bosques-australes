@@ -1,5 +1,6 @@
 package com.example.mspredios.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -8,16 +9,16 @@ public class Predios{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotBlank
     @Column(name = "nombre",nullable = false, length = 100)
     private String nombre;
-    @NotNull
+    @NotBlank
     @Column(name = "ciudad", nullable = false, length = 100)
     private String ciudad;
-    @NotNull
+    @NotBlank
     @Column(name = "comuna",nullable = false, length = 100)
     private String comuna;
-    @NotNull
+    @NotBlank
     @Column(name="dueño",nullable = false, length = 100)
     private String dueno;
 

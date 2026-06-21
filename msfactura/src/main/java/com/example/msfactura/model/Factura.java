@@ -1,6 +1,7 @@
 package com.example.msfactura.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Factura")
@@ -13,11 +14,16 @@ public class Factura {
     /* No podemos forzarlo a ser unico
     por la naturaleza de las emisiones en el SII
     una factura podria compartir numero con otra */
+    @NotBlank
     @Column(name = "Factura")
     private Long numFactura;
-    @Column(name = "giro",nullable = false)
+
     // El giro es la actividad economica que paga la factura
+    @NotBlank
+    @Column(name = "giro",nullable = false)
     private String giro;
+
+    @NotBlank
     @Column(name = "monto",nullable = false)
     private Double monto;
 
@@ -26,6 +32,7 @@ public class Factura {
     private String direccion;
     @Column(name = "nombrePredio", nullable = false)
     private String nombrePredio;
+
 
 
     //Datos de cliente
