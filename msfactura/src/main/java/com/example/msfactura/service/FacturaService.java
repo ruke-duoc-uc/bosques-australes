@@ -5,6 +5,7 @@ import com.example.msfactura.client.ClientesDTO;
 import com.example.msfactura.client.PrediosClient;
 import com.example.msfactura.client.PrediosDTO;
 import com.example.msfactura.model.Factura;
+import com.example.msfactura.model.FacturaDTO;
 import com.example.msfactura.repository.FacturaRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,14 @@ public class FacturaService {
         this.prediosClient = prediosClient;
         this.clientesClient = clientesClient;
     }
+    // GET
     public List<Factura> listarFactura(){
         return facturaRepository.findAll();
     }
-
     public Factura buscarPorId(Long id){
         return facturaRepository.findById(id).orElse(null);
     }
-
+    // POST
     public Factura guardarFactura(Long idPredio, Long idCliente, Factura factura) {
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
@@ -50,7 +51,11 @@ public class FacturaService {
         nueva.setCiudad(clientesDTO.ciudad());
         return facturaRepository.save(nueva);
     }
-    public Optional<Factura> actualizarFacturaCompleta(Long id,Long idPredio,Long idCliente, Factura facturaActualizada){
+    // PUT
+    public Optional<Factura> actualizarFacturaCompleta(Long id,
+                                                       Long idPredio,
+                                                       Long idCliente,
+                                                       Factura facturaActualizada){
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         return facturaRepository.findById(id).map(factura -> {
@@ -65,6 +70,34 @@ public class FacturaService {
             factura.setComuna(clientesDTO.comuna());
             factura.setTelefonoCliente(clientesDTO.telefono());
             factura.setCiudad(clientesDTO.ciudad());
+            return facturaRepository.save(factura);
+        });
+    }
+    // PATCH
+    public Optional<Factura> actualizarFacturaParcial(Long id,
+                                                      FacturaDTO facturaDTO){
+        return facturaRepository.findById(id).map(factura -> {
+            if (facturaDTO.numFactura() != null){
+                factura.setNumFactura(facturaDTO.numFactura());
+            }
+            if (facturaDTO.giro() != null){
+                factura.setGiro(facturaDTO.giro());
+            }
+            if (facturaDTO.monto() != null){
+                factura.setMonto(facturaDTO.monto());
+            }
+            if (facturaDTO.idPredio() != null){
+                PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(facturaDTO.idPredio());
+                factura.setNombrePredio(prediosDTO.nombre());
+                factura.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
+            }
+            if (facturaDTO.idCLiente() != null){
+                ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(facturaDTO.idCLiente());
+                factura.setRazonSocial(clientesDTO.razonSocial());
+                factura.setComuna(clientesDTO.comuna());
+                factura.setTelefonoCliente(clientesDTO.telefono());
+                factura.setCiudad(clientesDTO.ciudad());
+            }
             return facturaRepository.save(factura);
         });
     }

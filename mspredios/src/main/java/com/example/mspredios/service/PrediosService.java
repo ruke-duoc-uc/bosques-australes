@@ -42,7 +42,7 @@ public class PrediosService{
         });
     }
     // PATCH
-    public Optional<?> actualizarParcialEspecie (Long id, PrediosDTO prediosDTO){
+    public Optional<?> actualizarParcialPredios(Long id, PrediosDTO prediosDTO){
         return prediosRepository.findById(id).map(predios->{
             if (prediosDTO.nombre() != null){
                 predios.setNombre(prediosDTO.nombre());

@@ -34,7 +34,8 @@ public class PrediosController{
         return ResponseEntity.ok(prediosService.buscarPorId(id));
     }
     //POST
-    //@Valid nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios    @PostMapping("/guardar")
+    //@Valid nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios
+    @PostMapping("/guardar")
     @Operation(summary = "Crea un predio en el microservicio",
     description = "Este metodo permite agregar un predio que previamente no existia en el microservicio")
     public ResponseEntity<?> guardarPredio(@Valid @RequestBody Predios predios){
@@ -60,7 +61,7 @@ public class PrediosController{
     @Operation(summary = "Actualizar Especie",
             description = "Este metodo permite actualizar parcialmente los datos de una especie")
     public ResponseEntity<?> actualizarParcialEspecie(@PathVariable Long id,@Validated @RequestBody PrediosDTO dto){
-        return prediosService.actualizarParcialEspecie(id, dto)
+        return prediosService.actualizarParcialPredios(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

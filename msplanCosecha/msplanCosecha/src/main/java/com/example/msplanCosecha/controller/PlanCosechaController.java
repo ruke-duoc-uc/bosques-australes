@@ -5,8 +5,10 @@ import com.example.msplanCosecha.model.PlanCosecha;
 import com.example.msplanCosecha.service.PlanCosechaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +19,7 @@ public class PlanCosechaController {
     public PlanCosechaController(PlanCosechaService planCosechaService){
         this.planCosechaService = planCosechaService;
     }
+    // GET
     @GetMapping
     @Operation(summary = "Listar Planes de cosecha",
     description = "Este metodo obtiene todos los datos de los planes de cosecha")
@@ -32,31 +35,36 @@ public class PlanCosechaController {
             }
             return ResponseEntity.ok(planCosechaService.obtenerPorId(id));
     }
+    // POST
     @PostMapping("/guardar/{idEspecie}")
     @Operation(summary = "Guardar Plan de cosecha",
     description = "Este metodo guarda un plan de cosecha nuevo en la base de datos, nesecita el ID de una especie para guardarse")
-    public ResponseEntity<?> guardarPlanCosecha(@PathVariable Long idEspecie, @RequestBody PlanCosecha planCosecha){
+    public ResponseEntity<?> guardarPlanCosecha(@PathVariable Long idEspecie,
+                                                @Valid @RequestBody PlanCosecha planCosecha){
             return ResponseEntity.ok(planCosechaService.guardarPlanCosecha(idEspecie, planCosecha));
     }
-    // Patch
+    // PUT
+    @PutMapping("/actualizarCompleto/{id}/{idEspecie}")
+    @Operation(summary = "Actualizar Plan de cosecha completo",
+    description = "Este metodo permite cambiar completamente los datos de un plan de cosecha, incluyendo los datos de la especie")
+    public ResponseEntity<?> actualizarPlanCompleto(@PathVariable Long id,
+                                                    @PathVariable Long idEspecie,
+                                                    @Valid @RequestBody PlanCosecha planCosecha){
+            return ResponseEntity.ok(planCosechaService.actualizarPlanCompleto(id,idEspecie,planCosecha));
+    }
+    // PATCH
     @PatchMapping("/actualizarParcial/{id}")
     @Operation(summary = "Actualizar Plan de cosecha",
     description = "Este metodo permite cambiar parcialmente los datos de un plan de cosecha." +
             "Se actualizaran todos los datos  de especie en caso de que se agrege una ID junto al del plan de cosecha")
     public ResponseEntity<?> actualizarParcial(
             @PathVariable Long id,
-            @RequestBody PlanCosechaDTO dto) {
+            @Validated @RequestBody PlanCosechaDTO dto) {
         return planCosechaService.actualizarPlanCosecha(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    @PutMapping("/actualizarCompleto/{id}/{idEspecie}")
-    @Operation(summary = "Actualizar Plan de cosecha completo",
-    description = "Este metodo permite cambiar completamente los datos de un plan de cosecha, incluyendo los datos de la especie")
-    public ResponseEntity<?> actualizarPlanCompleto(@PathVariable Long id,@PathVariable Long idEspecie,@RequestBody PlanCosecha planCosecha){
-            return ResponseEntity.ok(planCosechaService.actualizarPlanCompleto(id,idEspecie,planCosecha));
-    }
+    // DELETE
     @DeleteMapping("/eliminar")
     @Operation(summary = "Eliminar Plan de cosecha",
     description = "Este metodo permite eliminar completamente un plan de cosecha de la base de datos")
