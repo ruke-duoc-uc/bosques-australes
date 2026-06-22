@@ -1,45 +1,63 @@
 package com.example.seguridad.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "accidentes")
+@Schema(description = "Modelo que representa el registro de un accidente laboral")
 public class Accidente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(title = "Identificador del accidente", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
+
     @NotNull
     @Column(name = "trabajador_id", nullable = false)
+    @Schema(example = "1", description = "Identificador de empleado")
     private Long trabajadorId;
+
     @Column(name = "cuadrilla_id", nullable = false)
+    @Schema(example = "1", description = "Identificador de cuadrilla")
     private Long cuadrillaId;
+
     @Column(name = "fecha_hora_ocurrencia", nullable = false)
+    @Schema(example = "2026-06-18T09:30:00", description = "Identificador de empleado")
     private String fechaHoraOcurrencia;
+
+    @Schema(example = "2026-06-18T10:00:00")
     @Column(name = "fecha_hora_registro", nullable = false)
     private String fechaHoraRegistro;
+
+    @Schema(example = "2026-06-18T10:00:00",description = "Caída de altura por mal uso de arnés de seguridad")
     @Column(name = "descripcion", nullable = false, length = 500)
     private String descripcion;
-    @Column(name = "tipo", nullable = false)
+
+    @Column(name = "tipo_accidente", nullable = false)
+    @Schema(description = "Categoría de accidente", example = "ACCIDENTE,CASI_ACCIDENTE", allowableValues = {"ACCIDENTE", "CASI_ACCIDENTE"})
     @Enumerated(EnumType.STRING)
     private TipoAccidente tipo;
+
     @Column(name = "gravedad", nullable = false)
+    @Schema(description = "Categoría de gravedad", example = "FATAL,GRAVE,LEVE", allowableValues = {"LEVE", "GRAVE","FATAL"})
     @Enumerated(EnumType.STRING)
     private GravedadAccidente gravedad;
-    @Column(name = "estado")
+
+    @Column(name = "estado",nullable = false)
+    @Schema(description = "Categoría de estado", example = "CERRADO,INVESTIGANDO,PENDIENTE", allowableValues = {"PENDIENTE", "INVESTIGANDO","CERRADO"})
     @Enumerated(EnumType.STRING)
     private EstadoAccidente estado;
-    @Column(name = "supervisor_habilitador_id")
-    private Long supervisorHabilitadorId;
-    @Column(name = "fecha_habilitacion")
-    private String fechaHabilitacion;
+
+    @Schema(description = "Fecha y hora del incidente")
     @Column(name = "observaciones_habilitacion", length = 300)
     private String observacionesHabilitacion;
 
     public Accidente() {
     }
 
-    public Accidente(Long trabajadorId, Long cuadrillaId, String fechaHoraOcurrencia, String fechaHoraRegistro, String descripcion, TipoAccidente tipo, GravedadAccidente gravedad, EstadoAccidente estado,Long supervisorHabilitadorId, String fechaHabilitacion, String observacionesHabilitacion) {
+    public Accidente(Long id, Long trabajadorId, Long cuadrillaId, String fechaHoraOcurrencia, String fechaHoraRegistro, String descripcion, TipoAccidente tipo, GravedadAccidente gravedad, EstadoAccidente estado, String observacionesHabilitacion) {
+        this.id = id;
         this.trabajadorId = trabajadorId;
         this.cuadrillaId = cuadrillaId;
         this.fechaHoraOcurrencia = fechaHoraOcurrencia;
@@ -48,8 +66,6 @@ public class Accidente {
         this.tipo = tipo;
         this.gravedad = gravedad;
         this.estado = estado;
-        this.supervisorHabilitadorId = supervisorHabilitadorId;
-        this.fechaHabilitacion = fechaHabilitacion;
         this.observacionesHabilitacion = observacionesHabilitacion;
     }
 
@@ -123,22 +139,6 @@ public class Accidente {
 
     public void setEstado(EstadoAccidente estado) {
         this.estado = estado;
-    }
-
-    public Long getSupervisorHabilitadorId() {
-        return supervisorHabilitadorId;
-    }
-
-    public void setSupervisorHabilitadorId(Long supervisorHabilitadorId) {
-        this.supervisorHabilitadorId = supervisorHabilitadorId;
-    }
-
-    public String getFechaHabilitacion() {
-        return fechaHabilitacion;
-    }
-
-    public void setFechaHabilitacion(String fechaHabilitacion) {
-        this.fechaHabilitacion = fechaHabilitacion;
     }
 
     public String getObservacionesHabilitacion() {

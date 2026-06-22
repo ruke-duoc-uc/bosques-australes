@@ -6,14 +6,15 @@ import com.example.msespecies.service.EspeciesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/especies")
-@Tag(name = "Especies", description = "Metodos del microservicio especies")
-@Schema(description = "Entidad que maneja las especies")
+@Tag(name = "Controller / Especies",description = "Metodos para interactuar con el msespecies")
 public class EspeciesController {
 
     private final EspeciesService especiesService;
@@ -38,28 +39,32 @@ public class EspeciesController {
             return ResponseEntity.ok(especiesService.buscarPorId(id));
     }
     // POST
+    //@Valid nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios
     @PostMapping("/agregar")
     @Operation(summary = "Guardar Especie",
-    description = "Este metodo permite agregar una especie de árbol que no existiera antes en el microservicio")
-    public ResponseEntity<?> guardarEspecie(@RequestBody Especies especies) {
+            description = "Este metodo permite agregar una especie de árbol que no existiera antes en el microservicio")
+    public ResponseEntity<?> guardarEspecie(@Valid @RequestBody Especies especies) {
         return ResponseEntity.ok(especiesService.guardarEspecie(especies));
     }
     // PUT
+    //@Valid nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios
     @PutMapping("/actualizar/{id}")
     @Operation(summary = "Actualizar Especie completa",
-    description = "Este metodo permite actualizar todos los datos de una especie de árbol. " +
-            "Este metodo se asegura que no intentes actualizar una especie inexistente")
-    public ResponseEntity<?> actualizarEspecie(@PathVariable Long id,@RequestBody Especies especies){
+            description = "Este metodo permite actualizar todos los datos de una especie de árbol. " +
+                    "Este metodo se asegura que no intentes actualizar una especie inexistente")
+    public ResponseEntity<?> actualizarEspecie(@PathVariable Long id,@Valid @RequestBody Especies especies){
         if(!especiesService.existePorId(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe una especie con el ID "+id);
         }
         return ResponseEntity.ok(especiesService.actualizarEspecie(id, especies));
     }
-    //PATCH
+    // PATCH
+    // @Validated, a diferencia de @Valid, evalua los atributos otorgados,
+    // no exige la existencia de todos los atributos
     @PatchMapping("/actualizarParcial/{id}")
     @Operation(summary = "Actualizar Especie",
-    description = "Este metodo permite actualizar parcialmente los datos de una especie")
-    public ResponseEntity<?> actualizarParcialEspecie(@PathVariable Long id, @RequestBody EspeciesDTO dto){
+            description = "Este metodo permite actualizar parcialmente los datos de una especie")
+    public ResponseEntity<?> actualizarParcialEspecie(@PathVariable Long id, @Validated @RequestBody EspeciesDTO dto){
         return especiesService.actualizarParcialEspecie(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

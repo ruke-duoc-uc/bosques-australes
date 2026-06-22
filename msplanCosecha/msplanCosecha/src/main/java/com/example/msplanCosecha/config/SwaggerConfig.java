@@ -11,7 +11,7 @@ public class SwaggerConfig{
     @Bean
     public OpenAPI customOpenAPI() {
         Info info = new Info()
-                .title("Plan Cosecha")
+                .title("Plan Cosecha / Bosques Australes")
                 .version("1.0")
                 .description("Base de datos para planes de cosecha");
         ExternalDocumentation github = new ExternalDocumentation()
