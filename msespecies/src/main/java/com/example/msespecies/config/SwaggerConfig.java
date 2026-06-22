@@ -12,7 +12,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         Info info = new Info()
-                .title("Especies")
+                .title("Especies / Bosques Australes")
                 .version("1.0")
                 .description("Base de datos para especies de árboles");
         ExternalDocumentation github = new ExternalDocumentation()

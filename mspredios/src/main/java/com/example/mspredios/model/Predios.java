@@ -1,7 +1,7 @@
 package com.example.mspredios.model;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Predios")
@@ -11,25 +11,35 @@ public class Predios{
     private Long id;
     @NotBlank
     @Column(name = "nombre",nullable = false, length = 100)
+    @Schema(name = "Nombre",
+    description = "Como se llama el local, zona o extension de tierra")
     private String nombre;
     @NotBlank
     @Column(name = "ciudad", nullable = false, length = 100)
+    @Schema(name = "Ciudad",
+    description = "Ciudad en la que se ubica")
     private String ciudad;
     @NotBlank
     @Column(name = "comuna",nullable = false, length = 100)
+    @Schema(name = "Comuna",
+    description = "Comuna en la que se encuentra, ya que podrian haber mas de una en la misma ciudad" +
+    "hacemos esta distincion por encima")
     private String comuna;
     @NotBlank
     @Column(name="dueño",nullable = false, length = 100)
-    private String dueno;
+    @Schema(name = "Direccion",
+    description = "Direccion exacta del predio, es necesario mencionar la ciudad y comuna" +
+            "para evitar confuciones por nombres o números de calle repetidos")
+    private String direccion;
 
     public Predios() {
     }
 
-    public Predios(String nombre, String ciudad, String comuna, String dueno) {
+    public Predios(String nombre, String ciudad, String comuna, String direccion) {
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.comuna = comuna;
-        this.dueno = dueno;
+        this.direccion = direccion;
     }
 
     public Long getId() {
@@ -56,12 +66,12 @@ public class Predios{
         this.ciudad = ciudad;
     }
 
-    public String getDueno() {
-        return dueno;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDueno(String dueno) {
-        this.dueno = dueno;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getComuna() {

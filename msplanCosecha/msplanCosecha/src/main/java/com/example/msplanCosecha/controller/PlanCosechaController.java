@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/planCosecha")
-@Tag(name = "Plan Cosecha",description = "Microservicio encargado de los planes de cosecha")
+@Tag(name = "Controller / Plan Cosecha",description = "Metodos para interactuar con el msplanCosecha")
 public class PlanCosechaController {
     private final PlanCosechaService planCosechaService;
     public PlanCosechaController(PlanCosechaService planCosechaService){
@@ -22,13 +22,13 @@ public class PlanCosechaController {
     // GET
     @GetMapping
     @Operation(summary = "Listar Planes de cosecha",
-    description = "Este metodo obtiene todos los datos de los planes de cosecha")
+    description = "Obtiene todos los planes de cosecha")
     public ResponseEntity<?> listarPlanCosecha(){
             return ResponseEntity.ok(planCosechaService.listarPlanCosecha());
     }
     @GetMapping("/{id}")
     @Operation(summary = "Buscar Plan de cosecha por ID",
-    description = "Este metodo permite obtener los datos de un plan de cosecha")
+    description = "Permite obtener los datos de un plan de cosecha")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
             if(!planCosechaService.existePorid(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La id "+id+" no existe");
@@ -38,7 +38,8 @@ public class PlanCosechaController {
     // POST
     @PostMapping("/guardar/{idEspecie}")
     @Operation(summary = "Guardar Plan de cosecha",
-    description = "Este metodo guarda un plan de cosecha nuevo en la base de datos, nesecita el ID de una especie para guardarse")
+    description = "Guarda un plan de cosecha nuevo en la base de datos, " +
+                "nesecita el ID de una especie para guardarse")
     public ResponseEntity<?> guardarPlanCosecha(@PathVariable Long idEspecie,
                                                 @Valid @RequestBody PlanCosecha planCosecha){
             return ResponseEntity.ok(planCosechaService.guardarPlanCosecha(idEspecie, planCosecha));

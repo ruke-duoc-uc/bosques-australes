@@ -4,6 +4,6 @@ public record PrediosDTO(
     String nombre,
     String ciudad,
     String comuna,
-    String dueno
+    String direccion
 ) {
 }

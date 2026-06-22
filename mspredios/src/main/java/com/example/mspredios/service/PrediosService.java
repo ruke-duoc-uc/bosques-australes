@@ -36,7 +36,7 @@ public class PrediosService{
         return prediosRepository.findById(id).map(prediosNuevo -> {
             prediosNuevo.setComuna(predios.getComuna());
             prediosNuevo.setCiudad(predios.getCiudad());
-            prediosNuevo.setDueno(predios.getDueno());
+            prediosNuevo.setDireccion(predios.getDireccion());
             prediosNuevo.setNombre(predios.getNombre());
             return prediosRepository.save(prediosNuevo);
         });
@@ -53,8 +53,8 @@ public class PrediosService{
             if (prediosDTO.comuna() != null){
                 predios.setComuna(prediosDTO.comuna());
             }
-            if (prediosDTO.dueno() != null){
-                predios.setDueno(prediosDTO.dueno());
+            if (prediosDTO.direccion() != null){
+                predios.setDireccion(prediosDTO.direccion());
             }
             return prediosRepository.save(predios);
         });
