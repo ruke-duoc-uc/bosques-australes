@@ -33,8 +33,6 @@ public class Factura {
     @Column(name = "nombrePredio", nullable = false)
     private String nombrePredio;
 
-
-
     //Datos de cliente
     // La razonSocial se puede referir a una persona natural o empresa
     @Column(name = "razonSocial")
