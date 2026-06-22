@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,9 @@ import java.util.Map;
 @Service
 public class ClienteService {
     private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
-    private final ClienteRepository clienteRepository;
+    protected final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+    public ClienteService(ClienteRepository clienteRepository, Object o) {
         this.clienteRepository = clienteRepository;
     }
 
