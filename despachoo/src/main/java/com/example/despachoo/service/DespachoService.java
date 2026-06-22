@@ -7,9 +7,9 @@ import com.example.despachoo.client.FacturaDTO;
 import com.example.despachoo.model.DespachoModel;
 import com.example.despachoo.repository.DespachoRepository;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DespachoService {
@@ -31,31 +31,32 @@ public class DespachoService {
     }
 
     public DespachoModel buscarPorId(Long id) {
-        return despachoRepository.findById(id).orElse(null);
+        return despachoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El despacho con ID " + id + " no existe en el sistema."));
     }
 
     public DespachoModel guardar(DespachoModel despacho, Long idEspecies, Long idFactura) {
         return despachoRepository.save(despacho);
     }
 
-    public Optional<DespachoModel> actualizar(Long id, Long idEspecies, Long idFactura,
-                                              DespachoModel despachoActualizado) {
+    public DespachoModel actualizar(Long id, Long idEspecies, Long idFactura,
+                                    DespachoModel despachoActualizado) {
+        DespachoModel despachoModel = buscarPorId(id);
         EspeciesDTO e = especiesClient.obtenerDatosEspecies(idEspecies);
         FacturaDTO f = facturaClient.obtenerDatosFactura(idFactura);
-        return despachoRepository.findById(id).map(despachoModel -> {
-            despachoModel.setFactura(f.numFactura());
-            despachoModel.setEspecie(e.nombre());
-            despachoModel.setEstado(despachoActualizado.getEstado());
-            despachoModel.setNombreDespachador(despachoActualizado.getNombreDespachador());
-            despachoModel.setLugarRecepcion(despachoActualizado.getLugarRecepcion());
-            despachoModel.setTipoPedido(despachoActualizado.getTipoPedido());
-            despachoModel.setLocalidad(despachoActualizado.getLocalidad());
-            despachoModel.setTrazabilidadCompleta(despachoActualizado.getTrazabilidadCompleta());
-            return despachoRepository.save(despachoModel);
-        });
+        despachoModel.setFactura(f.numFactura());
+        despachoModel.setEspecie(e.nombre());
+        despachoModel.setEstado(despachoActualizado.getEstado());
+        despachoModel.setNombreDespachador(despachoActualizado.getNombreDespachador());
+        despachoModel.setLugarRecepcion(despachoActualizado.getLugarRecepcion());
+        despachoModel.setTipoPedido(despachoActualizado.getTipoPedido());
+        despachoModel.setLocalidad(despachoActualizado.getLocalidad());
+        despachoModel.setTrazabilidadCompleta(despachoActualizado.getTrazabilidadCompleta());
+        return despachoRepository.save(despachoModel);
     }
     public void eliminarDespacho(Long id) {
-        despachoRepository.deleteById(id);
+        DespachoModel despacho = buscarPorId(id); // reutiliza el método que ya valida existencia
+        despachoRepository.delete(despacho);
     }
     public boolean existePorId(Long id) {
         return despachoRepository.existsById(id);

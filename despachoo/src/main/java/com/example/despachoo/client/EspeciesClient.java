@@ -3,6 +3,8 @@ package com.example.despachoo.client;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import jakarta.persistence.EntityNotFoundException;
+
 @Component
 public class EspeciesClient {
     private final RestClient restClient;
@@ -16,7 +18,7 @@ public class EspeciesClient {
                 .uri("/{id}", idEspecies)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                    throw new RuntimeException("Especie no encontrada");
+                    throw new EntityNotFoundException("La especie con ID " + idEspecies + " no existe en el sistema.");
                 }).body(EspeciesDTO.class);
     }
 }

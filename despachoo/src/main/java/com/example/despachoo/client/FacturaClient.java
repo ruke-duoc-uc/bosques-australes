@@ -3,6 +3,7 @@ package com.example.despachoo.client;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import jakarta.persistence.EntityNotFoundException;
 
 @Component
 public class FacturaClient {
@@ -17,7 +18,7 @@ public class FacturaClient {
                 .uri("/{id}", idFactura)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                    throw new RuntimeException("Factura no encontrada");
+                    throw new EntityNotFoundException("La factura con ID " + idFactura + " no existe en el sistema.");
                 }).body(FacturaDTO.class);
     }
 
