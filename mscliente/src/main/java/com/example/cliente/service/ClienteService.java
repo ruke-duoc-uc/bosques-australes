@@ -17,7 +17,7 @@ public class ClienteService {
     private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
     protected final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository, Object o) {
+    public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
