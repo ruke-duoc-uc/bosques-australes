@@ -1,6 +1,5 @@
 package com.example.cliente.controller;
 
-import com.example.cliente.dto.ClienteRequestDto;
 import com.example.cliente.model.Cliente;
 import com.example.cliente.model.TipoCliente;
 import com.example.cliente.service.ClienteService;
@@ -27,23 +26,21 @@ public class ClienteControllerTest {
     private StubClienteService stubService;
     private ObjectMapper objectMapper = new ObjectMapper();
     private Cliente clienteBase;
-    private ClienteRequestDto requestDtoBase;
 
-    // CORRECCIÓN 1: Cambiamos 'implements' por 'extends' porque ClienteService es una clase regular
+    // Stub hecho a mano para saltarse las restricciones de Mockito en Java 26
     private static class StubClienteService extends ClienteService {
-        public List<Cliente> listaAretornar = new ArrayList<>();
+        public List<Cliente> listaARetornar = new ArrayList<>();
         public Cliente clienteGuardado;
         public Cliente clienteActualizado;
-        public Map<String, Object> detalleAretornar = new HashMap<>();
+        public Map<String, Object> detalleARetornar = new HashMap<>();
 
-        // CORRECCIÓN 2: Constructor del stub para neutralizar las dependencias originales (Repository, Mapper, etc.)
         public StubClienteService() {
-            super(null, null); // Pasa tantos 'null' como parámetros pida tu constructor de ClienteService original
+            super(null); // Pasa null al repositorio para no levantar dependencias reales
         }
 
         @Override
         public List<Cliente> listarClientes() {
-            return listaAretornar;
+            return listaARetornar;
         }
 
         @Override
@@ -58,20 +55,20 @@ public class ClienteControllerTest {
 
         @Override
         public void desactivarCliente(Long id) {
-            // No requiere lógica interna para este flujo
+            // No hace nada, simula éxito directo
         }
 
         @Override
         public Map<String, Object> obtenerDetalleCliente(Long id) {
-            return detalleAretornar;
+            return detalleARetornar;
         }
     }
 
     @BeforeEach
     void setUp() {
         stubService = new StubClienteService();
-        ClienteController clienteController = new ClienteController(stubService);
-        mockMvc = MockMvcBuilders.standaloneSetup(clienteController).build();
+        ClienteController controller = new ClienteController(stubService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         clienteBase = new Cliente(
                 "Forestal Valdivia S.A.", "77.345.678-9",
@@ -80,24 +77,12 @@ public class ClienteControllerTest {
                 "finanzas@forvaldivia.cl", TipoCliente.EXPORTADOR, true
         );
         clienteBase.setId(1L);
-
-        requestDtoBase = new ClienteRequestDto();
-        requestDtoBase.setNombre("Forestal Valdivia S.A.");
-        requestDtoBase.setRut("77.345.678-9");
-        requestDtoBase.setRazonSocial("Sociedad Comercial Forestal Valdivia Limitada");
-        requestDtoBase.setDireccion("Esmeralda 450");
-        requestDtoBase.setComuna("Valdivia");
-        requestDtoBase.setCiudad("Valdivia");
-        requestDtoBase.setTelefono("+56632221100");
-        requestDtoBase.setEmail("finanzas@forvaldivia.cl");
-        requestDtoBase.setTipoCliente(TipoCliente.EXPORTADOR);
-        requestDtoBase.setEstado(true);
     }
 
     @Test
-    @DisplayName("Debe retornar 200 OK con la lista de clientes si existen registros")
+    @DisplayName("Debe retornar 200 OK con la lista de clientes")
     void debeRetornarListaClientes() throws Exception {
-        stubService.listaAretornar = Arrays.asList(clienteBase);
+        stubService.listaARetornar = Arrays.asList(clienteBase);
 
         mockMvc.perform(get("/api/cliente")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -109,7 +94,7 @@ public class ClienteControllerTest {
     @Test
     @DisplayName("Debe retornar 204 No Content si la lista está vacía")
     void debeRetornarNoContent() throws Exception {
-        stubService.listaAretornar = new ArrayList<>();
+        stubService.listaARetornar = new ArrayList<>();
 
         mockMvc.perform(get("/api/cliente")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -117,48 +102,50 @@ public class ClienteControllerTest {
     }
 
     @Test
-    @DisplayName("Debe retornar 201 Created al registrar exitosamente")
-    void debeCrearCliente() throws Exception {
+    @DisplayName("Debe retornar 201 Created al guardar un nuevo cliente")
+    void debeGuardarCliente() throws Exception {
         stubService.clienteGuardado = clienteBase;
 
         mockMvc.perform(post("/api/cliente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDtoBase)))
+                        .content(objectMapper.writeValueAsString(clienteBase)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1));
     }
 
     @Test
-    @DisplayName("Debe retornar 200 OK al actualizar con éxito")
+    @DisplayName("Debe retornar 200 OK al actualizar un cliente existente")
     void debeActualizarCliente() throws Exception {
         stubService.clienteActualizado = clienteBase;
 
         mockMvc.perform(put("/api/cliente/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDtoBase)))
+                        .content(objectMapper.writeValueAsString(clienteBase)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
     }
 
     @Test
-    @DisplayName("Debe retornar 204 No Content al desactivar lógicamente")
+    @DisplayName("Debe retornar 204 No Content al desactivar un cliente")
     void debeDesactivarCliente() throws Exception {
+        // Cambiamos 'delete' por 'patch' y añadimos '/desactivar' a la URL
         mockMvc.perform(patch("/api/cliente/{id}/desactivar", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    @DisplayName("Debe retornar 200 OK con el mapa del detalle completo")
-    void debeObtenerDetalle() throws Exception {
+    @DisplayName("Debe retornar 200 OK con el mapa de detalle del cliente")
+    void debeObtenerDetalleCliente() throws Exception {
         Map<String, Object> detalleSimulado = new HashMap<>();
         detalleSimulado.put("id", 1L);
         detalleSimulado.put("nombre", "Forestal Valdivia S.A.");
-        stubService.detalleAretornar = detalleSimulado;
+        stubService.detalleARetornar = detalleSimulado;
 
         mockMvc.perform(get("/api/cliente/{id}/detalle", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nombre").value("Forestal Valdivia S.A."));
     }
 }
