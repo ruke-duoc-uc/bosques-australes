@@ -6,7 +6,9 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version> <relativePath/> </parent>
+		<version>3.2.5</version>
+		<relativePath/>
+	</parent>
 
 	<groupId>com.example</groupId>
 	<artifactId>mscliente</artifactId>
@@ -45,12 +47,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations-jakarta</artifactId>
 			<version>2.2.43</version>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-models-jakarta</artifactId>
@@ -84,9 +88,34 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+							<excludes>
+								<exclude>com/example/cliente/dto/**</exclude>
+								<exclude>com/example/cliente/model/**</exclude>
+								<exclude>com/example/cliente/config/**</exclude>
+								<exclude>com/example/cliente/*Application.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
-		</plugins>
-	</build>
+		</plugins> </build>
 
 </project>
