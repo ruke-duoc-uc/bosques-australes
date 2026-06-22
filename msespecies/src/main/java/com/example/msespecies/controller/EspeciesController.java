@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/especies")
-@Tag(name = "Especies", description = "Metodos del microservicio especies")
-@Schema(description = "Entidad que maneja las especies")
+@Tag(name = "Controller / Especies",description = "Metodos para interactuar con el msespecies")
 public class EspeciesController {
 
     private final EspeciesService especiesService;

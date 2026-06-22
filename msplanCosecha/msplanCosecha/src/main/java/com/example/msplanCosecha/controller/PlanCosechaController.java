@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/planCosecha")
-@Tag(name = "Plan Cosecha",description = "Microservicio encargado de los planes de cosecha")
+@Tag(name = "Controller / Plan Cosecha",description = "Metodos para interactuar con el msplanCosecha")
 public class PlanCosechaController {
     private final PlanCosechaService planCosechaService;
     public PlanCosechaController(PlanCosechaService planCosechaService){

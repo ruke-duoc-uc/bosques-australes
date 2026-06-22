@@ -2,6 +2,7 @@ package com.example.msfactura.controller;
 import com.example.msfactura.model.Factura;
 import com.example.msfactura.model.FacturaDTO;
 import com.example.msfactura.service.FacturaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/factura")
+@Tag(name = "Controller / Factura",description = "Metodos para interactuar con el msfactura")
 public class FacturaController{
     private final FacturaService facturaService;
     public FacturaController(FacturaService facturaService){

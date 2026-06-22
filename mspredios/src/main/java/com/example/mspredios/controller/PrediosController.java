@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/predios")
-@Tag(name = "Predios", description = "Metodos del microservicio predios")
-@Schema(description = "Manejo de Predios")
+@Tag(name = "Controller / Predios",description = "Metodos para interactuar con el mspredios")
 public class PrediosController{
     private final PrediosService prediosService;
     public PrediosController(PrediosService prediosService) {this.prediosService = prediosService;
