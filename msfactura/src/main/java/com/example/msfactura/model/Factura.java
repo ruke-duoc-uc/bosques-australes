@@ -1,5 +1,6 @@
 package com.example.msfactura.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,15 +17,24 @@ public class Factura {
     una factura podria compartir numero con otra */
     @NotBlank
     @Column(name = "Factura")
+    @Schema(name = "Número de  factura",
+    description = "Número de la factura emitido en el SII")
     private Long numFactura;
 
     // El giro es la actividad economica que paga la factura
     @NotBlank
     @Column(name = "giro",nullable = false)
+    @Schema(name = "Giro",
+    description = "Es el proposito del pago, pueden ser compra o pago de bienes y/o servicios")
     private String giro;
 
     @NotBlank
     @Column(name = "monto",nullable = false)
+    @Schema(name = "Monto",
+    description = "Es monto total que se pago en la factura." +
+            "Si bien en Chile se maneja exclusivamente montos enteros, el SII contempla " +
+            "el manejo de montos en monedas extranjeras por necesidades legales, por ende, " +
+            "tambien se permitira el ingreso de numeros con decimales para manejar monedas como el dolar estadounidense")
     private Double monto;
 
     //Datos de Predio
