@@ -1,5 +1,6 @@
 package com.example.msacopio.client;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -15,7 +16,7 @@ public class EspeciesClient {
                 .uri("/{id}", idCliente)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                    throw new RuntimeException("Especie no encontrada");
+                    throw new EntityNotFoundException("La especie con ID " + idCliente + " no existe en el sistema.");
                 }).body(EspeciesDTO.class);
     }
 

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/acopios")
@@ -33,9 +32,9 @@ public class AcopioController {
     }
 
     @PutMapping("/actualizar/{id}/{idEspecies}")
-    public ResponseEntity<Optional<AcopioModel>> actualizar(@PathVariable Long id,
-                                                            @RequestBody AcopioModel datosNuevos,
-                                                            @PathVariable Long idEspecies) {
+    public ResponseEntity<AcopioModel> actualizar(@PathVariable Long id,
+                                                  @RequestBody AcopioModel datosNuevos,
+                                                  @PathVariable Long idEspecies) {
         return ResponseEntity.ok(acopioService.actualizar(id, idEspecies, datosNuevos));
     }
 
