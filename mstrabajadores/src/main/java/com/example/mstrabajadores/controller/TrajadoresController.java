@@ -4,9 +4,9 @@ import com.example.mstrabajadores.model.TrabajadoresModel;
 import com.example.mstrabajadores.service.TrabajadoresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/trabajadores")
@@ -21,8 +21,8 @@ public class TrajadoresController {
     }
 
     @GetMapping("/{id}")
-    public Optional<TrabajadoresModel> getById(@PathVariable Long id){
-        return service.getById(id);
+    public ResponseEntity<TrabajadoresModel> getById(@PathVariable Long id){
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping
@@ -31,14 +31,13 @@ public class TrajadoresController {
     }
 
     @PutMapping("/{id}")
-    public TrabajadoresModel update(@PathVariable Long id, @RequestBody TrabajadoresModel trabajador){
-        trabajador.setId(id);
-        return service.save(trabajador);
+    public ResponseEntity<TrabajadoresModel> update(@PathVariable Long id, @RequestBody TrabajadoresModel trabajador){
+        return ResponseEntity.ok(service.actualizar(id, trabajador));
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
-        return "Trabajador eliminado correctamente";
+        return ResponseEntity.noContent().build();
     }
 }
