@@ -14,4 +14,11 @@ spring:
           uri: ${MS_PREDIOS_URI:http://localhost:8080}
           predicates:
             - Path=/api/predios/**
-            
+        - id: factura-routes
+          uri: ${MS_FACTURA_URI:http://localhost:8084}
+          predicates:
+            - Path=/api/factura/**
+        - id: planCosecha-routes
+          uri: ${MS_PLANCOSECHA_URI:http://localhost:8089}
+          predicates:
+            - Path=/api/planCosecha/**
