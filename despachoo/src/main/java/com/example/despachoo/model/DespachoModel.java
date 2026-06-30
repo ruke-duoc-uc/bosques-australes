@@ -1,31 +1,44 @@
 package com.example.despachoo.model;
 
 import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name ="Despacho" )
-
+@Schema(
+        name = "Despacho",
+        description = "Representa un despacho de productos forestales dentro del sistema"
+)
 public class DespachoModel {
+    @Schema(description = "Identificador único del despacho", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "Nombre de la persona encargada de realizar el despacho", example = "Juan Pérez")
     @Column(name = "nombreDespachador", nullable = false, length = 100)
     private String nombreDespachador;
+    @Schema(description = "Estado actual del despacho", example = "GENERADA")
     @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)
     private estado estado;
+    @Schema(description = "Lugar donde se recibe el despacho", example = "BODEGA")
     @Column(name = "lugarRecepcion", nullable = false)
     @Enumerated(EnumType.STRING)
     private lugarRecepcion lugarRecepcion;
+    @Schema(description = "Tipo de pedido asociado al despacho", example = "EXPORTACION")
     @Column(name = "tipoPedido", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private tipoPedido tipoPedido;
+    @Schema(description = "Localidad de destino del despacho", example = "Valdivia")
     @Column(name = "Localidad", nullable = false)
     private String localidad;
+    @Schema(description = "Número de factura asociada al despacho", example = "1023")
     @Column(name = "factura", nullable = false, length = 25)
     private Long factura;
+    @Schema(description = "Código de trazabilidad completa del despacho", example = "TRZ-2026-00123")
     @Column(name = "trazabilidadCompleta", nullable = false)
     private String trazabilidadCompleta;
+    @Schema(description = "Especie forestal asociada al despacho", example = "Pino Radiata")
     @Column(name = "especie", nullable = false)
     private String especie;
 
