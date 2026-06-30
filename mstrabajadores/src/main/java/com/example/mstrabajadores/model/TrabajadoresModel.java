@@ -1,32 +1,52 @@
 package com.example.mstrabajadores.model;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "trabajadores")
+@Schema(
+        name = "Trabajador",
+        description = "Representa a un trabajador del proyecto Bosques Australes"
+)
 public class TrabajadoresModel {
+    //Aquí va la parte de documentar con Schema
+    //desde el id hasta la fecha contrato, todos cuentan con la documentacion
+    @Schema(description = "Identificador único del trabajador", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Schema(description = "Nombre completo del trabajador", example = "Pedro González")
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+
+    @Schema(description = "RUT del trabajador", example = "12345678-9")
     @Column(name = "rut", nullable = false, length = 12)
     private String rut;
+
+    @Schema(description = "Estado actual del trabajador", example = "ACTIVO")
     @Enumerated(EnumType.STRING)
     private Estado estado;
+
+    @Schema(description = "Edad del trabajador", example = "35")
     @Column(name = "edad", nullable = false)
     private Integer edad;
+
+    @Schema(description = "Número de teléfono del trabajador", example = "+56912345678")
     @Column(name = "telefono", nullable = false)
     private String telefono;
+
+    @Schema(description = "Correo electrónico del trabajador", example = "pedro.gonzalez@bosquesaustrales.cl")
     @Column(name = "correo", nullable = false)
     private String correo;
 
+    @Schema(description = "Cargo que ocupa el trabajador dentro de la empresa", example = "OPERARIO")
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 
-
+    @Schema(description = "Fecha de inicio del contrato del trabajador", example = "2026-01-15")
     @Column(name = "fechaContrato", nullable = false)
     private Date fechaContrato;
 
