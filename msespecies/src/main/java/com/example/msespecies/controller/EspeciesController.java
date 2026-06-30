@@ -4,7 +4,6 @@ import com.example.msespecies.model.Especies;
 import com.example.msespecies.model.EspeciesDTO;
 import com.example.msespecies.service.EspeciesService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
