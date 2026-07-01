@@ -50,9 +50,11 @@ public class TrabajadoresModel {
     @Column(name = "fechaContrato", nullable = false)
     private Date fechaContrato;
 
+    //Constructor vacio
     public TrabajadoresModel() {
     }
 
+    //Constructor con caracteres
     public TrabajadoresModel(String nombre, String rut, Estado estado, Integer edad,
                              String telefono, String correo, Cargo cargo, Date fechaContrato) {
         this.nombre = nombre;
@@ -65,6 +67,7 @@ public class TrabajadoresModel {
         this.fechaContrato = fechaContrato;
     }
 
+    //Getters and setters
     public long getId() {
         return id;
     }
