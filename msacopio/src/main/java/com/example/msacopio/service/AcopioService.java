@@ -1,4 +1,6 @@
 package com.example.msacopio.service;
+
+import jakarta.persistence.EntityNotFoundException;
 import com.example.msacopio.client.EspeciesClient;
 import com.example.msacopio.client.EspeciesDTO;
 import com.example.msacopio.model.AcopioModel;
@@ -8,7 +10,6 @@ import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class AcopioService {
@@ -30,7 +31,7 @@ public class AcopioService {
 
     public AcopioModel buscarPorId(Long id) {
         return acopioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Acopio no encontrado con id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("El acopio con ID " + id + " no existe en el sistema."));
     }
 
     public AcopioModel crear(AcopioModel acopio, Long idEspecies) {
@@ -48,25 +49,21 @@ public class AcopioService {
         return acopioRepository.save(acopioModel);
     }
 
-    public Optional<AcopioModel> actualizar(Long id, Long idEspecies, AcopioModel datosNuevos) {
+    public AcopioModel actualizar(Long id, Long idEspecies, AcopioModel datosNuevos) {
+        AcopioModel acopioModel = buscarPorId(id);
         EspeciesDTO e = especiesClient.obtenerDatosCliente(idEspecies);
-        return acopioRepository.findById(id).map(acopioModel -> {
-            acopioModel.setCodigoProducto(datosNuevos.getCodigoProducto());
-            acopioModel.setCantidadDisponible(datosNuevos.getCantidadDisponible());
-            acopioModel.setUnidadMedida(datosNuevos.getUnidadMedida());
-            acopioModel.setFechaIngreso(datosNuevos.getFechaIngreso());
-
-            acopioModel.setIdEspecies(e.id());
-            acopioModel.setNombreEspecies(e.nombre());
-            return acopioRepository.save(acopioModel);
-        });
+        acopioModel.setCodigoProducto(datosNuevos.getCodigoProducto());
+        acopioModel.setCantidadDisponible(datosNuevos.getCantidadDisponible());
+        acopioModel.setUnidadMedida(datosNuevos.getUnidadMedida());
+        acopioModel.setFechaIngreso(datosNuevos.getFechaIngreso());
+        acopioModel.setIdEspecies(e.id());
+        acopioModel.setNombreEspecies(e.nombre());
+        return acopioRepository.save(acopioModel);
     }
 
 
     public void eliminar(Long id) {
-        if (!acopioRepository.existsById(id)) {
-            throw new RuntimeException("Acopio no encontrado con id: " + id);
-        }
-        acopioRepository.deleteById(id);
+        AcopioModel acopio = buscarPorId(id);
+        acopioRepository.delete(acopio);
     }
 }
