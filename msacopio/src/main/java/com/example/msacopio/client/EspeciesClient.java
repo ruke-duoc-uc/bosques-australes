@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClient;
 public class EspeciesClient {
     private final RestClient restClient;
     public EspeciesClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8090/api/v1/especies").build();
+        this.restClient = builder.baseUrl("http://localhost:8089/api/v1/especies").build();
     }
     public EspeciesDTO obtenerDatosCliente(Long idCliente) {
         return restClient.get()
