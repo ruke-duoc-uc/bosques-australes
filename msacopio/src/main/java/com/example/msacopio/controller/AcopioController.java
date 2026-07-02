@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/acopios")
+@RequestMapping("/api/acopio")
 @Tag(
         name = "Acopios",
         description = "Operaciones relacionadas con la gestión de acopio de productos"

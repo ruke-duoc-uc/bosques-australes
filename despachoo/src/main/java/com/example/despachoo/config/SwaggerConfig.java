@@ -12,6 +12,6 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI configurarOpenApi() {
-        return (new OpenAPI()).info((new Info()).title("Usuario API").description("Microservicio de gestoón de usuarios").version("1.0.0"));
+        return (new OpenAPI()).info((new Info()).title("Despacho API").description("Microservicio de gestión de despacho").version("1.0.0"));
     }
 }

@@ -17,10 +17,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // 1. AGREGAMOS LA RUTA PERSONALIZADA DE TU CONFIGURACIÓN
-                        .requestMatchers("/api/cuadrilla/v3/api-docs/**").permitAll()
-
-                        // Las demás rutas genéricas de Swagger por si acaso
+                        // Abrimos paso a todas las variantes de Swagger y OpenAPI
                         .requestMatchers("/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
