@@ -3,7 +3,6 @@ import com.example.mspredios.model.Predios;
 import com.example.mspredios.model.PrediosDTO;
 import com.example.mspredios.service.PrediosService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
