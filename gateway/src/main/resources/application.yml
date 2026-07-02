@@ -22,3 +22,21 @@ spring:
           uri: ${MS_PLANCOSECHA_URI:http://localhost:8089}
           predicates:
             - Path=/api/planCosecha/**
+
+        # Rutea /api/cliente/** al ms-cliente (puerto 8081)
+        - id: cliente-routes
+          uri: ${MS_CLIENTE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/cliente/**
+
+        # Rutea /api/v1/cuadrillas/** al ms-cuadrilla (puerto 8088)
+        - id: cuadrilla-routes
+          uri: ${MS_CUADRILLA_URI:http://localhost:8088}
+          predicates:
+            - Path=/api/v1/cuadrillas/**
+
+        # Rutea /api/v1/epps/** y /api/v1/accidentes/** al ms-seguridad (puerto 8085)
+        - id: seguridad-routes
+          uri: ${MS_SEGURIDAD_URI:http://localhost:8085}
+          predicates:
+            - Path=/api/v1/epps/**,/api/v1/accidentes/**
