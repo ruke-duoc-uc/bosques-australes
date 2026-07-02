@@ -1,0 +1,28 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: msgateway
+  cloud:
+    gateway:
+      routes:
+        - id: mscliente
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/cliente/**
+
+        - id: mscuadrilla
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/cuadrillas/**
+
+        - id: msseguridad-accidentes
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/accidentes/**
+
+        - id: msseguridad-epps
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/epps/**
