@@ -4,5 +4,8 @@ public enum estado {
     GENERADA,
     TRANSITO,
     ENTREGADA,
-    CANCELADA
+    CANCELADA;
+
+    private estado() {
+    }
 }

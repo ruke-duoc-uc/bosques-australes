@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  ms-predios:
+    build: ./mspredios
+    container_name: mspredios
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./mspredios/data:/app/data
+
+  ms-especies:
+    build: ./msespecies
+    container_name: ms-especies
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./msespecies/data:/app/data
+
+  ms-factura:
+    build: ./msfactura
+    container_name: ms-factura
+    ports:
+      - "8084:8084"
+    environment:
+      MS_FACTURA_URI: http://ms-factura:8084
+    volumes:
+      - ./msfactura/data:/app/data
+
+  ms-plancosecha:
+    build: ./msplanCosecha
+    container_name: ms-plancosecha
+    ports:
+      - "8089:8089"
+    environment:
+      MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
+    volumes:
+      - ./msplanCosecha/data:/app/data
+
+  ms-acopio:
+    build: ./msacopio
+    container_name: ms-acopio
+    ports:
+      - "8088:8088"
+
+  ms-trabajadores:
+    build: ./mstrabajadores
+    container_name: ms-trabajadores
+    ports:
+      - "8086:8086"
+
+  ms-despacho:
+    build: ./despachoo
+    container_name: ms-despacho
+    ports:
+      - "8083:8083"
+
+  ms-cuadrilla:
+    build: ./mscuadrilla
+    container_name: ms-cuadrilla
+    ports:
+      - "8087:8087"
+    volumes:
+      - ./mscuadrilla/data:/app/data
+
+  api-gateway:
+    build: ./gateway
+    container_name: api-gateway
+    ports:
+      - "8090:8090"
+    environment:
+      MS_PREDIOS_URI: http://ms-predios:8080
+      MS_ESPECIES_URI: http://ms-especies:8082
+      MS_FACTURA_URI: http://ms-factura:8084
+      MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
+      MS_ACOPIO_URI: http://ms-acopio:8088
+      MS_CUADRILLA_URI: http://ms-cuadrilla:8087
+      MS_TRABAJADORES_URI: http://ms-trabajadores:8086
+      MS_DESPACHO_URI: http://ms-despacho:8083
+    depends_on:
+      - ms-predios
+      - ms-especies
+      - ms-factura
+      - ms-plancosecha
+      - ms-acopio
+      - ms-trabajadores
+      - ms-despacho
+      - ms-cuadrilla
