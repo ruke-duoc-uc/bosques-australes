@@ -7,10 +7,14 @@ Esta empresa fue multada por el SAG al no presentar la documentación de origen 
 El repositorio almacena un proyecto de microservicios que almacenan informacion relevante para las regulaciones de negocio, como datos de predios, árboles y su metodos de trabajo, clientes, facturas, trabajadores etc.
 El objetivo es facilitar el ingreso y consulta de dicha informacion para cumplir con las regulaciones del SAG y otras entidades reguladoras segun corresponda 
 # Indice
-- [MicroServicios](#microservicios)
+- [Equipo de desarrollo](#equipo)
+- [Micro-servicios](#microoservicios-implementados)
+- [Dependencias](#dependencias-utilizadas-en-los-microservicios)
+- [Commits](#formato-de-titulo-en-commit)
 - [Comunicaciones](#comunicaciones)
+- [Rutas de comunicacion](#rutas-de-comunicación)
 - [Metodos](#sintaxtis-de-metodos)
-
+- [Uso del proyecto](#levantamiento-de-servicios-con-docker)
 # Equipo
 | Nombre          | GitHub       |
 |-----------------|--------------|
@@ -43,12 +47,12 @@ Microservicios
 |Jacoco|Cobertura de metodos|
 |H2|Base de datos ligera con persistencia|
 |Swagger|Herramienta de documentacion para metodos de microservicios|
-Gateway
 |Reactive GateWay|Enrutacion de API de microservicios|
-|Reactive Web||
+|Reactive Web|Redireccion de consultas de microservicios|
+
 # Formato de titulo en Commit
-| Tipo      | Cuando usarlo                           | Ejemplo                                              |
-|-----------|-----------------------------------------|------------------------------------------------------|
+| Tipo      | Cambios que se realizan                           | Ejemplo |
+|-----------|:-----------------------------------------|------------------------------------------------------|
 |feat:      | nueva funcionalidad                     | feat: descripción de la nueva funcionalidad          |
 |fix :      | correción de error                      | fix: describir la corrección de error que se realizó |
 |docs:      | cambios en documentación                | docs: describir los cambios realizados               |
@@ -57,23 +61,13 @@ Gateway
 |config:    | configuración de proyecto               | config: describir el cambio en la configuración      |
 
 # Comunicaciones
-|Receptor de informacion|Emisor/es|
-|:---|:---:|
-|msfactura|msclientes / mspredios|
-|mscuadrilla|mstrabajadores|
-|msplanCosecha|msespecies|
+|Receptor de informacion|Emisor/es|Motivo|
+|:---|:---:|---|
+|msfactura|msclientes / mspredios|Cada factura necesita una razón social y una direccion, los clientes responden a una razon social (empresa o persona natural) y BosquesAustrales o sus asociados responden en diferentes direcciones|  
+|mscuadrilla|mstrabajadores|Cada cuadrilla tiene un plantel de trabajadores|
+|msplanCosecha|msespecies|Los planes de cosecha se preparan con una especie en mente|
 |msseguridad|mstrabajadores|
-# Rutas de comunicación
-Ya que el proyecto centraliza las consultas en un Gateway, se utiliza una direccion base, a la cual se le suma  un cuerpo en la direccion para comunicarse con un microsevicio especifico
-```text
-http://localhost:8090
-```
-|Microservicio|Direccion completa|Cuerpo|
-|---|---|---|
-|msespecie|http://localhost:8090/api/especies|/api/especies|
-|mspredios|http://localhost:8090/api/predios|/api/predios|
-|msfactura|http://localhost:8090/api/factura|/api/factura|
-|msplanCosecha|http://localhost:8090/api/planCosecha|/api/planCosecha|
+
 
 # Sintaxtis de metodos
 |Metodo|Funcion|Tipo en Service|
@@ -85,3 +79,33 @@ http://localhost:8090
 |actualizarNombreClaseCompleto|Cambiar los atributos de un objeto, incluyendo los establecidos por otro microservicio|Optional<NombreClase>
 |eliminarNombreClase|Eliminar un objeto|void|
 |existePorId|Metodo Boolean usado para reportar que no se encontro un objeto con la id otorgada|Boolean| 
+
+# Levantamiento de servicios con Docker
+
+Este proyecto se levanta apoyandose de archivos Dockerfile en la carpeta raiz de los microservicios y docker-compose en la raiz del proyecto completo, ademas de un .yml exlusivamente en el Gateway.
+Primero se debe descargar e instalar Docker en su página principal
+
+Despues se clona o descarga el repositorio
+
+```text
+git clone https://github.com/ruke-duoc-uc/bosques-australes.git
+```
+
+Una vez clonado o descargado y descomprimelo, abre la carpeta bosques-australes y abre una consola de comandos, donde debes escribir el siguiente comando
+```text
+docker compose up -d
+```
+Este comando hara que el proyecto levante un contenedor dedicado a cada microservicio, que los mantendra activos en segundo plano
+Una ves que docker este ejecutando el proyecto, ya podras realizar consultas, como se explicara a continuacion
+
+# Rutas de comunicación
+Ya que el proyecto centraliza las consultas en un Gateway, se utiliza una direccion base, a la cual se le suma  un cuerpo en la direccion para comunicarse con un microsevicio especifico
+```text
+http://localhost:8090
+```
+|Microservicio|Direccion completa|Cuerpo|
+|---|---|---|
+|msespecie|http://localhost:8090/api/especies|/api/especies|
+|mspredios|http://localhost:8090/api/predios|/api/predios|
+|msfactura|http://localhost:8090/api/factura|/api/factura|
+|msplanCosecha|http://localhost:8090/api/planCosecha|/api/planCosecha|
