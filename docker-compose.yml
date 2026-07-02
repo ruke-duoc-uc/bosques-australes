@@ -42,18 +42,30 @@ services:
     container_name: ms-acopio
     ports:
       - "8088:8088"
+    environment:
+      MS_ACOPIO_URI: http://ms-acopio:8088
+    volumes:
+      - ./msacopio/data:/app/data
 
   ms-trabajadores:
     build: ./mstrabajadores
     container_name: ms-trabajadores
     ports:
       - "8086:8086"
+    environment:
+      MS_TRABAJADORES_URI: http://ms-trabajadores:8086
+    volumes:
+      - ./mstrabajadores/data:/app/data
 
   ms-despacho:
     build: ./despachoo
     container_name: ms-despacho
     ports:
       - "8083:8083"
+    environment:
+      MS_DESPACHO_URI: http://ms-despacho:8083
+    volumes:
+      - ./despachoo/data:/app/data
 
   ms-cuadrilla:
     build: ./mscuadrilla
