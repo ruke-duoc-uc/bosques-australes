@@ -42,7 +42,7 @@ public class TrabajadoresModel {
     @Column(name = "correo", nullable = false)
     private String correo;
 
-    @Schema(description = "Cargo que ocupa el trabajador dentro de la empresa", example = "OPERARIO")
+    @Schema(description = "Cargo que ocupa el trabajador dentro de la empresa", example = "PODADOR")
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 

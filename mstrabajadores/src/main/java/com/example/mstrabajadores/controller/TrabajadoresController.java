@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class TrabajadoresController {
             description = "Consulta exitosa"
     )
     @GetMapping
-    public List<TrabajadoresModel> getAll(){
+    public List<TrabajadoresModel> getAll() {
         return service.getAll();
     }
 
@@ -45,7 +46,9 @@ public class TrabajadoresController {
             @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<TrabajadoresModel> getById(@PathVariable Long id){
+    public ResponseEntity<TrabajadoresModel> getById(
+            @Parameter(description = "Identificador único del trabajador", example = "1")
+            @PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
@@ -58,7 +61,7 @@ public class TrabajadoresController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping
-    public TrabajadoresModel save(@RequestBody TrabajadoresModel trabajador){
+    public TrabajadoresModel save(@RequestBody TrabajadoresModel trabajador) {
         return service.save(trabajador);
     }
 
@@ -71,7 +74,10 @@ public class TrabajadoresController {
             @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<TrabajadoresModel> update(@PathVariable Long id, @RequestBody TrabajadoresModel trabajador){
+    public ResponseEntity<TrabajadoresModel> update(
+            @Parameter(description = "Identificador único del trabajador", example = "1")
+            @PathVariable Long id,
+            @RequestBody TrabajadoresModel trabajador) {
         return ResponseEntity.ok(service.actualizar(id, trabajador));
     }
 
@@ -84,7 +90,9 @@ public class TrabajadoresController {
             @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(
+            @Parameter(description = "Identificador único del trabajador", example = "1")
+            @PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
