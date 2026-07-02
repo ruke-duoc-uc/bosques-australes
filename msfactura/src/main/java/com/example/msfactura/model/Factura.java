@@ -3,6 +3,7 @@ package com.example.msfactura.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Factura")
@@ -10,12 +11,17 @@ public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    // @NotBlank se asegura que los atributos no esten vacios
+    // @Schema da una breve descripcion de el contenido del atributo, junto a una explicacion de 
+    // porque existe y su forma
     //Datos factura
     /* No podemos forzarlo a ser unico
     por la naturaleza de las emisiones en el SII
     una factura podria compartir numero con otra */
     @NotBlank
+    // Ciertas razones sociales llegan a tener cientos de facturas
+    // usualmente grandes negocios establecidos
+    @Size(max=7)
     @Column(name = "Factura")
     @Schema(name = "Número de  factura",
     description = "Número de la factura emitido en el SII")
@@ -23,12 +29,16 @@ public class Factura {
 
     // El giro es la actividad economica que paga la factura
     @NotBlank
+    @Size(max = 500)
     @Column(name = "giro",nullable = false)
     @Schema(name = "Giro",
     description = "Es el proposito del pago, pueden ser compra o pago de bienes y/o servicios")
     private String giro;
 
     @NotBlank
+    // Es posible que algunas facturas utilizen una cantidad absurda de precision con los decimales
+    // en el caso de monedas extranjeras
+    @Size(max=50)
     @Column(name = "monto",nullable = false)
     @Schema(name = "Monto",
     description = "Es monto total que se pago en la factura." +
@@ -36,7 +46,7 @@ public class Factura {
             "el manejo de montos en monedas extranjeras por necesidades legales, por ende, " +
             "tambien se permitira el ingreso de numeros con decimales para manejar monedas como el dolar estadounidense")
     private Double monto;
-
+    //No se usara @Size para los atributos de otro ms para el caso de que estos cambien de tamaño
     //Datos de Predio
     @Column(name = "direccion",nullable = false)
     private String direccion;

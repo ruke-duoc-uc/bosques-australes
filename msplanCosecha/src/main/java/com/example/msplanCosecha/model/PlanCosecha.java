@@ -11,6 +11,9 @@ public class PlanCosecha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // @NotBlank se asegura que los atributos no esten vacios
+    // @Schema da una breve descripcion de el contenido del atributo, junto a una explicacion de 
+// porque existe y su forma 
     //Datos PlanCosecha
     @NotBlank
     @Column(name = "edadRodal")
@@ -24,6 +27,7 @@ public class PlanCosecha {
     @Schema(name = "Descripción",description = "Aqui se dan todos los detalles, sobre el procedimiento de cosecha, herramientas, tecnicas, medidas de seguridad y otros detalles importantes")
     @Column(name = "descripcion")
     private String descripcion;
+    
     //Datos especie
     @NotBlank
     @Column(name = "especie")

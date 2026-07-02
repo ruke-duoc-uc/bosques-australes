@@ -9,6 +9,9 @@ public class Predios{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // @NotBlank se asegura que los atributos no esten vacios
+    // @Schema da una breve descripcion de el contenido del atributo, junto a una explicacion de 
+// porque existe y su forma 
     @NotBlank
     @Column(name = "nombre",nullable = false, length = 100)
     @Schema(name = "Nombre",
