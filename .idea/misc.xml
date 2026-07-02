@@ -9,7 +9,19 @@
         <option value="$PROJECT_DIR$/msfactura/pom.xml" />
         <option value="$PROJECT_DIR$/msespecies/pom.xml" />
         <option value="$PROJECT_DIR$/msacopio/pom.xml" />
+        <option value="$PROJECT_DIR$/cliente/pom.xml" />
+        <option value="$PROJECT_DIR$/msplanCosecha/pom.xml" />
+        <option value="$PROJECT_DIR$/mscuadrilla/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/msseguridad/pom.xml" />
+        <option value="$PROJECT_DIR$/mscliente/pom.xml" />
+        <option value="$PROJECT_DIR$/despachoo/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cliente/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_25" default="true" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK" />

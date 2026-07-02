@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae5ad597-c4e7-4410-ad0b-a282bdf285f2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/despachoo/data/despachoodb.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/despachoo/data/despachoodb.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mstrabajadores/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mstrabajadores/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,9 +53,19 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "isidora-ayala",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/bgdia/Downloads/bosques-australes-isidora-ayala (1)/bosques-australes-isidora-ayala",
     "nodejs_package_manager_path": "npm"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bgdia\Downloads\bosques-australes-isidora-ayala (1)\bosques-australes-isidora-ayala" />
+      <recent name="C:\Users\bgdia\Downloads\bosques-australes-isidora-ayala (1)\bosques-australes-isidora-ayala\mscuadrilla\src\main" />
+      <recent name="C:\Users\bgdia\Downloads\bosques-australes-isidora-ayala (1)\bosques-australes-isidora-ayala\msplanCosecha\src" />
+      <recent name="C:\Users\bgdia\Downloads\bosques-australes-isidora-ayala (1)\bosques-australes-isidora-ayala\msplanCosecha\src\main" />
+      <recent name="C:\Users\bgdia\Downloads\bosques-australes-isidora-ayala (1)\bosques-australes-isidora-ayala\gateway\src\main" />
+    </key>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ae5ad597-c4e7-4410-ad0b-a282bdf285f2" name="Changes" comment="" />
