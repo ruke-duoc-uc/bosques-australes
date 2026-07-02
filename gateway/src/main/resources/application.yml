@@ -10,23 +10,33 @@ spring:
           uri: ${MS_ESPECIES_URI:http://localhost:8082}
           predicates:
             - Path=/api/especies/**
+
         - id: predios-routes
           uri: ${MS_PREDIOS_URI:http://localhost:8080}
           predicates:
             - Path=/api/predios/**
+
         - id: factura-routes
           uri: ${MS_FACTURA_URI:http://localhost:8084}
           predicates:
             - Path=/api/factura/**
+
         - id: planCosecha-routes
           uri: ${MS_PLANCOSECHA_URI:http://localhost:8089}
           predicates:
             - Path=/api/planCosecha/**
+
         - id: acopio-routes
           uri: ${MS_ACOPIO_URI:http://ms-acopio:8088}
           predicates:
             - Path=/api/acopio/**
+
         - id: trabajadores-routes
           uri: ${MS_TRABAJADORES_URI:http://ms-trabajadores:8086}
           predicates:
             - Path=/api/trabajadores/**
+
+        - id: despacho-routes
+          uri: ${MS_DESPACHO_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/despachos/**

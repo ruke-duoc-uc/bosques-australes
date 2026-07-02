@@ -57,6 +57,16 @@ services:
     volumes:
       - ./mstrabajadores/data:/app/data
 
+  ms-despacho:
+    build: ./despachoo
+    container_name: ms-despacho
+    ports:
+      - "8083:8083"
+    environment:
+      MS_DESPACHO_URI: http://ms-despacho:8083
+    volumes:
+      - ./despachoo/data:/app/data
+
   api-gateway:
     build: ./gateway
     container_name: api-gateway
@@ -69,6 +79,7 @@ services:
       MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
       MS_ACOPIO_URI: http://ms-acopio:8088
       MS_TRABAJADORES_URI: http://ms-trabajadores:8086
+      MS_DESPACHO_URI: http://ms-despacho:8083
 
     depends_on:
       - ms-predios
@@ -77,3 +88,4 @@ services:
       - ms-plancosecha
       - ms-acopio
       - ms-trabajadores
+      - ms-despacho
