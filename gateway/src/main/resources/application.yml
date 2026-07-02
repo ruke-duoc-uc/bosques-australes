@@ -22,8 +22,11 @@ spring:
           uri: ${MS_PLANCOSECHA_URI:http://localhost:8089}
           predicates:
             - Path=/api/planCosecha/**
-          
         - id: acopio-routes
           uri: ${MS_ACOPIO_URI:http://ms-acopio:8088}
           predicates:
             - Path=/api/acopio/**
+        - id: trabajadores-routes
+          uri: ${MS_TRABAJADORES_URI:http://ms-trabajadores:8086}
+          predicates:
+            - Path=/api/trabajadores/**

@@ -36,6 +36,7 @@ services:
       MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
     volumes:
       - ./msplanCosecha/data:/app/data
+
   ms-acopio:
       build: ./msacopio
       container_name: ms-acopio
@@ -45,6 +46,16 @@ services:
         MS_ACOPIO_URI: http://ms-acopio:8088
       volumes:
         - ./msacopio/data:/app/data
+
+  ms-trabajadores:
+    build: ./mstrabajadores
+    container_name: ms-trabajadores
+    ports:
+      - "8086:8086"
+    environment:
+      MS_TRABAJADORES_URI: http://ms-trabajadores:8086
+    volumes:
+      - ./mstrabajadores/data:/app/data
 
   api-gateway:
     build: ./gateway
@@ -57,9 +68,12 @@ services:
       MS_FACTURA_URI: http://ms-factura:8084
       MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
       MS_ACOPIO_URI: http://ms-acopio:8088
+      MS_TRABAJADORES_URI: http://ms-trabajadores:8086
+
     depends_on:
       - ms-predios
       - ms-especies
       - ms-factura
       - ms-plancosecha
       - ms-acopio
+      - ms-trabajadores
