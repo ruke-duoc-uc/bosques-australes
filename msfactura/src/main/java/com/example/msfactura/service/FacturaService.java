@@ -7,6 +7,8 @@ import com.example.msfactura.client.PrediosDTO;
 import com.example.msfactura.model.Factura;
 import com.example.msfactura.model.FacturaDTO;
 import com.example.msfactura.repository.FacturaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class FacturaService {
+    private static final Logger log = LoggerFactory.getLogger(FacturaService.class);
     private final FacturaRepository facturaRepository;
     private final PrediosClient prediosClient;
     private final ClientesClient clientesClient;
@@ -26,13 +29,16 @@ public class FacturaService {
     }
     // GET
     public List<Factura> listarFactura(){
+        log.info("[msfactura] Service - Listando todas las facturas desde el repositorio");
         return facturaRepository.findAll();
     }
     public Factura buscarPorId(Long id){
+        log.info("[msfactura] Service - Buscando factura por ID: {}", id);
         return facturaRepository.findById(id).orElse(null);
     }
     // POST
     public Factura guardarFactura(Long idPredio, Long idCliente, Factura factura) {
+        log.info("[msfactura] Service - Guardando nueva factura vinculada a Predio ID: {} y Cliente ID: {}", idPredio, idCliente);
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         // 2. Crear y poblar la entidad
@@ -56,6 +62,7 @@ public class FacturaService {
                                                        Long idPredio,
                                                        Long idCliente,
                                                        Factura facturaActualizada){
+        log.info("[msfactura] Service - Actualizando factura completa con ID: {}, Predio ID: {}, Cliente ID: {}", id, idPredio, idCliente);
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
         ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(idCliente);
         return facturaRepository.findById(id).map(factura -> {
@@ -76,6 +83,7 @@ public class FacturaService {
     // PATCH
     public Optional<Factura> actualizarFacturaParcial(Long id,
                                                       FacturaDTO facturaDTO){
+        log.info("[msfactura] Service - Actualizando parcialmente factura con ID: {}", id);
         return facturaRepository.findById(id).map(factura -> {
             if (facturaDTO.numFactura() != null){
                 factura.setNumFactura(facturaDTO.numFactura());
@@ -102,7 +110,11 @@ public class FacturaService {
         });
     }
     public void eliminarFactura(Long id){
+        log.info("[msfactura] Service - Eliminando factura con ID: {}", id);
         facturaRepository.deleteById(id);
     }
-    public Boolean existePorId(Long id){return facturaRepository.existsById(id);}
+    public Boolean existePorId(Long id){
+        log.info("[msfactura] Service - Verificando existencia de factura con ID: {}", id);
+        return facturaRepository.existsById(id);
+    }
 }
