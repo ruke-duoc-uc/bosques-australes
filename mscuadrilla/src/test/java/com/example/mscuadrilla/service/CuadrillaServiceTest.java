@@ -45,7 +45,7 @@ public class CuadrillaServiceTest {
         when(builderMock.build()).thenReturn(restClient); // <-- Usamos el de la clase
 
         // 2. Instanciamos el servicio pasándole este builder
-        cuadrillaService = new CuadrillaService(cuadrillaRepository, builderMock);
+        cuadrillaService = new CuadrillaService(cuadrillaRepository, builderMock, "http://localhost:8086");
 
         // 3. Objeto base para los tests
         cuadrillaBase = new Cuadrilla();

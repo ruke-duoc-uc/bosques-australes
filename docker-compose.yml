@@ -16,7 +16,12 @@ services:
       - "8082:8082"
     volumes:
       - ./msespecies/data:/app/data
-
+  # Los microservicios que necesitan comunicarse con otro deben
+  # tener declarado sus puertos en environment
+  # Si bien se pueden usar metodos GET, esto solo es posible
+  # gracias a que el metodo no necesita alimentarse de datos externos
+  # como en el caso de PUT 
+  
   ms-factura:
     build: ./msfactura
     container_name: ms-factura
@@ -39,14 +44,18 @@ services:
       MS_ESPECIES_URI: http://ms-especies:8082
     volumes:
       - ./msplanCosecha/data:/app/data
-
+  # Los microservicios que necesitan comunicarse con otro deben
+  # tener declarado sus puertos en environment
+  # Si bien se pueden usar metodos GET, esto solo es posible
+  # gracias a que el metodo no necesita alimentarse de datos externos
+  # como en el caso de PUT 
   ms-acopio:
       build: ./msacopio
       container_name: ms-acopio
       ports:
-        - "8088:8088"
+        - "8087:8087"
       environment:
-        MS_ACOPIO_URI: http://ms-acopio:8088
+        MS_ACOPIO_URI: http://ms-acopio:8087
         MS_ESPECIES_URI: http://ms-especies:8082
       volumes:
         - ./msacopio/data:/app/data
@@ -93,7 +102,7 @@ services:
       MS_ESPECIES_URI: http://ms-especies:8082
       MS_FACTURA_URI: http://ms-factura:8084
       MS_PLANCOSECHA_URI: http://ms-plancosecha:8089
-      MS_ACOPIO_URI: http://ms-acopio:8088
+      MS_ACOPIO_URI: http://ms-acopio:8087
       MS_TRABAJADORES_URI: http://ms-trabajadores:8086
       MS_DESPACHO_URI: http://ms-despacho:8083
       MS_CLIENTE_URI: http://ms-cliente:8081
