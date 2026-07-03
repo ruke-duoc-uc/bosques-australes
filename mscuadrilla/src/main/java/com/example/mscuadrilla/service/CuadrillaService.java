@@ -13,16 +13,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class CuadrillaService {
     private static final Logger log = LoggerFactory.getLogger(CuadrillaService.class);
     private final CuadrillaRepository repository;
     private final RestClient restClient;
 
-    public CuadrillaService(CuadrillaRepository repository, RestClient.Builder restClientBuilder) {
+    public CuadrillaService(CuadrillaRepository repository, RestClient.Builder restClientBuilder, @Value("${MS_TRABAJADORES_URI:http://localhost:8086}") String baseUrl) {
         this.repository = repository;
         // La URL base apunta al controller de tu compañero
-        this.restClient = restClientBuilder.baseUrl("http://localhost:8086/api/trabajadores").build();
+        this.restClient = restClientBuilder.baseUrl(baseUrl + "/api/trabajadores").build();
     }
 
     public List<Cuadrilla> listarTodas() {

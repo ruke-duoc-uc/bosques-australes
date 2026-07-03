@@ -32,6 +32,7 @@ public class ClienteControllerTest {
         public List<Cliente> listaARetornar = new ArrayList<>();
         public Cliente clienteGuardado;
         public Cliente clienteActualizado;
+        public Cliente clientePorId;
         public Map<String, Object> detalleARetornar = new HashMap<>();
 
         public StubClienteService() {
@@ -51,6 +52,11 @@ public class ClienteControllerTest {
         @Override
         public Cliente actualizarCliente(Long id, Cliente cliente) {
             return clienteActualizado;
+        }
+
+        @Override
+        public Cliente obtenerPorId(Long id) {
+            return clientePorId;
         }
 
         @Override
@@ -102,11 +108,23 @@ public class ClienteControllerTest {
     }
 
     @Test
+    @DisplayName("Debe retornar 200 OK al obtener un cliente por ID")
+    void debeObtenerClientePorId() throws Exception {
+        stubService.clientePorId = clienteBase;
+
+        mockMvc.perform(get("/api/cliente/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nombre").value("Forestal Valdivia S.A."));
+    }
+
+    @Test
     @DisplayName("Debe retornar 201 Created al guardar un nuevo cliente")
     void debeGuardarCliente() throws Exception {
         stubService.clienteGuardado = clienteBase;
 
-        mockMvc.perform(post("/api/cliente")
+        mockMvc.perform(post("/api/cliente/guardar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteBase)))
                 .andExpect(status().isCreated())

@@ -40,3 +40,8 @@ spring:
           uri: ${MS_DESPACHO_URI:http://localhost:8083}
           predicates:
             - Path=/api/despachos/**
+            
+        - id: cliente-routes
+          uri: ${MS_CLIENTE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/cliente/**

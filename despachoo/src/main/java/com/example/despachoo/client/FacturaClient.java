@@ -1,5 +1,6 @@
 package com.example.despachoo.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -8,8 +9,8 @@ import org.springframework.web.client.RestClient;
 public class FacturaClient {
     private final RestClient restClient;
 
-    public FacturaClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8084/api/factura").build();
+    public FacturaClient(RestClient.Builder builder, @Value("${MS_FACTURA_URI:http://localhost:8084}") String baseUrl) {
+        this.restClient = builder.baseUrl(baseUrl + "/api/factura").build();
     }
 
     public FacturaDTO obtenerDatosFactura(Long idFactura) {

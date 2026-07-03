@@ -11,21 +11,32 @@ import java.util.List;
 import java.util.Date;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Date;
+import java.util.Map;
+
 @Service
 public class AccidenteService {
 
     private final SeguridadRepository accidenteRepository;
     private final RestTemplate restTemplate; // Inyectamos el bean que creaste
+    private final String trabajadoresUri;
 
-    public AccidenteService(SeguridadRepository accidenteRepository, RestTemplate restTemplate) {
+    public AccidenteService(SeguridadRepository accidenteRepository, RestTemplate restTemplate, @Value("${MS_TRABAJADORES_URI:http://localhost:8086}") String trabajadoresUri) {
         this.accidenteRepository = accidenteRepository;
         this.restTemplate = restTemplate;
+        this.trabajadoresUri = trabajadoresUri;
     }
 
     public Accidente registrar(Accidente accidente) {
         //VALIDACIÓN EXTERNA: Llamada al Micro de Trabajador
         try {
-            String url = "http://localhost:8086/api/trabajadores/" + accidente.getTrabajadorId();
+            String url = trabajadoresUri + "/api/trabajadores/" + accidente.getTrabajadorId();
             // Si el trabajador no existe, RestTemplate lanzará una excepción automáticamente
             restTemplate.getForObject(url, Object.class);
         } catch (Exception e) {
