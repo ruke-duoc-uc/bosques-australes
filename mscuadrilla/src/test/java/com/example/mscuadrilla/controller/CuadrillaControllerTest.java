@@ -25,7 +25,6 @@ public class CuadrillaControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
     private Cuadrilla cuadrillaBase;
 
-    // --- STUB MEJORADO INMUNE A JAVA 26 Y AL CONSTRUCTOR CON RESTCLIENT ---
     private static class StubCuadrillaService extends CuadrillaService {
         public List<Cuadrilla> listaARetornar = new ArrayList<>();
         public Cuadrilla cuadrillaGuardada;
@@ -33,14 +32,13 @@ public class CuadrillaControllerTest {
         public Map<String, Object> detalleARetornar = new HashMap<>();
 
         public StubCuadrillaService() {
-            // Pasamos mocks básicos directamente en el super para que el constructor de CuadrillaService no lance NullPointerException
             super(
                     org.mockito.Mockito.mock(com.example.mscuadrilla.repository.CuadrillaRepository.class),
-                    crearBuilderFalso()
+                    crearBuilderFalso(),
+                    "http://localhost:8086"
             );
         }
 
-        // Método auxiliar para simular el encadenamiento .baseUrl().build() del RestClient
         private static org.springframework.web.client.RestClient.Builder crearBuilderFalso() {
             org.springframework.web.client.RestClient.Builder builder =
                     org.mockito.Mockito.mock(org.springframework.web.client.RestClient.Builder.class);
@@ -70,7 +68,6 @@ public class CuadrillaControllerTest {
 
         @Override
         public void eliminar(Long id) {
-            // Simula éxito de borrado lógico o físico sin hacer nada
         }
 
         @Override
@@ -85,15 +82,11 @@ public class CuadrillaControllerTest {
         CuadrillaController controller = new CuadrillaController(stubService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
-        // Inicializamos los datos ficticios en formato Java Puro (sin Lombok)
         cuadrillaBase = new Cuadrilla();
         cuadrillaBase.setId(1L);
         cuadrillaBase.setNombre("Cuadrilla Alfa");
         cuadrillaBase.setZona("Zona Sur");
-
-        // NOTA: Ajusta a setSpecialty(..) o setEspecialidad(..) según tu modelo real
         cuadrillaBase.setEspecialidad("Poda");
-
         cuadrillaBase.setEstado(true);
         cuadrillaBase.setTrabajadoresIds(Arrays.asList(1L, 2L));
     }

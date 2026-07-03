@@ -1,5 +1,6 @@
 package com.example.msfactura.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -7,8 +8,8 @@ import org.springframework.web.client.RestClient;
 public class ClientesClient {
     private final RestClient restClient;
 
-    public ClientesClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8081/api/cliente").build();
+    public ClientesClient(RestClient.Builder builder, @Value("${MS_CLIENTE_URI:http://localhost:8081}") String baseUrl) {
+        this.restClient = builder.baseUrl(baseUrl + "/api/cliente").build();
     }
 
     public ClientesDTO obtenerDatosCliente(Long idCliente) {

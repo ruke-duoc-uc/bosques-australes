@@ -23,15 +23,14 @@ public class GlobalExceptionHandlerTest {
     private MockMvc mockMvc;
     private StubCuadrillaService stubService;
 
-    // --- STUB MANUAL TOTALMENTE INMUNE A MOCKITO EN JAVA 26 ---
     private static class StubCuadrillaService extends CuadrillaService {
         public RuntimeException excepcionAAlzar;
 
         public StubCuadrillaService() {
-            // Le pasamos mocks simples a los componentes internos (interfaces de JPA)
             super(
                     org.mockito.Mockito.mock(com.example.mscuadrilla.repository.CuadrillaRepository.class),
-                    crearBuilderFalso()
+                    crearBuilderFalso(),
+                    "http://localhost:8086"
             );
         }
 
@@ -63,7 +62,6 @@ public class GlobalExceptionHandlerTest {
         stubService = new StubCuadrillaService();
         CuadrillaController controller = new CuadrillaController(stubService);
 
-        // Enlazamos el controlador con tu manejador de excepciones real
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();

@@ -1,5 +1,6 @@
 package com.example.msplanCosecha.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -8,8 +9,8 @@ import org.springframework.web.client.RestClient;
 public class EspeciesClient {
     private final RestClient restClient;
 
-    public EspeciesClient(RestClient.Builder builder) {
-        this.restClient = builder.baseUrl("http://localhost:8082/api/especies").build();
+    public EspeciesClient(RestClient.Builder builder, @Value("${MS_ESPECIES_URI:http://localhost:8082}") String baseUrl) {
+        this.restClient = builder.baseUrl(baseUrl + "/api/especies").build();
     }
 
     public EspeciesDTO obtenerDatosCliente(Long idCliente) {

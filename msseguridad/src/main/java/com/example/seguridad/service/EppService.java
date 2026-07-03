@@ -5,6 +5,7 @@ import com.example.seguridad.repository.EppRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -19,11 +20,13 @@ public class EppService {
 
     private final EppRepository eppRepository;
     private final RestTemplate restTemplate;
+    private final String trabajadoresUri;
 
 
-    public EppService(EppRepository eppRepository, RestTemplate restTemplate) {
+    public EppService(EppRepository eppRepository, RestTemplate restTemplate, @Value("${MS_TRABAJADORES_URI:http://localhost:8086}") String trabajadoresUri) {
         this.eppRepository = eppRepository;
         this.restTemplate = restTemplate;
+        this.trabajadoresUri = trabajadoresUri;
     }
 
     public List<Epp> listarTodos() {
@@ -45,7 +48,7 @@ public class EppService {
         log.info("[seguridad] Registrando EPP para trabajador id={}", epp.getTrabajadorId());
 
         try {
-            String url = "http://localhost:8086/api/trabajadores/" + epp.getTrabajadorId();
+            String url = trabajadoresUri + "/api/trabajadores/" + epp.getTrabajadorId();
             // Si el trabajador no existe, esto lanzará una excepción
             restTemplate.getForObject(url, Object.class);
         } catch (Exception e) {

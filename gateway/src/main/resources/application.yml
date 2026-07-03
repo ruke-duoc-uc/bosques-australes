@@ -27,7 +27,7 @@ spring:
             - Path=/api/planCosecha/**
 
         - id: acopio-routes
-          uri: ${MS_ACOPIO_URI:http://ms-acopio:8088}
+          uri: ${MS_ACOPIO_URI:http://ms-acopio:8087}
           predicates:
             - Path=/api/acopio/**
 
@@ -40,3 +40,8 @@ spring:
           uri: ${MS_DESPACHO_URI:http://localhost:8083}
           predicates:
             - Path=/api/despachos/**
+            
+        - id: cliente-routes
+          uri: ${MS_CLIENTE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/cliente/**

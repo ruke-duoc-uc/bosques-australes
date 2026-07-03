@@ -51,6 +51,21 @@ public class ClienteController {
     }
 
     @Operation(
+            summary = "Obtiene un cliente por su ID",
+            description = "Retorna los datos de un cliente comercial registrado en el sistema buscando por su ID"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Cliente encontrado"),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado con el ID especificado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDto> getById(@PathVariable Long id) {
+        Cliente cliente = clienteService.obtenerPorId(id);
+        return ResponseEntity.ok(convertirAResponseDto(cliente));
+    }
+
+    @Operation(
             summary = "Registrar un nuevo cliente",
             description = "Permite ingresar un nuevo cliente comercial validando que el RUT no esté duplicado"
     )
@@ -60,7 +75,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "409", description = "Conflicto: El RUT ingresado ya existe"),
             @ApiResponse(responseCode = "500", description = "Error interno del sistema")
     })
-    @PostMapping
+    @PostMapping("/guardar")
     public ResponseEntity<ClienteResponseDto> create(@Valid @RequestBody ClienteRequestDto dto) {
         Cliente cliente = new Cliente();
         mapearDtoAEntidad(dto, cliente);
