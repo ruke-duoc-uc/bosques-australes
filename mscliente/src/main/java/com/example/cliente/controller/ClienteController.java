@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Controlador REST que expone los endpoints HTTP para gestionar Clientes.
+ * Url base de acceso: http://localhost:8081/api/cliente
+ */
 @RestController
 @RequestMapping("/api/cliente")
 @Tag(
@@ -28,10 +32,20 @@ import java.util.Map;
 public class ClienteController {
 
     private final ClienteService clienteService;
+    /**
+     * Inyección por constructor del servicio de negocio.
+     */
 
     public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
+    /**
+     * ¿Qué hace?: Atiende peticiones HTTP GET para listar todos los clientes.
+     * ¿Qué recibe?: Nada.
+     * ¿Qué entrega?:
+     * - HTTP 200 OK: Lista de objetos 'ClienteResponseDto' (Datos públicos filtrados).
+     * - HTTP 204 No Content: Si la lista en la BD está vacía.
+     */
     @Operation(
             summary = "Obtiene todos los clientes",
             description = "Retorna una lista con todos los clientes comerciales registrados en el sistema"
@@ -50,6 +64,13 @@ public class ClienteController {
         return ResponseEntity.ok(dtos);
     }
 
+    /**
+     * ¿Qué hace?: Busca un cliente individual mediante la variable de ruta {id}.
+     * ¿Qué recibe?: El id (Long) en la URL (ej: /api/cliente/5).
+     * ¿Qué entrega?:
+     * - HTTP 200 OK: El DTO del cliente encontrado.
+     * - HTTP 404 Not Found: Si el servicio lanza una excepción al no hallar el ID.
+     */
     @Operation(
             summary = "Obtiene un cliente por su ID",
             description = "Retorna los datos de un cliente comercial registrado en el sistema buscando por su ID"
@@ -64,7 +85,15 @@ public class ClienteController {
         Cliente cliente = clienteService.obtenerPorId(id);
         return ResponseEntity.ok(convertirAResponseDto(cliente));
     }
-
+    /**
+     * ¿Qué hace?: Procesa la creación de un nuevo cliente.
+     * ¿Qué recibe?: Un JSON en el cuerpo (@RequestBody) mapeado como ClienteRequestDto.
+     * La anotación @Valid activa las validaciones del DTO (como @NotNull, @Email, etc.).
+     * ¿Qué entrega?:
+     * - HTTP 201 Created: El cliente recién guardado con su ID autogenerado.
+     * - HTTP 400 Bad Request: Si las validaciones fallan.
+     * - HTTP 409 Conflict: Si el RUT ya existe (controlado desde el Service).
+     */
     @Operation(
             summary = "Registrar un nuevo cliente",
             description = "Permite ingresar un nuevo cliente comercial validando que el RUT no esté duplicado"
@@ -83,7 +112,11 @@ public class ClienteController {
         Cliente guardado = clienteService.guardarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(convertirAResponseDto(guardado));
     }
-
+    /**
+     * ¿Qué hace?: Sobreescribe los datos de un cliente existente por ID.
+     * ¿Qué recibe?: El id en la ruta y el nuevo JSON con modificaciones en el cuerpo (@RequestBody).
+     * ¿Qué entrega?: HTTP 200 OK con el DTO del cliente ya modificado.
+     */
     @Operation(
             summary = "Actualizar datos de un cliente",
             description = "Modifica la información de un cliente existente buscando por su Identificador único"
@@ -103,7 +136,11 @@ public class ClienteController {
         Cliente actualizado = clienteService.actualizarCliente(id, datosNuevos);
         return ResponseEntity.ok(convertirAResponseDto(actualizado));
     }
-
+    /**
+     * ¿Qué hace?: Aplica una actualización parcial usando PATCH para desactivar la cuenta del cliente (Borrado Lógico).
+     * ¿Qué recibe?: El id en la ruta (ej: /api/cliente/5/desactivar).
+     * ¿Qué entrega?: HTTP 204 No Content para indicar éxito sin enviar datos de respuesta.
+     */
     @Operation(
             summary = "Desactivar un cliente (Eliminación Lógica)",
             description = "Cambia el estado del cliente a falso (inactivo) para resguardar la integridad de los datos históricos."
@@ -117,7 +154,11 @@ public class ClienteController {
         clienteService.desactivarCliente(id);
         return ResponseEntity.noContent().build();
     }
-
+    /**
+     * ¿Qué hace?: Compila una vista estructurada en formato clave-valor (Map) del cliente.
+     * ¿Qué recibe?: El id en la ruta.
+     * ¿Qué entrega?: HTTP 200 OK con el mapa de datos que incluye información que se cruzará con el microservicio de contratos.
+     */
     @Operation(
             summary = "Obtener el detalle de un cliente con sus contratos",
             description = "Consulta la información local del cliente y se conecta de forma distribuida con el módulo de Contratos"
@@ -134,6 +175,9 @@ public class ClienteController {
     }
 
     // --- Métodos Auxiliares de Traspaso ---
+    /**
+     * Pasa los datos desde una Entidad origen (JPA / BD) hacia un DTO destino (Respuesta JSON externa).
+     */
     private ClienteResponseDto convertirAResponseDto(Cliente entidad) {
         ClienteResponseDto dto = new ClienteResponseDto();
         dto.setId(entidad.getId());
@@ -150,6 +194,9 @@ public class ClienteController {
         return dto;
     }
 
+    /**
+     * Pasa los datos desde un DTO de entrada (Request JSON) hacia una Entidad JPA lista para ser procesada.
+     */
     private void mapearDtoAEntidad(ClienteRequestDto dto, Cliente entidad) {
         entidad.setNombre(dto.getNombre());
         entidad.setRut(dto.getRut());
