@@ -7,6 +7,14 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * CLASE DE CONFIGURACIÓN GLOBAL - INTEGRACIÓN CON SWAGGER / OPENAPI 3
+ * Esta clase técnica es detectada por Spring Boot durante el arranque inicial de la aplicación.
+ * Su objetivo fundamental es registrar un Bean de tipo 'OpenAPI' en el contenedor de inversión
+ * de control (IoC). Este componente inyecta los metadatos institucionales (Duoc UC), versión,
+ * descripción del negocio y los enlaces del repositorio Git, habilitando la generación automática
+ * de la documentación interactiva en el entorno web de Swagger UI para el módulo de Cuadrillas.
+ */
 @Configuration
 public class OpenApiConfig {
     @Bean
