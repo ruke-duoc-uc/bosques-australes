@@ -19,17 +19,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * CONTROLADOR REST - CAPA DE PRESENTACIÓN / API ENDPOINTS
+ * Expone las rutas de comunicación HTTP bajo la versión '/api/v1/cuadrillas' para la gestión operativa.
+ * Actúa como orquestador del microservicio de Cuadrillas: recibe datos externos en formato JSON,
+ * gatilla las validaciones estructurales de los DTOs, delega las reglas a la capa de servicio
+ * y retorna códigos de estado HTTP estandarizados junto con la metadata interactiva para Swagger UI.
+ */
 @RestController
 @RequestMapping("/api/v1/cuadrillas")
 @Tag(name = "Controlador Cuadrillas", description = "Endpoints para la gestión operativa de cuadrillas forestales y asignaciones distribuidas")
 public class CuadrillaController {
     private final CuadrillaService service;
-
+    /**
+     * Inyección por constructor del componente de negocio.
+     */
     public CuadrillaController(CuadrillaService service) {
         this.service = service;
     }
 
+    /**
+     * ¿Qué hace?: Atiende llamadas HTTP GET para listar todas las cuadrillas en su forma básica.
+     * ¿Qué entrega?: 200 OK con el arreglo de DTOs, o 204 No Content si la base de datos local está vacía.
+     */
     @GetMapping
     @Operation(summary = "Listar todas las cuadrillas", description = "Obtiene una lista con la información básica de todas las cuadrillas registradas")
     @ApiResponses(value = {
@@ -44,6 +56,10 @@ public class CuadrillaController {
         return ResponseEntity.ok(dtos);
     }
 
+    /**
+     * ¿Qué hace?: ARQUITECTURA DISTRIBUIDA - Resuelve la composición de datos cruzados por red.
+     * ¿Qué entrega?: El objeto compuesto (Map) con la data de la cuadrilla y el perfil JSON de los trabajadores inyectado desde el otro MS.
+     */
     @GetMapping("/{id}/detalle")
     @Operation(
             summary = "Obtener detalle distribuido de una cuadrilla",
@@ -58,6 +74,11 @@ public class CuadrillaController {
         return ResponseEntity.ok(service.obtenerDetalleCuadrilla(id));
     }
 
+    /**
+     * ¿Qué hace?: Procesa la creación de un nuevo equipo en terreno.
+     * ¿Qué recibe?: JSON validado con estructura CuadrillaRequestDto.
+     * ¿Qué entrega?: 201 Created y el DTO de respuesta estructurado.
+     */
     @PostMapping
     @Operation(summary = "Crear una nueva cuadrilla", description = "Registra una cuadrilla en el sistema con su zona, especialidad y su lista inicial de IDs de trabajadores")
     @ApiResponses(value = {
@@ -72,6 +93,9 @@ public class CuadrillaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(convertirAValidResponseDto(guardada));
     }
 
+    /**
+     * ¿Qué hace?: Actualiza por completo las especificaciones operativas o de asignación de una cuadrilla.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar una cuadrilla existente", description = "Modifica los datos operativos de una cuadrilla o reasigna la lista de IDs de trabajadores")
     @ApiResponses(value = {
@@ -89,6 +113,10 @@ public class CuadrillaController {
         return ResponseEntity.ok(convertirAValidResponseDto(actualizar));
     }
 
+    /**
+     * ¿Qué hace?: Remueve un registro operativo de forma definitiva de la BD local.
+     * ¿Qué entrega?: 204 No Content indicando que la operación de remoción fue exitosa.
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar una cuadrilla", description = "Remueve físicamente el registro de la cuadrilla de la base de datos junto con su tabla de asignación de trabajadores")
     @ApiResponses(value = {
