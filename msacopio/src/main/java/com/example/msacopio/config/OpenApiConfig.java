@@ -5,6 +5,10 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de OpenAPI/Swagger para el microservicio de Acopio.
+ * Define el título, descripción y versión que aparecen en Swagger UI.
+ */
 @Configuration
 public class OpenApiConfig {
 
@@ -19,4 +23,3 @@ public class OpenApiConfig {
                 );
     }
 }
-

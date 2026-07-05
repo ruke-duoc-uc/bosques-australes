@@ -13,6 +13,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 import java.util.List;
 
+/**
+ * Controlador REST del microservicio de Trabajadores.
+ * Expone los endpoints CRUD, documentados con anotaciones de Swagger
+ * (@Tag, @Operation, @ApiResponse) para que aparezcan en Swagger UI.
+ */
 @RestController
 @RequestMapping("/api/trabajadores")
 @Tag(
@@ -21,9 +26,14 @@ import java.util.List;
 )
 public class TrabajadoresController {
 
+    //Inyección por campo (@Autowired). Funciona, aunque la inyección por
+    //constructor (como en DespachoController/AcopioController) es considerada
+    //mejor práctica: facilita testear con mocks y deja las dependencias
+    //explícitas e inmutables (permite usar "final").
     @Autowired
     private TrabajadoresService service;
 
+    //GET /api/trabajadores
     @Operation(
             summary = "Listar trabajadores",
             description = "Obtiene todos los trabajadores registrados"
@@ -37,6 +47,7 @@ public class TrabajadoresController {
         return service.getAll();
     }
 
+    //GET /api/trabajadores/{id}
     @Operation(
             summary = "Buscar trabajador por ID",
             description = "Obtiene un trabajador específico según su identificador"
@@ -52,6 +63,10 @@ public class TrabajadoresController {
         return ResponseEntity.ok(service.getById(id));
     }
 
+    //POST /api/trabajadores
+    //Nota: a diferencia de otros controllers, este endpoint retorna directamente
+    //el TrabajadoresModel (sin envolver en ResponseEntity), por lo que Spring
+    //responde igual con 200 OK, pero sin la posibilidad de personalizar el status.
     @Operation(
             summary = "Registrar trabajador",
             description = "Crea un nuevo trabajador en el sistema"
@@ -65,6 +80,7 @@ public class TrabajadoresController {
         return service.save(trabajador);
     }
 
+    //PUT /api/trabajadores/{id}
     @Operation(
             summary = "Actualizar trabajador",
             description = "Actualiza los datos de un trabajador existente"
@@ -81,6 +97,7 @@ public class TrabajadoresController {
         return ResponseEntity.ok(service.actualizar(id, trabajador));
     }
 
+    //DELETE /api/trabajadores/{id}
     @Operation(
             summary = "Eliminar trabajador",
             description = "Elimina un trabajador según su identificador"
