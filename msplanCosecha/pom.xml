@@ -71,11 +71,11 @@
                 </configuration>
             </plugin>
             <plugin>
-        <!--
-            Plugin para el reporte de cobertura de pruebas JaCoCo.
-            Tras ejecutar 'mvn test', se genera un reporte en 'target/site/jacoco/index.html'
-            que detalla el estado de la cobertura.
-        -->
+                <!--
+                    Plugin para el reporte de cobertura de pruebas JaCoCo.
+                    Tras ejecutar 'mvn test', se genera un reporte en 'target/site/jacoco/index.html'
+                    que detalla el estado de la cobertura.
+                -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.13</version>
