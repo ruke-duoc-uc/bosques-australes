@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * CONTROLADOR REST - GESTIÓN Y ASIGNACIÓN DE EPP
+ * Publica los servicios HTTP bajo el prefijo '/api/v1/epps' para fiscalizar y regular la entrega
+ * de Equipos de Protección Personal de los operarios forestales en terreno.
+ */
 @RestController
 @RequestMapping("/api/v1/epps")
 @Tag(name = "Controlador EPP", description = "Endpoints para la gestión y asignación de Equipos de Protección Personal")
@@ -25,6 +30,9 @@ public class EppController {
         this.eppService = eppService;
     }
 
+    /**
+     * ¿Qué hace?: Lista la totalidad de actas de entrega de implementos registradas históricamente.
+     */
     @GetMapping
     @Operation(summary = "Listar todas las entregas de EPP", description = "Obtiene el listado general de los equipos entregados")
     @ApiResponse(responseCode = "200", description = "Operación exitosa")
@@ -32,6 +40,9 @@ public class EppController {
         return ResponseEntity.ok(eppService.listarTodos());
     }
 
+    /**
+     * ¿Qué hace?: Recupera los metadatos de un EPP específico mediante su ID.
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Obtener EPP por ID")
     @ApiResponse(responseCode = "200", description = "EPP encontrado")
@@ -40,12 +51,19 @@ public class EppController {
         return ResponseEntity.ok(eppService.obtenerPorId(id));
     }
 
+    /**
+     * ¿Qué hace?: Filtra el inventario asignado a un operario específico.
+     */
     @GetMapping("/trabajador/{trabajadorId}")
     @Operation(summary = "Listar EPP por Trabajador", description = "Filtra los equipos asignados a un operario en particular")
     public ResponseEntity<List<Epp>> listarPorTrabajador(@PathVariable Long trabajadorId) {
         return ResponseEntity.ok(eppService.listarPorTrabajador(trabajadorId));
     }
 
+    /**
+     * ¿Qué hace?: AUDITORÍA PREVENTIVA EN TIEMPO REAL - Retorna una estructura JSON clave-valor
+     * informando explícitamente si el trabajador posee indumentaria de seguridad activa para ingresar a faena.
+     */
     @GetMapping("/trabajador/{trabajadorId}/vigente")
     @Operation(summary = "Verificar vigencia de EPP", description = "Comprueba en tiempo real si el operario cuenta con equipamiento activo y seguro")
     public ResponseEntity<Map<String, Object>> verificarVigencia(@PathVariable Long trabajadorId) {
@@ -59,6 +77,9 @@ public class EppController {
         ));
     }
 
+    /**
+     * ¿Qué hace?: Genera un acta de entrega formal para un elemento protector.
+     */
     @PostMapping
     @Operation(summary = "Registrar entrega de EPP", description = "Guarda una nueva entrega asignando fechas de vencimiento")
     @ApiResponse(responseCode = "201", description = "Entrega registrada")
@@ -73,6 +94,9 @@ public class EppController {
         return ResponseEntity.status(HttpStatus.CREATED).body(eppService.registrar(epp));
     }
 
+    /**
+     * ¿Qué hace?: Actualiza las especificaciones técnicas o plazos de obsolescencia de un EPP.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar EPP existente")
     public ResponseEntity<Epp> actualizar(@PathVariable Long id, @Valid @RequestBody EppRequestDto dto) {
@@ -85,6 +109,10 @@ public class EppController {
         return ResponseEntity.ok(eppService.actualizar(id, eppActualizado));
     }
 
+    /**
+     * ¿Qué hace?: EJECUTA BORRADO LÓGICO - Delega la desactivación de la vigencia del insumo.
+     * ¿Código HTTP?: Retorna un 204 No Content indicando éxito de baja en la persistencia.
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Desactivar EPP (Baja lógica)", description = "Cambia el estado de vigencia del equipamiento a falso")
     @ApiResponse(responseCode = "24", description = "EPP dado de baja con éxito")

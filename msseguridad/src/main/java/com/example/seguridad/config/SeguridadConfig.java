@@ -10,6 +10,13 @@ import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * CLASE DE CONFIGURACIÓN GLOBAL - INTEGRACIÓN CON SWAGGER / OPENAPI 3
+ * Registra un componente estructural (Bean) dentro del contenedor de inversión de control de Spring Boot.
+ * Su finalidad es inyectar de manera automatizada la metadata corporativa, términos de servicio institucionales
+ * y enlaces de control de versiones (GitHub) para desplegar la documentación interactiva en la interfaz
+ * de Swagger UI dedicada al ecosistema de Seguridad Operacional de Bosques Australes.
+ */
 @Configuration
 public class SeguridadConfig {
     @Bean

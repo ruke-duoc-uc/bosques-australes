@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * CONTROLADOR REST - GESTIÓN DE ACCIDENTABILIDAD LABORAL
+ * Expone la API RESTful bajo el prefijo '/api/v1/accidentes' para auditar los siniestros de Bosques Australes.
+ * Transforma las solicitudes JSON validadas en entidades de dominio y coordina las llamadas inter-servicio.
+ */
 @RestController
 @RequestMapping("/api/v1/accidentes")
 @Tag(name = "Controlador Accidentes", description = "Endpoints para el registro y gestión de siniestros laborales")
@@ -23,10 +28,16 @@ public class AccidenteController {
     private static final Logger log = LoggerFactory.getLogger(AccidenteController.class);
     private final AccidenteService accidenteService;
 
+    /**
+     * Inyección del constructor para desacoplamiento de dependencias.
+     */
     public AccidenteController(AccidenteService accidenteService) {
         this.accidenteService = accidenteService;
     }
 
+    /**
+     * ¿Qué hace?: Recupera la lista histórica de todos los incidentes reportados en la corporación.
+     */
     @GetMapping
     @Operation(summary = "Listar todos los accidentes", description = "Obtiene un listado histórico de siniestros registrados")
     @ApiResponse(responseCode = "200", description = "Operación exitosa")
@@ -34,6 +45,9 @@ public class AccidenteController {
         return ResponseEntity.ok(accidenteService.listarTodos());
     }
 
+    /**
+     * ¿Qué hace?: Busca la bitácora completa de un accidente por su ID único.
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Obtener accidente por ID", description = "Busca el detalle de un accidente específico mediante su identificador")
     @ApiResponse(responseCode = "200", description = "Accidente encontrado")
@@ -42,6 +56,10 @@ public class AccidenteController {
         return ResponseEntity.ok(accidenteService.obtenerPorId(id));
     }
 
+    /**
+     * ¿Qué hace?: Intercepta el JSON de un siniestro, valida sus restricciones de tamaño y gatilla el registro.
+     * ¿Código HTTP?: Retorna un 201 Created tras almacenar con éxito la bitácora.
+     */
     @PostMapping
     @Operation(summary = "Registrar un accidente", description = "Crea un nuevo reporte de accidente interceptando y validando los campos")
     @ApiResponse(responseCode = "201", description = "Accidente registrado exitosamente")
@@ -60,6 +78,9 @@ public class AccidenteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accidenteService.registrar(accidente));
     }
 
+    /**
+     * ¿Qué hace?: Modifica parámetros descriptivos y de severidad de un incidente previo.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar datos de un accidente", description = "Permite modificar la descripción, tipo o gravedad de un siniestro existente")
     @ApiResponse(responseCode = "200", description = "Accidente actualizado")
@@ -67,6 +88,7 @@ public class AccidenteController {
     public ResponseEntity<Accidente> actualizar(@PathVariable Long id, @RequestBody AccidenteRequestDto dto) {
         log.info("[msseguridad] PUT /accidentes/{} - Actualizando datos", id);
 
+        // El servicio lanza EntityNotFoundException automáticamente si no existe (Generando un 404 estructurado)
         Accidente existente = accidenteService.obtenerPorId(id);
         if (existente == null) return ResponseEntity.notFound().build();
 
