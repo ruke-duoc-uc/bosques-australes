@@ -24,7 +24,7 @@ public class Factura {
      */
     @NotNull
     // @Column da instrucciones a JPA, como el nombre de atributo y
-    // que no acepte null en este caso
+    // que no acepte datos null en este caso
     @Column(name = "Factura", nullable = false)
     // @Schema describe y da un nombre al atributo en Swagger
     @Schema(name = "Número de  factura",
