@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import java.util.Date;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Entidad JPA que representa un lote de producto acopiado.
+ * Esta clase ya incluye anotaciones @Schema de Swagger/OpenAPI, que sirven
+ * para documentar cada campo en la interfaz de Swagger UI (no afectan la
+ * persistencia, solo la documentación de la API).
+ */
 @Entity
 @Table(name = "Acopio")
 @Schema(
@@ -12,12 +18,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 )
 public class AcopioModel {
 
+    //Identificador único del acopio (llave primaria autogenerada por la BD).
     @Schema(description = "Identificador único del acopio", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //El id y nombre  es lo que se conecta con el microoservicio de Especie
+    // -El id y nombre es lo que se conecta con el microservicio de Especie
+    //Datos que vienen del microservicio de Especies (se guardan localmente como "copia")
     @Schema(description = "Identificador de la especie asociada, obtenido del microservicio de Especies", example = "3")
     @Column(name = "idEspecies", nullable = false)
     private Long idEspecies;
@@ -27,6 +35,7 @@ public class AcopioModel {
     private String nombreEspecies;
 
     //Datos propios de este microservicio
+    //Información propia del acopio, no depende de otros microservicios
     @Schema(description = "Código único del producto acopiado", example = "COD-000123")
     @Column(name = "codigoProducto", nullable = false, length = 13)
     private String codigoProducto;
@@ -36,7 +45,7 @@ public class AcopioModel {
     private Integer cantidadDisponible;
 
     @Schema(description = "Unidad de medida del producto acopiado", example = "KILOGRAMOS")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //Se guarda como texto ("KILOGRAMOS") en vez de número.
     private UnidadMedida unidadMedida;
 
     //el modo de ingreso de datos es yyyy-mm-dd
@@ -44,11 +53,13 @@ public class AcopioModel {
     @Column(name = "fechaIngreso", nullable = false)
     private Date fechaIngreso;
 
-    //Constructor vacío
+    //Constructor vacío (requerido por JPA).
     public AcopioModel() {
     }
 
-    //Constructos con caracteres
+    //Constructor con los datos propios del acopio.
+    //Nota: no incluye idEspecies ni nombreEspecies porque esos se completan
+    //después, consultando al microservicio de Especies (ver AcopioService.crear()).
     public AcopioModel(String codigoProducto, Integer cantidadDisponible,
                        UnidadMedida unidadMedida, Date fechaIngreso) {
         this.codigoProducto = codigoProducto;
@@ -57,7 +68,8 @@ public class AcopioModel {
         this.fechaIngreso = fechaIngreso;
     }
 
-    //Getters and Setters
+    //Getters y Setters
+
     public long getId() {
         return id;
     }
