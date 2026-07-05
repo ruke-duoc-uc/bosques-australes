@@ -67,9 +67,11 @@ public class PrediosController{
         return ResponseEntity.ok(prediosService.actualizarPredio(id, predios));
     }
     //PATCH
-    //@Validated nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios
-    // @Validated, a diferencia de @Valid, evalua los atributos otorgados,
-    // no exige la existencia de todos los atributos
+    /*
+        @Validated nos permite asegurar que los atributos que contenga el @RequestBody no esten vacios
+        @Validated, a diferencia de @Valid, evalua los atributos otorgados,
+        no exige la existencia de todos los atributos
+     */
     @PatchMapping("/actualizarParcial/{id}")
     @Operation(summary = "Actualizar Especie",
             description = "Este metodo permite actualizar parcialmente los datos de una especie")
