@@ -4,35 +4,44 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+//@Entity permite a JPA detectar a esta clase para mapearla en la base de datos
 @Entity
+//@Table da el nombre a utilizar en la tabla de la BD
 @Table(name = "Especies")
 public class Especies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /*
+       @NotBlank asegura que el atributo contenga por lo menos
+       un caracter no vacio
+    */
     @NotBlank
+    // @Column da instrucciones a JPA, como el nombre de atributo.
+    // su largo y que no acepte null en este caso
     @Column(name = "nombre", nullable = false)
+    // @Schema describe y da un nombre al atributo en Swagger
     @Schema(name = "Nombre",
-    description = "Nombre comun de la especie que se trabaja")
+            description = "Nombre comun de la especie que se trabaja")
     private String nombre;
 
     @NotBlank
-    @Column(name = "uso", nullable= false)
+    @Column(name = "uso", nullable = false)
     @Schema(name = "Uso",
-    description = "Aplicaciones comunes de la madera, ya sea en bruto o procesada")
+            description = "Aplicaciones comunes de la madera, ya sea en bruto o procesada")
     private String uso;
 
     @NotBlank
     @Column(name = "calidad", nullable = false)
     @Schema(name = "Calidad",
-    description = "Descripcion breve de la resistencia a golpes, cortes, humedad, etcetera")
+            description = "Descripcion breve de la resistencia a golpes, cortes, humedad, etcetera")
     private String calidad;
 
     @NotBlank
     @Column(name = "color")
     @Schema(name = "Color",
-    description = "Color caracteristico de la madera")
+            description = "Color caracteristico de la madera")
     private String color;
 
     public Especies() {

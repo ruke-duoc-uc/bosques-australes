@@ -10,34 +10,49 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/*
+    @Service deriva el manejo de esta clase
+    a Spring, permitiendo su uso en el controller
+ */
 @Service
 public class EspeciesService {
     private static final Logger log = LoggerFactory.getLogger(EspeciesService.class);
     private final EspeciesRepository especiesRepository;
-    public EspeciesService(EspeciesRepository especiesRepository){
+
+    public EspeciesService(EspeciesRepository especiesRepository) {
         this.especiesRepository = especiesRepository;
     }
 
-    public List<Especies> listarEspecies(){
+    // GET
+    // Este metodo obtiene todos los objetos almacenados en la base de datos del microservicio
+    public List<Especies> listarEspecies() {
         log.info("[msespecies] Service - Listando todas las especies desde el repositorio");
         return especiesRepository.findAll();
     }
-    public Especies buscarPorId(Long id){
+
+    // Este metodo obtiene un objeto almacenado en la base de datos del microservicio
+    // usando su ID para encontrarlo
+    public Especies buscarPorId(Long id) {
         log.info("[msespecies] Service - Buscando especie por ID: {}", id);
         return especiesRepository.findById(id).orElse(null);
     }
 
+    // Este metodo comprueba a nivel aplicacion que exista una especie
     public Boolean existePorId(Long id) {
         log.info("[msespecies] Service - Verificando existencia de especie con ID: {}", id);
         return especiesRepository.existsById(id);
     }
 
-    public Especies guardarEspecie(Especies especies){
+    // POST
+    // Este metodo permite crear una nueva especie
+    public Especies guardarEspecie(Especies especies) {
         log.info("[msespecies] Service - Guardando nueva especie en el repositorio");
         return especiesRepository.save(especies);
     }
 
-    public Optional<Especies> actualizarEspecie(Long id, Especies especieActualizada){
+    // PUT
+    // Permite una actualizacion completa de los datos en la especie
+    public Optional<Especies> actualizarEspecie(Long id, Especies especieActualizada) {
         log.info("[msespecies] Service - Actualizando especie completa con ID: {}", id);
         return especiesRepository.findById(id).map(especies -> {
             especies.setNombre(especieActualizada.getNombre());
@@ -47,27 +62,36 @@ public class EspeciesService {
             return especiesRepository.save(especies);
         });
     }
+
     // PATCH
-    public Optional<?> actualizarParcialEspecie (Long id, EspeciesDTO especiesActualzada){
+    // Permite la actualizacion parcial de los datos de una especie
+    /*
+        Debido al uso de EspeciesDTO, las ID se da en el cuerpo,
+        esto permite que se pueda actualizar solo el nombre, el uso
+        o solo los atributos necesarios
+     */
+    public Optional<?> actualizarParcialEspecie(Long id, EspeciesDTO especiesActualzada) {
         log.info("[msespecies] Service - Actualizando parcialmente especie con ID: {}", id);
-        return especiesRepository.findById(id).map(especies->{
-            if (especiesActualzada.nombre() != null){
+        return especiesRepository.findById(id).map(especies -> {
+            if (especiesActualzada.nombre() != null) {
                 especies.setNombre(especiesActualzada.nombre());
             }
-            if (especiesActualzada.uso() != null){
+            if (especiesActualzada.uso() != null) {
                 especies.setUso(especiesActualzada.uso());
             }
-            if (especiesActualzada.calidad() != null){
+            if (especiesActualzada.calidad() != null) {
                 especies.setCalidad(especiesActualzada.calidad());
             }
-            if (especiesActualzada.color() != null){
+            if (especiesActualzada.color() != null) {
                 especies.setColor(especiesActualzada.color());
             }
             return especiesRepository.save(especies);
         });
     }
+
     // DELETE
-    public void eliminarEspecie(Long id){
+    // Este metodo permite eliminar una especie de la base de datos del microservicio
+    public void eliminarEspecie(Long id) {
         log.info("[msespecies] Service - Eliminando especie con ID: {}", id);
         especiesRepository.deleteById(id);
     }
