@@ -12,9 +12,9 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
     /*
         @Bean es la marca que da la responsabilidad de manejar el metodo a Spring cuando
-        la aplicacise apoya de las clases on arranque, en este caso Spring permitira
+        la aplicacion apoya de las clases en el arranque, en este caso Spring permitira
         que la clase Controller se pueda comunicar con los client para comunicarse con
-        otros micrservicios.
+        otros microservicios a travez de las clases Client.
         Si bien el config tiene un cuerpo vacio, este apoya a las clases Client para que
         puedan funcionar, dando una base global a todas en el arranque
      */
