@@ -4,8 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+<<<<<<< HEAD
+=======
 
 //@Entity permite a JPA detectar a esta clase para mapearla en la base de datos
+>>>>>>> fix-test_y_null
 @Entity
 //@Table da el nombre a utilizar en la tabla de la BD
 @Table(name = "Factura")
@@ -18,6 +21,10 @@ public class Factura {
     /* No podemos forzarlo a ser unico
     por la naturaleza de las emisiones en el SII
     una factura podria compartir numero con otra */
+<<<<<<< HEAD
+    @NotNull
+    @Column(name = "Factura")
+=======
     /*
         @NotNull se asegura que el atributo no sea nulo,
         se usa en los atributos con números
@@ -27,6 +34,7 @@ public class Factura {
     // que no acepte datos null en este caso
     @Column(name = "Factura", nullable = false)
     // @Schema describe y da un nombre al atributo en Swagger
+>>>>>>> fix-test_y_null
     @Schema(name = "Número de  factura",
     description = "Número de la factura emitido en el SII")
     private Long numFactura;
