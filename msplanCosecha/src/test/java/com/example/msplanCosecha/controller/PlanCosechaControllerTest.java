@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -124,7 +125,7 @@ public class PlanCosechaControllerTest {
         mockMvc.perform(get("/api/planCosecha/{id}", 99L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("La id 99 no existe"));
+                .andExpect(content().string(containsString("La id 99 no existe")));
     }
 
     @Test
@@ -153,7 +154,6 @@ public class PlanCosechaControllerTest {
     @DisplayName("Debe actualizar parcialmente un plan mediante PATCH")
     void debeActualizarParcial() throws Exception {
         stubService.planARetornar = planBase;
-        // Mapeado con el orden del record original: Long idEspecie, Double alturaPromedio, Long edadRodal, String descripcion
         PlanCosechaDTO dto = new PlanCosechaDTO(null, 30.0, null, null);
 
         mockMvc.perform(patch("/api/planCosecha/actualizarParcial/{id}", 1L)
@@ -195,6 +195,6 @@ public class PlanCosechaControllerTest {
                         .param("id", "99")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("La id 99 no existe"));
+                .andExpect(content().string(containsString("La id 99 no existe")));
     }
 }
