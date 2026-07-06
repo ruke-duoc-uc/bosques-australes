@@ -12,20 +12,26 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
+/**
+ * Controlador REST del microservicio de Acopio.
+ * A diferencia del controller de "despacho" (más simple), este ya incluye
+ * anotaciones de Swagger (@Tag, @Operation, @ApiResponse) que documentan
+ * automáticamente cada endpoint en la interfaz de Swagger UI.
+ */
 @RestController
 @RequestMapping("/api/acopio")
 @Tag(
         name = "Acopios",
-        description = "Operaciones relacionadas con la gestión de acopio de productos"
-)
+        description = "Operaciones relacionadas con la gestión de acopio de productos")
+    //Agrupa todos los endpoints de esta clase bajo la sección "Acopios" en Swagger UI.
 public class AcopioController {
     private final AcopioService acopioService;
 
     public AcopioController(AcopioService acopioService){
-
         this.acopioService = acopioService;
     }
 
+    //GET /api/acopio
     @Operation(
             summary = "Listar acopios",
             description = "Obtiene todos los acopios registrados"
@@ -39,6 +45,7 @@ public class AcopioController {
         return ResponseEntity.ok(acopioService.listarTodos());
     }
 
+    //GET /api/acopio/{id}
     @Operation(
             summary = "Buscar acopio por ID",
             description = "Obtiene un acopio específico según su identificador"
@@ -46,7 +53,7 @@ public class AcopioController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Acopio encontrado"),
             @ApiResponse(responseCode = "404", description = "Acopio no encontrado")
-    })
+    }) //Documenta ambos posibles resultados: éxito y no encontrado.
     @GetMapping("/{id}")
     public ResponseEntity<AcopioModel> buscarPorId(
             @Parameter(description = "Identificador único del acopio", example = "1")
@@ -54,6 +61,8 @@ public class AcopioController {
         return ResponseEntity.ok(acopioService.buscarPorId(id));
     }
 
+    // POST /api/acopio/guardar/{id}
+    //El {id} en la ruta corresponde al idEspecies (la especie a la que se asocia el acopio).
     @Operation(
             summary = "Registrar acopio",
             description = "Crea un nuevo acopio en el sistema, asociándolo a una especie existente en el microservicio de Especies"
@@ -71,6 +80,7 @@ public class AcopioController {
         return ResponseEntity.ok(acopioService.crear(acopio, id));
     }
 
+    //PUT /api/acopio/actualizar/{id}/{idEspecies}
     @Operation(
             summary = "Actualizar acopio",
             description = "Actualiza los datos de un acopio existente"
@@ -89,6 +99,7 @@ public class AcopioController {
         return ResponseEntity.ok(acopioService.actualizar(id, idEspecies, datosNuevos));
     }
 
+    //DELETE /api/acopio/{id}
     @Operation(
             summary = "Eliminar acopio",
             description = "Elimina un acopio según su identificador"
@@ -102,6 +113,6 @@ public class AcopioController {
             @Parameter(description = "Identificador único del acopio", example = "1")
             @PathVariable Long id) {
         acopioService.eliminar(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // 204: eliminación exitosa, sin contenido en el body.
     }
 }

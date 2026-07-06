@@ -81,7 +81,7 @@ class PlanCosechaServiceTest {
 
         EspeciesDTO dto = new EspeciesDTO(2L, "Pino");
 
-        when(especiesClient.obtenerDatosCliente(2L)).thenReturn(dto);
+        when(especiesClient.obtenerDatosEspecie(2L)).thenReturn(dto);
         when(planCosechaRepository.save(any(PlanCosecha.class))).thenAnswer(i -> i.getArgument(0));
 
         PlanCosecha resultado = planCosechaService.guardarPlanCosecha(2L, entrada);
@@ -91,7 +91,7 @@ class PlanCosechaServiceTest {
         assertEquals(25.5, resultado.getAlturaPromedio());
         assertEquals(15L, resultado.getEdadRodal());
         assertEquals("Plan Base", resultado.getDescripcion());
-        verify(especiesClient, times(1)).obtenerDatosCliente(2L);
+        verify(especiesClient, times(1)).obtenerDatosEspecie(2L);
         verify(planCosechaRepository, times(1)).save(any(PlanCosecha.class));
     }
 
@@ -105,7 +105,7 @@ class PlanCosechaServiceTest {
 
         EspeciesDTO dto = new EspeciesDTO(2L, "Eucalipto");
 
-        when(especiesClient.obtenerDatosCliente(2L)).thenReturn(dto);
+        when(especiesClient.obtenerDatosEspecie(2L)).thenReturn(dto);
         when(planCosechaRepository.findById(1L)).thenReturn(Optional.of(existente));
         when(planCosechaRepository.save(any(PlanCosecha.class))).thenAnswer(i -> i.getArgument(0));
 
@@ -124,7 +124,7 @@ class PlanCosechaServiceTest {
         PlanCosecha nuevosDatos = new PlanCosecha();
         EspeciesDTO dto = new EspeciesDTO(2L, "Eucalipto");
 
-        when(especiesClient.obtenerDatosCliente(2L)).thenReturn(dto);
+        when(especiesClient.obtenerDatosEspecie(2L)).thenReturn(dto);
         when(planCosechaRepository.findById(1L)).thenReturn(Optional.empty());
 
         Optional<PlanCosecha> resultado = planCosechaService.actualizarPlanCompleto(1L, 2L, nuevosDatos);
@@ -141,7 +141,7 @@ class PlanCosechaServiceTest {
         EspeciesDTO especieDto = new EspeciesDTO(3L, "Roble");
 
         when(planCosechaRepository.findById(1L)).thenReturn(Optional.of(existente));
-        when(especiesClient.obtenerDatosCliente(3L)).thenReturn(especieDto);
+        when(especiesClient.obtenerDatosEspecie(3L)).thenReturn(especieDto);
         when(planCosechaRepository.save(any(PlanCosecha.class))).thenAnswer(i -> i.getArgument(0));
 
         Optional<PlanCosecha> resultado = planCosechaService.actualizarPlanCosecha(1L, dtoCampos);
@@ -166,7 +166,7 @@ class PlanCosechaServiceTest {
 
         assertTrue(resultado.isPresent());
         assertEquals("Original", resultado.get().getDescripcion());
-        verify(especiesClient, never()).obtenerDatosCliente(anyLong());
+        verify(especiesClient, never()).obtenerDatosEspecie(anyLong());
         verify(planCosechaRepository, times(1)).save(any(PlanCosecha.class));
     }
 

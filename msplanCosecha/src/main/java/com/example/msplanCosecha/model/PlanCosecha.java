@@ -4,6 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-test_y_null
 @Entity
 @Schema(name = "Plan de Cosecha",description = "Cada plan de cosecha explica como cuales son los procesos asociados a la cosecha de un rodal, y que caracteristicas deben tener")
 @Table(name = "planCosecha")
@@ -24,6 +28,11 @@ public class PlanCosecha {
     @Schema(name = "Descripción",description = "Aqui se dan todos los detalles, sobre el procedimiento de cosecha, herramientas, tecnicas, medidas de seguridad y otros detalles importantes")
     @Column(name = "descripcion")
     private String descripcion;
+    /*
+        No podemos colocar Validation a los datos de otros microservicios
+        ya que metodos como POST son obligados a declarar atributos que no le corresponde
+        agregar o modificar
+    */
     //Datos especie
     @Column(name = "especie")
     @Schema(name = "Descripción",description = "Es la especie de árbol que se cosecha en el plan")

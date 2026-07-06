@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/*
+    @Service deriva el manejo de esta clase
+    a Spring, permitiendo su uso en el controller
+ */
 @Service
 public class FacturaService {
     private static final Logger log = LoggerFactory.getLogger(FacturaService.class);
@@ -28,15 +32,21 @@ public class FacturaService {
         this.clientesClient = clientesClient;
     }
     // GET
+    // Este metodo obtiene todos los objetos almacenados en la base de datos del microservicio
     public List<Factura> listarFactura(){
         log.info("[msfactura] Service - Listando todas las facturas desde el repositorio");
         return facturaRepository.findAll();
     }
+    // Este metodo obtiene un objeto almacenado en la base de datos del microservicio
+    // usando su ID para encontrarlo
     public Factura buscarPorId(Long id){
         log.info("[msfactura] Service - Buscando factura por ID: {}", id);
         return facturaRepository.findById(id).orElse(null);
     }
     // POST
+    // Este metodo permite crear una nueva factura
+    // Nesecita un cuerpo con los datos propios de factura, ademas de dar la ID del cliente y predio
+    // correspondientes para la consulta a traves de "client"
     public Factura guardarFactura(Long idPredio, Long idCliente, Factura factura) {
         log.info("[msfactura] Service - Guardando nueva factura vinculada a Predio ID: {} y Cliente ID: {}", idPredio, idCliente);
         PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(idPredio);
@@ -58,6 +68,8 @@ public class FacturaService {
         return facturaRepository.save(nueva);
     }
     // PUT
+    // Permite una actualizacion completa de los datos en la factura
+    // Exige todos los atributos de factura, ademas de los ID de el cliente y predio
     public Optional<Factura> actualizarFacturaCompleta(Long id,
                                                        Long idPredio,
                                                        Long idCliente,
@@ -81,10 +93,18 @@ public class FacturaService {
         });
     }
     // PATCH
+    // Permite la actualizacion parcial de los datos de una factura
+    /*
+        Debido al uso de FacturaDTO, las ID se da en el cuerpo,
+        esto permite que se pueda actualizar solo el cliente, solo el predio
+        o solo los atributos
+    */
+
     public Optional<Factura> actualizarFacturaParcial(Long id,
                                                       FacturaDTO facturaDTO){
         log.info("[msfactura] Service - Actualizando parcialmente factura con ID: {}", id);
         return facturaRepository.findById(id).map(factura -> {
+            // Datos Factura
             if (facturaDTO.numFactura() != null){
                 factura.setNumFactura(facturaDTO.numFactura());
             }
@@ -94,13 +114,16 @@ public class FacturaService {
             if (facturaDTO.monto() != null){
                 factura.setMonto(facturaDTO.monto());
             }
+            // Si se otorga un ID en el cuerpo, se actualizan todos los datos
+            // Datos Predio
             if (facturaDTO.idPredio() != null){
                 PrediosDTO prediosDTO = prediosClient.obtenerDatosPredio(facturaDTO.idPredio());
                 factura.setNombrePredio(prediosDTO.nombre());
                 factura.setDireccion(prediosDTO.ciudad()+prediosDTO.comuna());
             }
-            if (facturaDTO.idCLiente() != null){
-                ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(facturaDTO.idCLiente());
+            // Datos Cliente
+            if (facturaDTO.idCliente() != null){
+                ClientesDTO clientesDTO = clientesClient.obtenerDatosCliente(facturaDTO.idCliente());
                 factura.setRazonSocial(clientesDTO.razonSocial());
                 factura.setComuna(clientesDTO.comuna());
                 factura.setTelefonoCliente(clientesDTO.telefono());
@@ -109,10 +132,13 @@ public class FacturaService {
             return facturaRepository.save(factura);
         });
     }
+    // DELETE
+    // Este metodo permite eliminar una factura de la base de datos del microservicio
     public void eliminarFactura(Long id){
         log.info("[msfactura] Service - Eliminando factura con ID: {}", id);
         facturaRepository.deleteById(id);
     }
+    // Este metodo comprueba a nivel aplicacion que exista una factura
     public Boolean existePorId(Long id){
         log.info("[msfactura] Service - Verificando existencia de factura con ID: {}", id);
         return facturaRepository.existsById(id);
