@@ -3,7 +3,7 @@ package com.example.msfactura.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "Factura")
 public class Factura {
@@ -15,7 +15,7 @@ public class Factura {
     /* No podemos forzarlo a ser unico
     por la naturaleza de las emisiones en el SII
     una factura podria compartir numero con otra */
-    @NotBlank
+    @NotNull
     @Column(name = "Factura")
     @Schema(name = "Número de  factura",
     description = "Número de la factura emitido en el SII")
@@ -28,7 +28,7 @@ public class Factura {
     description = "Es el proposito del pago, pueden ser compra o pago de bienes y/o servicios")
     private String giro;
 
-    @NotBlank
+    @NotNull
     @Column(name = "monto",nullable = false)
     @Schema(name = "Monto",
     description = "Es monto total que se pago en la factura." +
