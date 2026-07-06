@@ -4,7 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+<<<<<<< HEAD
+=======
 
+>>>>>>> fix-test_y_null
 @Entity
 @Schema(name = "Plan de Cosecha",description = "Cada plan de cosecha explica como cuales son los procesos asociados a la cosecha de un rodal, y que caracteristicas deben tener")
 @Table(name = "planCosecha")
